@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
       <body className={inter.className}>
         <header className="border-b">
           <div className="container mx-auto px-4 h-16 flex items-center justify-between">
@@ -34,7 +34,10 @@ export default function RootLayout({
             </div>
           </div>
         </header>
-        <main>{children}</main>
+        <main>
+          {children}
+          {/* Removed test routing links */}
+        </main>
         <footer className="mt-20 py-4 text-center text-sm text-gray-500">
           <p>&copy; 2025 CHOEALOL. All rights reserved.</p>
         </footer>

@@ -144,6 +144,7 @@ export default function Home() {
           </section>
         </div>
       </div>
+      {/* Removed link to test page */}
     </div>
   );
 }
