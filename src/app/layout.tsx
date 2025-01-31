@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Search, User, Menu } from 'lucide-react';
 import Link from 'next/link';
-import './globals.css';
+import './styles/globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -37,7 +37,7 @@ export default function RootLayout({
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <Link href="/profile">
+              <Link href="/mypage">
                 <User className="w-6 h-6 text-gray-600" />
               </Link>
               <button>
