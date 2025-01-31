@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Search, User, Menu } from 'lucide-react';
 import Link from 'next/link';
-import './styles/globals.css';
+import '../styles/globals.css'; // Ensure this path is correct
 
 const inter = Inter({ subsets: ['latin'] });
 
