@@ -43,6 +43,15 @@ export default function Home() {
             <div className="space-y-6">
               <Link href="/player/faker" className="block">
                 <div className="aspect-[2/1] relative bg-white shadow-lg rounded-xl overflow-hidden">
+                  <div className="absolute inset-0">
+                    <Image
+                      src="/icons/faker.svg"
+                      alt="FAKER"
+                      layout="fill"
+                      objectFit="cover"
+                      className="opacity-20"
+                    />
+                  </div>
                   <div className="absolute bottom-4 left-4">
                     <div className="text-sm text-gray-600">1st</div>
                     <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
@@ -63,6 +72,15 @@ export default function Home() {
               <div className="grid grid-cols-2 gap-6">
                 <Link href="/player/chovy" className="block">
                   <div className="relative overflow-hidden bg-white shadow-lg aspect-square rounded-xl">
+                    <div className="absolute inset-y-0 left-0 w-1/2">
+                      <Image
+                        src="/icons/chovy.svg"
+                        alt="CHOVY"
+                        layout="fill"
+                        objectFit="cover"
+                        className="opacity-20"
+                      />
+                    </div>
                     <div className="absolute bottom-4 left-4">
                       <div className="text-sm text-gray-600">2nd</div>
                       <div className="flex items-center gap-2 font-bold text-gray-900">
@@ -82,6 +100,15 @@ export default function Home() {
 
                 <Link href="/player/gumayusi" className="block">
                   <div className="relative overflow-hidden bg-white shadow-lg aspect-square rounded-xl">
+                    <div className="absolute inset-y-0 left-0 w-1/2">
+                      <Image
+                        src="/icons/gumayusi.svg"
+                        alt="GUMAYUSI"
+                        layout="fill"
+                        objectFit="cover"
+                        className="opacity-20"
+                      />
+                    </div>
                     <div className="absolute bottom-4 left-4">
                       <div className="text-sm text-gray-600">3rd</div>
                       <div className="flex items-center gap-2 font-bold text-gray-900">
