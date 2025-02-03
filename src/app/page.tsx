@@ -45,11 +45,11 @@ export default function Home() {
                 <div className="aspect-[2/1] relative bg-white shadow-lg rounded-xl overflow-hidden">
                   <div className="absolute inset-0">
                     <Image
-                      src="/icons/faker.svg"
+                      src="/faker-img/T1-Faker-wins-Worlds-2023-esports-greatest-comeback.jpeg"
                       alt="FAKER"
                       layout="fill"
                       objectFit="cover"
-                      className="opacity-20"
+                      className="opacity-80"
                     />
                   </div>
                   <div className="absolute bottom-4 left-4">
