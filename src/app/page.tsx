@@ -3,7 +3,7 @@
 import 'tailwindcss/tailwind.css';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Heart } from 'lucide-react';
 import { useState } from 'react';
 
 export default function Home() {
@@ -35,7 +35,7 @@ export default function Home() {
       <div className="container flex-grow px-4 mx-auto sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-4">
           <section className="col-span-2 space-y-6">
-            <h2 className="flex items-center gap-2 text-lg font-bold text-gray-800">
+            <h2 className="flex items-center gap-2 text-xl font-bold text-gray-800">
               <span className="w-3 h-3 bg-yellow-400 rounded-full"></span>
               Player Rank
             </h2>
@@ -53,18 +53,18 @@ export default function Home() {
                     />
                   </div>
                   <div className="absolute bottom-4 left-4">
-                    <div className="text-sm text-gray-600">1st</div>
+                    <div className="text-lg font-bold text-gray-600">1st</div>
                     <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                       FAKER
                       <Image
                         src="/icons/faker.svg"
                         alt="FAKER"
-                        width={20}
-                        height={20}
-                        className="w-5 h-5"
+                        width={24}
+                        height={24}
+                        className="w-6 h-6"
                       />
                     </div>
-                    <div className="text-sm text-gray-600">이상혁</div>
+                    <div className="text-lg text-gray-600">이상혁</div>
                   </div>
                 </div>
               </Link>
@@ -82,18 +82,18 @@ export default function Home() {
                       />
                     </div>
                     <div className="absolute bottom-4 left-4">
-                      <div className="text-sm text-gray-600">2nd</div>
-                      <div className="flex items-center gap-2 font-bold text-gray-900">
+                      <div className="text-lg font-bold text-gray-600">2</div>
+                      <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                         CHOVY
                         <Image
                           src="/icons/chovy.svg"
                           alt="CHOVY"
-                          width={20}
-                          height={20}
-                          className="w-5 h-5"
+                          width={24}
+                          height={24}
+                          className="w-6 h-6"
                         />
                       </div>
-                      <div className="text-sm text-gray-600">정지훈</div>
+                      <div className="text-lg text-gray-600">정지훈</div>
                     </div>
                   </div>
                 </Link>
@@ -110,18 +110,18 @@ export default function Home() {
                       />
                     </div>
                     <div className="absolute bottom-4 left-4">
-                      <div className="text-sm text-gray-600">3rd</div>
-                      <div className="flex items-center gap-2 font-bold text-gray-900">
+                      <div className="text-lg font-bold text-gray-600">3</div>
+                      <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                         GUMAYUSI
                         <Image
                           src="/icons/gumayusi.svg"
                           alt="GUMAYUSI"
-                          width={20}
-                          height={20}
-                          className="w-5 h-5"
+                          width={24}
+                          height={24}
+                          className="w-6 h-6"
                         />
                       </div>
-                      <div className="text-sm text-gray-600">이민형</div>
+                      <div className="text-lg text-gray-600">이민형</div>
                     </div>
                   </div>
                 </Link>
@@ -130,23 +130,26 @@ export default function Home() {
               {Array.from({ length: 7 }, (_, i) => (
                 <div
                   key={i + 4}
-                  className="flex items-center gap-4 p-4 bg-white rounded-lg shadow-md"
+                  className="flex items-center gap-6 p-6 bg-white rounded-lg shadow-md"
                 >
                   <div className="flex-shrink-0 w-12 h-12 bg-gray-300 rounded-full"></div>
                   <div>
-                    <div className="flex items-center gap-2 font-bold text-gray-900">
+                    <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                       KERIA
                       <Image
                         src="/icons/keria.svg"
                         alt="KERIA"
-                        width={20}
-                        height={20}
-                        className="w-5 h-5"
+                        width={24}
+                        height={24}
+                        className="w-6 h-6"
                       />
                     </div>
-                    <div className="text-sm text-gray-600">류민석</div>
+                    <div className="text-lg text-gray-600">류민석</div>
                   </div>
-                  <div className="ml-auto text-sm text-gray-500">230,000</div>
+                  <div className="flex items-center gap-4 ml-auto text-lg text-gray-500">
+                    <Heart className="w-6 h-6 text-red-500" />
+                    230,000
+                  </div>
                 </div>
               ))}
             </div>
@@ -154,24 +157,54 @@ export default function Home() {
 
           <div className="col-span-2 space-y-6">
             <section>
-              <h2 className="mb-4 text-lg font-bold text-gray-800">
+              <h2 className="mb-4 text-xl font-bold text-gray-800">
                 Team Rank
               </h2>
-              <div className="p-4 space-y-4 bg-white rounded-lg shadow-md">
+              <div className="p-6 space-y-6 bg-white rounded-lg shadow-md">
+                <div className="flex flex-col items-center gap-6 p-6 bg-gray-100 rounded-lg">
+                  <div className="text-lg font-bold text-gray-600">1st</div>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 overflow-hidden bg-gray-300 rounded-full">
+                      <Image
+                        src="/logos/t1.svg"
+                        alt="T1"
+                        width={48}
+                        height={48}
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="text-lg font-medium text-gray-900">T1</div>
+                  </div>
+                  <div className="flex items-center gap-4 text-lg text-gray-500">
+                    <Heart className="w-6 h-6 text-red-500" />
+                    230,000
+                  </div>
+                </div>
                 {[
-                  { rank: '1st', name: 'T1', votes: '230,000' },
-                  { rank: '2', name: 'GEN.G', votes: '220,000' },
-                  { rank: '3', name: 'Hanwha Life Esports', votes: '210,000' },
-                  { rank: '4', name: 'Dplus KIA', votes: '200,000' },
-                  { rank: '5', name: 'kt Rolster', votes: '190,000' },
+                  { rank: 2, name: 'GEN.G', votes: '220,000', logo: '/logos/geng.svg' },
+                  { rank: 3, name: 'Hanwha Life Esports', votes: '210,000', logo: '/logos/hle.svg' },
+                  { rank: 4, name: 'Dplus KIA', votes: '200,000', logo: '/logos/dk.svg' },
+                  { rank: 5, name: 'kt Rolster', votes: '190,000', logo: '/logos/kt.svg' },
                 ].map((team, index) => (
-                  <Link href={`/team/${team.name.toLowerCase()}`} key={index}>
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
-                      <div className="flex-1 font-medium text-gray-900">
+                  <Link href={`/team/${team.name.toLowerCase().replace(/\s+/g, '-')}`} key={index}>
+                    <div className="flex items-center gap-6 p-4">
+                      <div className="text-lg font-bold text-gray-600">{team.rank}</div>
+                      <div className="w-12 h-12 overflow-hidden bg-gray-300 rounded-full">
+                        <Image
+                          src={team.logo}
+                          alt={team.name}
+                          width={48}
+                          height={48}
+                          className="object-cover"
+                        />
+                      </div>
+                      <div className="flex-1 text-lg font-medium text-gray-900">
                         {team.name}
                       </div>
-                      <div className="text-sm text-gray-500">{team.votes}</div>
+                      <div className="flex items-center gap-4 text-lg text-gray-500">
+                        <Heart className="w-6 h-6 text-red-500" />
+                        {team.votes}
+                      </div>
                     </div>
                   </Link>
                 ))}
@@ -179,36 +212,59 @@ export default function Home() {
             </section>
 
             <section>
-              <h2 className="mb-4 text-lg font-bold text-gray-800">
+              <h2 className="mb-4 text-xl font-bold text-gray-800">
                 Lane Rank
               </h2>
-              <div className="p-4 bg-white rounded-lg shadow-md">
-                <div className="flex items-center justify-between mb-4">
+              <div className="p-6 space-y-6 bg-white rounded-lg shadow-md">
+                <div className="flex items-center justify-between mb-6">
                   <button onClick={handlePrevLane}>
-                    <ChevronLeft className="w-5 h-5 text-gray-500" />
+                    <ChevronLeft className="w-6 h-6 text-gray-500" />
                   </button>
-                  <div className="flex items-center gap-2 font-bold text-gray-900">
+                  <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                     <Image
                       src={lanes[currentLane].icon}
                       alt={lanes[currentLane].name}
-                      width={20}
-                      height={20}
-                      className="w-5 h-5"
+                      width={24}
+                      height={24}
+                      className="w-6 h-6"
                     />
                     {lanes[currentLane].name}
                   </div>
                   <button onClick={handleNextLane}>
-                    <ChevronRight className="w-5 h-5 text-gray-500" />
+                    <ChevronRight className="w-6 h-6 text-gray-500" />
                   </button>
                 </div>
-                <div className="space-y-4">
-                  {Array.from({ length: 5 }, (_, i) => (
-                    <div key={i} className="flex items-center gap-4">
-                      <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
-                      <div className="flex-1 font-medium text-gray-900">
+                <div className="flex flex-col items-center gap-6 p-6 bg-gray-100 rounded-lg">
+                  <div className="text-lg font-bold text-gray-600">1st</div>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 overflow-hidden bg-gray-300 rounded-full">
+                      <Image
+                        src="/icons/faker.svg"
+                        alt="FAKER"
+                        width={48}
+                        height={48}
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="text-lg font-medium text-gray-900">FAKER</div>
+                  </div>
+                  <div className="flex items-center gap-4 text-lg text-gray-500">
+                    <Heart className="w-6 h-6 text-red-500" />
+                    230,000
+                  </div>
+                </div>
+                <div className="space-y-6">
+                  {Array.from({ length: 4 }, (_, i) => (
+                    <div key={i} className="flex items-center gap-6 p-4">
+                      <div className="text-lg font-bold text-gray-600">{i + 2}</div>
+                      <div className="w-12 h-12 bg-gray-300 rounded-full"></div>
+                      <div className="flex-1 text-xl font-medium text-gray-900">
                         Player
                       </div>
-                      <div className="text-sm text-gray-500">230,000</div>
+                      <div className="flex items-center gap-4 text-lg text-gray-500">
+                        <Heart className="w-6 h-6 text-red-500" />
+                        230,000
+                      </div>
                     </div>
                   ))}
                 </div>
