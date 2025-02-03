@@ -1,9 +1,29 @@
+"use client";
+
 import 'tailwindcss/tailwind.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState } from 'react';
 
 export default function Home() {
+  const lanes = [
+    { name: 'TOP', icon: '/icons/top.svg' },
+    { name: 'JUNGLE', icon: '/icons/jungle.svg' },
+    { name: 'MID', icon: '/icons/mid.svg' },
+    { name: 'BOTTOM', icon: '/icons/bottom.svg' },
+    { name: 'SUPPORT', icon: '/icons/support.svg' },
+  ];
+  const [currentLane, setCurrentLane] = useState(0);
+
+  const handleNextLane = () => {
+    setCurrentLane((prev) => (prev + 1) % lanes.length);
+  };
+
+  const handlePrevLane = () => {
+    setCurrentLane((prev) => (prev - 1 + lanes.length) % lanes.length);
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       <div className="py-20 bg-gradient-to-b from-gray-200 to-transparent">
@@ -25,7 +45,11 @@ export default function Home() {
                 <div className="aspect-[2/1] relative bg-white shadow-lg rounded-xl overflow-hidden">
                   <div className="absolute bottom-4 left-4">
                     <div className="text-sm text-gray-600">1st</div>
-                    <div className="text-xl font-bold text-gray-900">FAKER</div>
+                    <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
+                      FAKER
+                      <img src="/icons/faker.svg" alt="FAKER" className="w-5 h-5" />
+                    </div>
+                    <div className="text-sm text-gray-600">이상혁</div>
                   </div>
                 </div>
               </Link>
@@ -35,7 +59,11 @@ export default function Home() {
                   <div className="relative overflow-hidden bg-white shadow-lg aspect-square rounded-xl">
                     <div className="absolute bottom-4 left-4">
                       <div className="text-sm text-gray-600">2nd</div>
-                      <div className="font-bold text-gray-900">CHOVY</div>
+                      <div className="flex items-center gap-2 font-bold text-gray-900">
+                        CHOVY
+                        <img src="/icons/chovy.svg" alt="CHOVY" className="w-5 h-5" />
+                      </div>
+                      <div className="text-sm text-gray-600">정지훈</div>
                     </div>
                   </div>
                 </Link>
@@ -44,7 +72,11 @@ export default function Home() {
                   <div className="relative overflow-hidden bg-white shadow-lg aspect-square rounded-xl">
                     <div className="absolute bottom-4 left-4">
                       <div className="text-sm text-gray-600">3rd</div>
-                      <div className="font-bold text-gray-900">GUMAYUSI</div>
+                      <div className="flex items-center gap-2 font-bold text-gray-900">
+                        GUMAYUSI
+                        <img src="/icons/gumayusi.svg" alt="GUMAYUSI" className="w-5 h-5" />
+                      </div>
+                      <div className="text-sm text-gray-600">이민형</div>
                     </div>
                   </div>
                 </Link>
@@ -57,7 +89,10 @@ export default function Home() {
                 >
                   <div className="flex-shrink-0 w-12 h-12 bg-gray-300 rounded-full"></div>
                   <div>
-                    <div className="font-bold text-gray-900">KERIA</div>
+                    <div className="flex items-center gap-2 font-bold text-gray-900">
+                      KERIA
+                      <img src="/icons/keria.svg" alt="KERIA" className="w-5 h-5" />
+                    </div>
                     <div className="text-sm text-gray-600">류민석</div>
                   </div>
                   <div className="ml-auto text-sm text-gray-500">230,000</div>
@@ -66,7 +101,7 @@ export default function Home() {
             </div>
           </section>
 
-          <div className="col-span-2 space-y-8">
+          <div className="col-span-2 space-y-6">
             <section>
               <h2 className="mb-4 text-lg font-bold text-gray-800">
                 Team Rank
@@ -98,11 +133,14 @@ export default function Home() {
               </h2>
               <div className="p-4 bg-white rounded-lg shadow-md">
                 <div className="flex items-center justify-between mb-4">
-                  <button>
+                  <button onClick={handlePrevLane}>
                     <ChevronLeft className="w-5 h-5 text-gray-500" />
                   </button>
-                  <div className="font-bold text-gray-900">TOP</div>
-                  <button>
+                  <div className="flex items-center gap-2 font-bold text-gray-900">
+                    <img src={lanes[currentLane].icon} alt={lanes[currentLane].name} className="w-5 h-5" />
+                    {lanes[currentLane].name}
+                  </div>
+                  <button onClick={handleNextLane}>
                     <ChevronRight className="w-5 h-5 text-gray-500" />
                   </button>
                 </div>
