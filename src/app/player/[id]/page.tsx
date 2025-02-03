@@ -1,9 +1,11 @@
+import SocialLinks from "@/src/components/common/SocialLinks";
 import PlayerCommunity from "@/src/components/player/PlayerCommunity";
 import PlayerGallery from "@/src/components/player/PlayerGallery";
 import PlayerSchedule from "@/src/components/player/PlayerSchedule";
 import { Player, samplePlayers } from "@/src/types/player";
+import { sampleTeams } from "@/src/types/team";
 
-export default function PlayerPage({ params }: { params: { id: string } }) {
+export default async function PlayerPage({ params }: { params: { id: string } }) {
   const playerId = Number(params.id);
   const player: Player | undefined = samplePlayers.find((p) => p.id === playerId);
   const team = sampleTeams.find((t) => t.id === player?.teamId);
@@ -20,6 +22,7 @@ export default function PlayerPage({ params }: { params: { id: string } }) {
           <p className="text-gray-500">{player.name}</p>
           <p className="text-blue-500">♥ {player.fanVotes}</p>
         </div>
+        <SocialLinks links={player.socialLinks} />
         <div>
         </div>
       </div>
