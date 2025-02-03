@@ -127,7 +127,7 @@ export default function Home() {
                 </Link>
               </div>
 
-              {Array.from({ length: 7 }, (_, i) => (
+              {Array.from({ length: 5 }, (_, i) => (
                 <div
                   key={i + 4}
                   className="flex items-center gap-6 p-6 bg-white rounded-lg shadow-md"
@@ -160,7 +160,7 @@ export default function Home() {
               <h2 className="mb-4 text-xl font-bold text-gray-800">
                 Team Rank
               </h2>
-              <div className="p-6 space-y-6 bg-white rounded-lg shadow-md">
+              <div className="p-10 space-y-8 bg-white rounded-lg shadow-md">
                 <div className="flex flex-col items-center gap-6 p-6 bg-gray-100 rounded-lg">
                   <div className="text-lg font-bold text-gray-600">1st</div>
                   <div className="flex items-center gap-4">
