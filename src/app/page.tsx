@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
 import 'tailwindcss/tailwind.css';
-import Image from 'next/image';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 
@@ -47,7 +47,13 @@ export default function Home() {
                     <div className="text-sm text-gray-600">1st</div>
                     <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                       FAKER
-                      <img src="/icons/faker.svg" alt="FAKER" className="w-5 h-5" />
+                      <Image
+                        src="/icons/faker.svg"
+                        alt="FAKER"
+                        width={20}
+                        height={20}
+                        className="w-5 h-5"
+                      />
                     </div>
                     <div className="text-sm text-gray-600">이상혁</div>
                   </div>
@@ -61,7 +67,13 @@ export default function Home() {
                       <div className="text-sm text-gray-600">2nd</div>
                       <div className="flex items-center gap-2 font-bold text-gray-900">
                         CHOVY
-                        <img src="/icons/chovy.svg" alt="CHOVY" className="w-5 h-5" />
+                        <Image
+                          src="/icons/chovy.svg"
+                          alt="CHOVY"
+                          width={20}
+                          height={20}
+                          className="w-5 h-5"
+                        />
                       </div>
                       <div className="text-sm text-gray-600">정지훈</div>
                     </div>
@@ -74,7 +86,13 @@ export default function Home() {
                       <div className="text-sm text-gray-600">3rd</div>
                       <div className="flex items-center gap-2 font-bold text-gray-900">
                         GUMAYUSI
-                        <img src="/icons/gumayusi.svg" alt="GUMAYUSI" className="w-5 h-5" />
+                        <Image
+                          src="/icons/gumayusi.svg"
+                          alt="GUMAYUSI"
+                          width={20}
+                          height={20}
+                          className="w-5 h-5"
+                        />
                       </div>
                       <div className="text-sm text-gray-600">이민형</div>
                     </div>
@@ -91,7 +109,13 @@ export default function Home() {
                   <div>
                     <div className="flex items-center gap-2 font-bold text-gray-900">
                       KERIA
-                      <img src="/icons/keria.svg" alt="KERIA" className="w-5 h-5" />
+                      <Image
+                        src="/icons/keria.svg"
+                        alt="KERIA"
+                        width={20}
+                        height={20}
+                        className="w-5 h-5"
+                      />
                     </div>
                     <div className="text-sm text-gray-600">류민석</div>
                   </div>
@@ -137,7 +161,13 @@ export default function Home() {
                     <ChevronLeft className="w-5 h-5 text-gray-500" />
                   </button>
                   <div className="flex items-center gap-2 font-bold text-gray-900">
-                    <img src={lanes[currentLane].icon} alt={lanes[currentLane].name} className="w-5 h-5" />
+                    <Image
+                      src={lanes[currentLane].icon}
+                      alt={lanes[currentLane].name}
+                      width={20}
+                      height={20}
+                      className="w-5 h-5"
+                    />
                     {lanes[currentLane].name}
                   </div>
                   <button onClick={handleNextLane}>
