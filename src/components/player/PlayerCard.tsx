@@ -14,7 +14,7 @@ export default function PlayerCard({
   votes,
 }: PlayerCardProps) {
   return (
-    <div className="bg-white shadow-md rounded-lg p-4 flex items-center space-x-4">
+    <div className="flex items-center p-4 space-x-4 bg-white rounded-lg shadow-md">
       <Image
         src="/placeholder.svg"
         alt={name}
