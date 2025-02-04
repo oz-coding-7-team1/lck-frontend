@@ -1,16 +1,43 @@
-import React from "react";
+"use client";
+
+import { useState } from "react";
+import ScheduleCalendar from "@/src/components/schedule/ScheduleCalendar";
+import { ScheduleEvent } from "@/src/types/schedule";
 
 interface PlayerScheduleProps {
-  playerId: string;
+  playerId: number;
+  teamId: number;
 }
 
-function PlayerSchedule({ playerId }: PlayerScheduleProps) {
-  return (
-    <div className="p-4 border rounded-lg shadow">
-      <h2 className="text-xl font-bold">스케줄</h2>
-      <p>{playerId}의 경기 일정이 여기에 표시됩니다.</p>
-    </div>
+// 샘플 데이터 (API 연동 시 변경)
+const allEvents: ScheduleEvent[] = [
+  {
+    id: 1,
+    type: "game",
+    title: "T1 vs DK",
+    start: new Date(2025, 1, 15, 19, 30),
+    end: new Date(2025, 1, 15, 21, 30),
+    location: "서울 롤파크",
+    teamId: 101, // 팀 일정
+    allDay: false,
+  },
+  {
+    id: 2,
+    type: "broadcast",
+    title: "Faker 개인 방송",
+    start: new Date(2025, 1, 10, 18, 0),
+    end: new Date(2025, 1, 10, 20, 0),
+    location: "트위치",
+    playerId: 1, // 선수 일정
+    allDay: false,
+  },
+];
+
+export default function PlayerSchedule({ playerId, teamId }: PlayerScheduleProps) {
+  // 해당 선수의 개인 일정 + 소속 팀 경기 일정
+  const playerEvents = allEvents.filter(
+    (event) => event.playerId === playerId || event.teamId === teamId
   );
-}
 
-export default PlayerSchedule;
+  return <ScheduleCalendar events={playerEvents} />;
+}

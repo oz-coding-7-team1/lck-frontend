@@ -1,4 +1,5 @@
 import SocialLinks from "@/src/components/common/SocialLinks";
+import CommunitySimple from "@/src/components/community/CommunitySimple";
 import PlayerCommunity from "@/src/components/player/PlayerCommunity";
 import PlayerGallery from "@/src/components/player/PlayerGallery";
 import PlayerSchedule from "@/src/components/player/PlayerSchedule";
@@ -27,8 +28,8 @@ export default async function PlayerPage({ params }: { params: { id: string } })
         </div>
       </div>
       
-      <div className="grid grid-cols-3 gap-4 mt-6">
-        <div className="col-span-1 p-4 border rounded-lg shadow">
+      <div className="grid grid-cols-10 gap-4 mt-6">
+        <div className="col-span-3 p-4 border rounded-lg shadow">
           <h2 className="text-xl font-bold">PLAYER INFO.</h2>
           <p><strong>이름</strong> {player.name}</p>
           <p><strong>생년월일</strong> {player.birthdate}</p>
@@ -39,16 +40,16 @@ export default async function PlayerPage({ params }: { params: { id: string } })
           <p><strong>소속사</strong> {player.agency}</p>
           <p><strong>ID</strong> {player.gamename}</p>
         </div>
-        <div className="col-span-2">
-          <PlayerSchedule playerId={player.id} />
+        <div className="col-span-7">
+          <PlayerSchedule playerId={player.id} teamId={player.teamId} />
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-4 mt-6">
-        <div className="col-span-1 p-4 border rounded-lg shadow">
-          <PlayerCommunity playerId={player.id} />
+      <div className="grid grid-cols-10 gap-4 mt-6">
+        <div className="col-span-6">
+          <CommunitySimple type="player" entityId={player.id} />
         </div>
-        <div className="col-span-2">
+        <div className="col-span-4">
           <PlayerGallery playerId={player.id} />
         </div>
       </div>

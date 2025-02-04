@@ -1,5 +1,5 @@
 import { PlayerCardData } from '@/src/types/player';
-import { positionIcons } from '@/src/utils/positonIcons';
+import { positionIcons } from '@/src/utils/positionIcons';
 import Image from 'next/image';
 
 interface PlayerCardProps {

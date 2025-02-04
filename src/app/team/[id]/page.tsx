@@ -1,5 +1,7 @@
 import SocialLinks from "@/src/components/common/SocialLinks";
+import CommunitySimple from "@/src/components/community/CommunitySimple";
 import PlayerCard from "@/src/components/player/PlayerCard";
+import TeamSchedule from "@/src/components/team/TeamSchedule";
 import { samplePlayers } from "@/src/types/player";
 import { sampleTeams, Team } from "@/src/types/team";
 
@@ -31,14 +33,12 @@ export default async function TeamPage({ params }: { params: { id: string } }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-4 mt-6">
-        <div className="col-span-2 p-4 border rounded-lg shadow">
-          <h2 className="text-xl font-bold">커뮤니티</h2>
-          <div className="h-40 bg-gray-200 rounded-lg" />
+      <div className="grid grid-cols-10 gap-20 mt-6">
+        <div className="col-span-6">
+          <CommunitySimple type="team" entityId={team.id} />
         </div>
-        <div className="col-span-1 p-4 border rounded-lg shadow">
-          <h2 className="text-xl font-bold">경기 일정</h2>
-          <div className="h-40 bg-gray-200 rounded-lg" />
+        <div className="col-span-4">
+          <TeamSchedule teamId={team.id} />
         </div>
       </div>
     </div>
