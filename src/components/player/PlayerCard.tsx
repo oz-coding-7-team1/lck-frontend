@@ -1,32 +1,39 @@
+import { PlayerCardData } from '@/src/types/player';
+import { positionIcons } from '@/src/utils/positionIcons';
 import Image from 'next/image';
 
 interface PlayerCardProps {
-  name: string;
-  nickname: string;
-  rank: string;
-  votes: number;
+  player: PlayerCardData;
 }
 
-export default function PlayerCard({
-  name,
-  nickname,
-  rank,
-  votes,
-}: PlayerCardProps) {
+export default function PlayerCard({ player }: PlayerCardProps) {
   return (
-    <div className="bg-white shadow-md rounded-lg p-4 flex items-center space-x-4">
+    <div className="flex items-center p-4 space-x-4 bg-white rounded-lg shadow-md">
       <Image
         src="/placeholder.svg"
-        alt={name}
+        alt={player.name}
         width={64}
         height={64}
         className="rounded-full"
       />
       <div>
-        <h3 className="font-bold">{nickname}</h3>
-        <p>{name}</p>
-        <p className="text-sm text-gray-500">{rank}</p>
-        <p className="text-sm">{votes.toLocaleString()} votes</p>
+      <h3 className="text-lg font-bold flex items-center justify-center">
+        <Image src={positionIcons[player.position]} alt={player.position} width={20} height={20} className="mr-2" />
+        {player.nickname}
+      </h3>
+        <p>{player.name}</p>
+        <p className="text-sm text-blue-500">{player.position}</p>
+      <div className="flex justify-center mt-2 space-x-2">
+        {player.socialLinks?.instagram && (
+          <a href={player.socialLinks.instagram} target="_blank"></a>
+        )}
+        {player.socialLinks?.twitter && (
+          <a href={player.socialLinks.twitter} target="_blank"></a>
+        )}
+        {player.socialLinks?.youtube && (
+          <a href={player.socialLinks.youtube} target="_blank"></a>
+        )}
+      </div>
       </div>
     </div>
   );

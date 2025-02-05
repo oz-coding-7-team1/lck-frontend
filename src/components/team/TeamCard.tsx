@@ -8,7 +8,7 @@ interface TeamCardProps {
 
 export default function TeamCard({ name, rank, votes }: TeamCardProps) {
   return (
-    <div className="bg-white shadow-md rounded-lg p-4 flex items-center space-x-4">
+    <div className="flex items-center p-4 space-x-4 bg-white rounded-lg shadow-md">
       <Image src="/placeholder.svg" alt={name} width={64} height={64} />
       <div>
         <h3 className="font-bold">{name}</h3>
