@@ -1,21 +1,27 @@
-import type { Metadata } from 'next';
+'use client';
+
 import { Inter } from 'next/font/google';
 import { Search, User, Menu } from 'lucide-react';
 import Link from 'next/link';
 import '../styles/globals.css'; // Ensure this path is correct
+import { useState } from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
-
-export const metadata: Metadata = {
-  title: 'CHOEAELOL',
-  description: '당신의 최애 선수에게 투표하세요',
-};
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearch = () => {
+    // Add your search logic here
+    console.log('Search button clicked', searchQuery);
+    // Example: Redirect to search results page
+    window.location.href = `/search?query=${searchQuery}`;
+  };
+
   return (
     <html lang="ko" suppressHydrationWarning>
       <body className={inter.className}>
@@ -29,9 +35,14 @@ export default function RootLayout({
                 <input
                   type="text"
                   placeholder="검색어를 입력하세요"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full py-2 pl-4 pr-10 bg-gray-100 border border-gray-200 rounded-full"
                 />
-                <button className="absolute -translate-y-1/2 right-3 top-1/2">
+                <button
+                  className="absolute -translate-y-1/2 right-3 top-1/2"
+                  onClick={handleSearch}
+                >
                   <Search className="w-5 h-5 text-gray-400" />
                 </button>
               </div>
