@@ -239,7 +239,7 @@ export default function Home() {
             </section>
 
             <section>
-              <h2 className="mt-4 mb-4 text-gray-800 mt-bold mt-text-xl">
+              <h2 className="mt-4 mb-4 text-xl font-bold text-gray-800">
                 Lane Rank
               </h2>
               <div className="p-6 mt-4 space-y-6 bg-white rounded-lg shadow-md">
