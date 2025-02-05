@@ -59,6 +59,12 @@ export default function RootLayout({
     setSearchQuery(e.target.value);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
@@ -82,6 +88,7 @@ export default function RootLayout({
                   placeholder="검색어를 입력하세요"
                   value={searchQuery}
                   onChange={handleInputChange}
+                  onKeyDown={handleKeyDown}
                   className="w-full py-2 pl-4 pr-10 bg-gray-100 border border-gray-200 rounded-full"
                 />
                 <button
