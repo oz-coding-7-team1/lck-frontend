@@ -3,6 +3,7 @@
 import { Inter } from 'next/font/google';
 import { Search, User, Menu } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import '../styles/globals.css'; // Ensure this path is correct
 import { useState, useEffect } from 'react';
 
@@ -30,6 +31,7 @@ export default function RootLayout({
     { name: string; koreanName: string }[]
   >([]);
   const [menuOpen, setMenuOpen] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (searchQuery) {
@@ -49,7 +51,7 @@ export default function RootLayout({
     console.log('Search button clicked', searchQuery);
     if (searchQuery) {
       // Example: Redirect to search results page
-      window.location.href = `/search?query=${searchQuery}`;
+      router.push(`/search?query=${searchQuery}`);
     }
   };
 
@@ -59,6 +61,10 @@ export default function RootLayout({
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+  };
+
+  const handleMyPageClick = () => {
+    router.push('/login');
   };
 
   return (
@@ -100,12 +106,9 @@ export default function RootLayout({
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <Link href="/login" className="text-gray-600">
-                로그인
-              </Link>
-              <Link href="/mypage">
+              <button onClick={handleMyPageClick}>
                 <User className="w-6 h-6 text-gray-600" />
-              </Link>
+              </button>
               <button onClick={toggleMenu}>
                 <Menu className="w-6 h-6 text-gray-600" />
               </button>
