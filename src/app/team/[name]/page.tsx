@@ -4,11 +4,18 @@ import PlayerCard from "@/src/components/player/PlayerCard";
 import TeamSchedule from "@/src/components/team/TeamSchedule";
 import { samplePlayers } from "@/src/types/player";
 import { sampleTeams, Team } from "@/src/types/team";
+import { notFound } from "next/navigation";
+import { decodeTeamName } from "@/src/utils/urlUtils";
 
-export default async function TeamPage({ params }: { params: { id: string } }) {
-  const teamId = Number(params.id);
-  const team: Team | undefined = sampleTeams.find((t) => t.id === teamId);
+export default function TeamPage({ params }: { params: { name: string } }) {
+  // 🔹 URL에서 받은 `name`을 원래 팀 이름으로 변환
+  const formattedName = decodeTeamName(params.name);
+  const team: Team | undefined = sampleTeams.find((t) => t.name.toLowerCase() === formattedName.toLowerCase());
+
+  if (!team) return notFound();
+
   const teamPlayers = samplePlayers.filter((player) => team.players.includes(player.id));
+
   return (
     <div className="container mx-auto p-6">
       <div className="flex flex-col items-center">
