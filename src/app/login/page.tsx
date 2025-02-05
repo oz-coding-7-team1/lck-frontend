@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react"; // ✅ 추가
 import styles from "./LoginPage.module.css";
 
 export default function LoginPage() {
@@ -16,12 +17,11 @@ export default function LoginPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    
+
     try {
-      // ✅ 더미 데이터와 입력값 비교
       if (username === dummyUsername && password === dummyPassword) {
         alert("로그인 성공! 메인 페이지로 이동합니다.");
-        router.push("/"); // ✅ 메인 페이지로 이동
+        router.push("/");
       } else {
         alert("로그인 실패! 아이디 또는 비밀번호를 확인하세요.");
       }
@@ -44,14 +44,16 @@ export default function LoginPage() {
           {loading ? "처리 중..." : "LOGIN"}
         </button>
       </form>
+
       <div className={styles.socialLogin}>
         <p>소셜 로그인</p>
         <div className={styles.socialIcons}>
-          <button className={styles.kakao}>카카오</button>
-          <button className={styles.google}>구글</button>
-          <button className={styles.naver}>네이버</button>
+          <button className={styles.kakao} onClick={() => signIn("kakao", { callbackUrl: "/" })}>카카오</button>
+          <button className={styles.google} onClick={() => signIn("google", { callbackUrl: "/" })}>구글</button>
+          <button className={styles.naver} onClick={() => signIn("naver", { callbackUrl: "/" })}>네이버</button>
         </div>
       </div>
+
       <div className={styles.signupContainer}>
         <p>아직 회원이 아니신가요?</p>
         <button onClick={() => router.push("/join")} className={styles.signupButton}>회원가입</button>
