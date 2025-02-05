@@ -39,7 +39,7 @@ export default function SearchPage() {
 
   return (
     <div className="container px-4 py-8 mx-auto">
-      <h1 className="mb-4 text-2xl font-bold">Search Results for "{query}"</h1>
+      <h1 className="mb-4 text-2xl font-bold">Search Results for &quot;{query}&quot;</h1>
       {searchResults.length > 0 ? (
         <ul className="space-y-4">
           {searchResults.map((result, index) => (
@@ -56,7 +56,7 @@ export default function SearchPage() {
           ))}
         </ul>
       ) : (
-        <p className="text-gray-500">No results found for "{query}".</p>
+        <p className="text-gray-500">No results found for &quot;{query}&quot;.</p>
       )}
     </div>
   );
