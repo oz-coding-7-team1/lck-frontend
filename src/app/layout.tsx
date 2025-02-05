@@ -125,7 +125,7 @@ export default function RootLayout({
                 <Link href="/" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                   Home
                 </Link>
-                <Link href="/player" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                <Link href="/playerlist" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                   Player
                 </Link>
                 <Link href="/team" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">

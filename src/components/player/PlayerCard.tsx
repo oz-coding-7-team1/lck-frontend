@@ -1,40 +1,38 @@
-import { PlayerCardData } from '@/src/types/player';
-import { positionIcons } from '@/src/utils/positionIcons';
 import Image from 'next/image';
+import SocialLinks from '../common/SocialLinks';
 
 interface PlayerCardProps {
-  player: PlayerCardData;
+  nickname: string;
+  realName: string;
+  laneIcon: string;
+  profileImage: string;
+  socialLinks: Record<string, string>;
 }
 
-export default function PlayerCard({ player }: PlayerCardProps) {
+const PlayerCard: React.FC<PlayerCardProps> = ({
+  nickname,
+  realName,
+  laneIcon,
+  profileImage,
+  socialLinks,
+}) => {
   return (
-    <div className="flex items-center p-4 space-x-4 bg-white rounded-lg shadow-md">
-      <Image
-        src="/placeholder.svg"
-        alt={player.name}
-        width={64}
-        height={64}
-        className="rounded-full"
-      />
-      <div>
-      <h3 className="text-lg font-bold flex items-center justify-center">
-        <Image src={positionIcons[player.position]} alt={player.position} width={20} height={20} className="mr-2" />
-        {player.nickname}
-      </h3>
-        <p>{player.name}</p>
-        <p className="text-sm text-blue-500">{player.position}</p>
-      <div className="flex justify-center mt-2 space-x-2">
-        {player.socialLinks?.instagram && (
-          <a href={player.socialLinks.instagram} target="_blank"></a>
-        )}
-        {player.socialLinks?.twitter && (
-          <a href={player.socialLinks.twitter} target="_blank"></a>
-        )}
-        {player.socialLinks?.youtube && (
-          <a href={player.socialLinks.youtube} target="_blank"></a>
-        )}
+    <div className="p-4 bg-white rounded-lg shadow-md">
+      <div className="flex items-center gap-4">
+        <div className="w-16 h-16 overflow-hidden bg-gray-300 rounded-full">
+          <Image src={profileImage} alt={nickname} width={64} height={64} className="object-cover" />
+        </div>
+        <div>
+          <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
+            {nickname}
+            <Image src={laneIcon} alt="Lane Icon" width={24} height={24} className="w-6 h-6" />
+          </div>
+          <div className="text-lg text-gray-600">{realName}</div>
+        </div>
       </div>
-      </div>
+      <SocialLinks links={socialLinks} />
     </div>
   );
-}
+};
+
+export default PlayerCard;

@@ -1,8 +1,8 @@
-export default function CommunityPage() {
+export default function TeamListPage() {
   return (
-    <div className="bg-gray-100 min-h-screen">
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold mb-4">Community</h1>
+    <div className="min-h-screen bg-gray-100">
+      <div className="container px-4 py-8 mx-auto">
+        <h1 className="mb-4 text-2xl font-bold">Community</h1>
         {/* Community posts will go here */}
       </div>
     </div>
