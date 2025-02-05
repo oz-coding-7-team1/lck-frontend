@@ -122,7 +122,9 @@ export default function RootLayout({
             </div>
           </div>
         </header>
-        <main>{children}</main>
+        <main>
+          {children}
+        </main>
         <footer className="py-2 mb-1 text-sm text-center text-gray-400">
           {/* Adjusted padding and margin */}
           <p>&copy; 2025 CHOEAELOL. All rights reserved.</p>
