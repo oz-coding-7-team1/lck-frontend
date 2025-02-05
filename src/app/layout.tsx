@@ -1,7 +1,7 @@
 'use client';
 
 import { Inter } from 'next/font/google';
-import { Search, User, Menu } from 'lucide-react';
+import { Search, User, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import '../styles/globals.css'; // Ensure this path is correct
@@ -110,7 +110,7 @@ export default function RootLayout({
                 <User className="w-6 h-6 text-gray-600" />
               </button>
               <button onClick={toggleMenu}>
-                <Menu className="w-6 h-6 text-gray-600" />
+                {menuOpen ? <X className="w-6 h-6 text-gray-600" /> : <Menu className="w-6 h-6 text-gray-600" />}
               </button>
             </div>
           </div>
@@ -127,7 +127,7 @@ export default function RootLayout({
           >
             <div className="fixed top-0 right-0 z-30 w-64 h-full bg-white shadow-lg">
               <button className="absolute top-4 right-4" onClick={toggleMenu}>
-                <Menu className="w-6 h-6 text-gray-600" />
+                <X className="w-6 h-6 text-gray-600" />
               </button>
               <nav className="mt-16 space-y-4">
                 <Link
