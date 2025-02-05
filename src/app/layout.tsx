@@ -19,20 +19,20 @@ export default function RootLayout({
   return (
     <html lang="ko" suppressHydrationWarning>
       <body className={inter.className}>
-        <header className="bg-gray-50 border-b">
-          <div className="container mx-auto h-16 flex items-center justify-between px-4">
+        <header className="border-b bg-gray-50">
+          <div className="container flex items-center justify-between h-16 px-4 mx-auto">
             <Link href="/" className="text-xl font-bold text-rose-500">
               CHOEAELOL
             </Link>
-            <div className="flex-1 max-w-xl mx-auto px-4">
+            <div className="flex-1 max-w-xl px-4 mx-auto">
               <div className="relative">
                 <input
                   type="text"
                   placeholder="검색어를 입력하세요"
-                  className="w-full pl-4 pr-10 py-2 bg-gray-100 border border-gray-200 rounded-full"
+                  className="w-full py-2 pl-4 pr-10 bg-gray-100 border border-gray-200 rounded-full"
                 />
-                <button className="absolute right-3 top-1/2 -translate-y-1/2">
-                  <Search className="text-gray-400 w-5 h-5" />
+                <button className="absolute -translate-y-1/2 right-3 top-1/2">
+                  <Search className="w-5 h-5 text-gray-400" />
                 </button>
               </div>
             </div>
@@ -47,8 +47,9 @@ export default function RootLayout({
           </div>
         </header>
         <main>{children}</main>
-        <footer className="mt-20 py-4 text-center text-sm text-gray-400">
-          <p>&copy; 2025 CHOEALOL. All rights reserved.</p>
+        <footer className="py-2 mb-1 text-sm text-center text-gray-400">
+          {/* Adjusted padding and margin */}
+          <p>&copy; 2025 CHOEAELOL. All rights reserved.</p>
         </footer>
       </body>
     </html>

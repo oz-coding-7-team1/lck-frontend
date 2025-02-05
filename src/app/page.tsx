@@ -181,14 +181,41 @@ export default function Home() {
                   </div>
                 </div>
                 {[
-                  { rank: 2, name: 'GEN.G', votes: '220,000', logo: '/logos/geng.svg' },
-                  { rank: 3, name: 'Hanwha Life Esports', votes: '210,000', logo: '/logos/hle.svg' },
-                  { rank: 4, name: 'Dplus KIA', votes: '200,000', logo: '/logos/dk.svg' },
-                  { rank: 5, name: 'kt Rolster', votes: '190,000', logo: '/logos/kt.svg' },
+                  {
+                    rank: 2,
+                    name: 'GEN.G',
+                    votes: '220,000',
+                    logo: '/logos/geng.svg',
+                  },
+                  {
+                    rank: 3,
+                    name: 'Hanwha Life Esports',
+                    votes: '210,000',
+                    logo: '/logos/hle.svg',
+                  },
+                  {
+                    rank: 4,
+                    name: 'Dplus KIA',
+                    votes: '200,000',
+                    logo: '/logos/dk.svg',
+                  },
+                  {
+                    rank: 5,
+                    name: 'kt Rolster',
+                    votes: '190,000',
+                    logo: '/logos/kt.svg',
+                  },
                 ].map((team, index) => (
-                  <Link href={`/team/${team.name.toLowerCase().replace(/\s+/g, '-')}`} key={index}>
+                  <Link
+                    href={`/team/${team.name
+                      .toLowerCase()
+                      .replace(/\s+/g, '-')}`}
+                    key={index}
+                  >
                     <div className="flex items-center gap-6 p-4">
-                      <div className="text-lg font-bold text-gray-600">{team.rank}</div>
+                      <div className="text-lg font-bold text-gray-600">
+                        {team.rank}
+                      </div>
                       <div className="w-12 h-12 overflow-hidden bg-gray-300 rounded-full">
                         <Image
                           src={team.logo}
@@ -212,10 +239,10 @@ export default function Home() {
             </section>
 
             <section>
-              <h2 className="mb-4 text-xl font-bold text-gray-800">
+              <h2 className="mt-4 mb-4 text-gray-800 mt-bold mt-text-xl">
                 Lane Rank
               </h2>
-              <div className="p-6 space-y-6 bg-white rounded-lg shadow-md">
+              <div className="p-6 mt-4 space-y-6 bg-white rounded-lg shadow-md">
                 <div className="flex items-center justify-between mb-6">
                   <button onClick={handlePrevLane}>
                     <ChevronLeft className="w-6 h-6 text-gray-500" />
@@ -246,7 +273,9 @@ export default function Home() {
                         className="object-cover"
                       />
                     </div>
-                    <div className="text-lg font-medium text-gray-900">FAKER</div>
+                    <div className="text-lg font-medium text-gray-900">
+                      FAKER
+                    </div>
                   </div>
                   <div className="flex items-center gap-4 text-lg text-gray-500">
                     <Heart className="w-6 h-6 text-red-500" />
@@ -256,7 +285,9 @@ export default function Home() {
                 <div className="space-y-6">
                   {Array.from({ length: 4 }, (_, i) => (
                     <div key={i} className="flex items-center gap-6 p-4">
-                      <div className="text-lg font-bold text-gray-600">{i + 2}</div>
+                      <div className="text-lg font-bold text-gray-600">
+                        {i + 2}
+                      </div>
                       <div className="w-12 h-12 bg-gray-300 rounded-full"></div>
                       <div className="flex-1 text-xl font-medium text-gray-900">
                         Player
