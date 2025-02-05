@@ -4,7 +4,7 @@ import { Inter } from 'next/font/google';
 import { Search, User, Menu } from 'lucide-react';
 import Link from 'next/link';
 import '../styles/globals.css'; // Ensure this path is correct
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -28,9 +28,7 @@ export default function RootLayout({
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<{ name: string; koreanName: string }[]>([]);
 
-  const handleSearch = () => {
-    // Add your search logic here
-    console.log('Search button clicked', searchQuery);
+  useEffect(() => {
     if (searchQuery) {
       const results = mockData.filter(
         (item) =>
@@ -38,30 +36,22 @@ export default function RootLayout({
           item.koreanName.includes(searchQuery)
       );
       setSearchResults(results);
-      console.log('Search results:', results);
+    } else {
+      setSearchResults([]);
+    }
+  }, [searchQuery]);
+
+  const handleSearch = () => {
+    // Add your search logic here
+    console.log('Search button clicked', searchQuery);
+    if (searchQuery) {
       // Example: Redirect to search results page
       window.location.href = `/search?query=${searchQuery}`;
     }
   };
 
-  interface SearchResult {
-    name: string;
-    koreanName: string;
-  }
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-    if (query) {
-      const results: SearchResult[] = mockData.filter(
-        (item) =>
-          item.name.toLowerCase().includes(query.toLowerCase()) ||
-          item.koreanName.includes(query)
-      );
-      setSearchResults(results);
-    } else {
-      setSearchResults([]);
-    }
+    setSearchQuery(e.target.value);
   };
 
   return (
