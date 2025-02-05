@@ -77,9 +77,14 @@ export default function RootLayout({
                 <input
                   type="text"
                   placeholder="검색어를 입력하세요"
+                  value={searchQuery}
+                  onChange={handleInputChange}
                   className="w-full py-2 pl-4 pr-10 bg-gray-100 border border-gray-200 rounded-full"
                 />
-                <button className="absolute -translate-y-1/2 right-3 top-1/2">
+                <button
+                  className="absolute -translate-y-1/2 right-3 top-1/2"
+                  onClick={handleSearch}
+                >
                   <Search className="w-5 h-5 text-gray-400" />
                 </button>
                 {searchResults.length > 0 && (
@@ -98,6 +103,9 @@ export default function RootLayout({
               </div>
             </div>
             <div className="flex items-center gap-4">
+              <Link href="/login" className="text-gray-600">
+                로그인
+              </Link>
               <Link href="/mypage">
                 <User className="w-6 h-6 text-gray-600" />
               </Link>
