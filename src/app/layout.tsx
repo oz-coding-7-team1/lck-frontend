@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState<{ name: string; koreanName: string }[]>([]);
 
   const handleSearch = () => {
     // Add your search logic here
@@ -44,11 +44,16 @@ export default function RootLayout({
     }
   };
 
-  const handleInputChange = (e) => {
+  interface SearchResult {
+    name: string;
+    koreanName: string;
+  }
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchQuery(query);
     if (query) {
-      const results = mockData.filter(
+      const results: SearchResult[] = mockData.filter(
         (item) =>
           item.name.toLowerCase().includes(query.toLowerCase()) ||
           item.koreanName.includes(query)
