@@ -27,6 +27,7 @@ export default function RootLayout({
 }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<{ name: string; koreanName: string }[]>([]);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     if (searchQuery) {
@@ -52,6 +53,10 @@ export default function RootLayout({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
   };
 
   return (
@@ -99,7 +104,7 @@ export default function RootLayout({
               <Link href="/mypage">
                 <User className="w-6 h-6 text-gray-600" />
               </Link>
-              <button>
+              <button onClick={toggleMenu}>
                 <Menu className="w-6 h-6 text-gray-600" />
               </button>
             </div>
@@ -110,6 +115,29 @@ export default function RootLayout({
           {/* Adjusted padding and margin */}
           <p>&copy; 2025 CHOEAELOL. All rights reserved.</p>
         </footer>
+        {menuOpen && (
+          <div className="fixed inset-0 z-20 bg-black bg-opacity-50" onClick={toggleMenu}>
+            <div className="fixed top-0 right-0 z-30 w-64 h-full bg-white shadow-lg">
+              <button className="absolute top-4 right-4" onClick={toggleMenu}>
+                <Menu className="w-6 h-6 text-gray-600" />
+              </button>
+              <nav className="mt-16 space-y-4">
+                <Link href="/" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                  Home
+                </Link>
+                <Link href="/player" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                  Player
+                </Link>
+                <Link href="/team" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                  Team
+                </Link>
+                <Link href="/mypage" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                  My CHOEAE
+                </Link>
+              </nav>
+            </div>
+          </div>
+        )}
       </body>
     </html>
   );
