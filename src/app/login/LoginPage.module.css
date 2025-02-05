@@ -1,0 +1,92 @@
+/* LoginPage.module.css */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 300px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.loginButton {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.loginButton:disabled {
+  background-color: #a0a0a0;
+  cursor: not-allowed;
+}
+
+.loginButton:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.socialLogin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.socialIcons {
+  display: flex;
+  gap: 1rem;
+}
+
+.socialIcons button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.kakao {
+  background-color: #fee500;
+  color: #3c1e1e;
+}
+
+.google {
+  background-color: #db4437;
+  color: white;
+}
+
+.naver {
+  background-color: #03c75a;
+  color: white;
+}
+
+.signupContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.signupButton {
+  background-color: transparent;
+  color: #007bff;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
