@@ -1,3 +1,5 @@
+'use client';
+
 import SocialLinks from "@/src/components/common/SocialLinks";
 import CommunitySimple from "@/src/components/community/CommunitySimple";
 import PlayerGallery from "@/src/components/player/PlayerGallery";
@@ -5,14 +7,23 @@ import PlayerSchedule from "@/src/components/player/PlayerSchedule";
 import { Player, samplePlayers } from "@/src/types/player";
 import { sampleTeams } from "@/src/types/team";
 import { notFound } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function PlayerPage({ params }: { params: { nickname: string } }) {
-  // 닉네임을 소문자로 변환하여 매칭
-  const player: Player | undefined = samplePlayers.find(
-    (p) => p.nickname.toLowerCase() === params.nickname.toLowerCase()
-  );
+  const [player, setPlayer] = useState<Player | undefined>(undefined);
 
-  if (!player) return notFound();
+  useEffect(() => {
+    const foundPlayer = samplePlayers.find(
+      (p) => p.nickname.toLowerCase() === params.nickname.toLowerCase()
+    );
+    if (!foundPlayer) {
+      notFound();
+    } else {
+      setPlayer(foundPlayer);
+    }
+  }, [params.nickname]);
+
+  if (!player) return null;
 
   const team = sampleTeams.find((t) => t.id === player.teamId);
 
