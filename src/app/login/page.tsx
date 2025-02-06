@@ -2,13 +2,15 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react"; // ✅ 추가
+import { signIn, useSession } from "next-auth/react"; // ✅ 추가
 import styles from "./LoginPage.module.css";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const {data: ssesion, status} = useSession()
+  console.log(ssesion, status)
   const router = useRouter();
 
   const dummyUsername = "admin";

@@ -49,7 +49,7 @@ export default function SearchPage() {
               ) : (
                 <Users className="w-6 h-6 mr-2 text-gray-600" />
               )}
-              <Link href={`/${result.type}detail?name=${result.name}`} className="text-lg font-semibold text-blue-600 hover:underline">
+              <Link href={`/${result.type}/${result.name}`} className="text-lg font-semibold text-blue-600 hover:underline">
                 {result.name} ({result.koreanName})
               </Link>
             </li>
