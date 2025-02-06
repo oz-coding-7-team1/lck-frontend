@@ -17,7 +17,7 @@ export default function PlayerPage({ params }: { params: { nickname: string } })
   const team = sampleTeams.find((t) => t.id === player.teamId);
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container p-6 mx-auto">
       <div className="flex flex-col items-center">
         <div>
           <h1 className="text-3xl font-bold">{player.nickname}</h1>
