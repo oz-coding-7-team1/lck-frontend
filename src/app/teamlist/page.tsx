@@ -1,4 +1,6 @@
+import Link from 'next/link';
 import TeamCard from '../../components/team/TeamCard';
+import { encodeTeamName } from '@/src/utils/urlUtils'; // 팀 이름을 URL-friendly하게 변환하는 함수
 
 export default function TeamListPage() {
   const teams = [
@@ -40,13 +42,14 @@ export default function TeamListPage() {
         <h1 className="mb-4 text-2xl font-bold">Team List</h1>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {teams.map((team, index) => (
-            <TeamCard
-              key={index}
-              name={team.name}
-              rank={team.rank}
-              logo={team.logo}
-              votes={team.votes}
-            />
+            <Link key={index} href={`/team/${encodeTeamName(team.name)}`}>
+              <TeamCard
+                name={team.name}
+                rank={team.rank}
+                logo={team.logo}
+                votes={team.votes}
+              />
+            </Link>
           ))}
         </div>
       </div>

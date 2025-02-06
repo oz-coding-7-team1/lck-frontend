@@ -39,7 +39,7 @@ export default function SearchPage() {
 
   return (
     <div className="container px-4 py-8 mx-auto">
-      <h1 className="mb-4 text-2xl font-bold">Search Results for "{query}"</h1>
+      <h1 className="mb-4 text-2xl font-bold">Search Results for &quot;{query}&quot;</h1>
       {searchResults.length > 0 ? (
         <ul className="space-y-4">
           {searchResults.map((result, index) => (
@@ -49,14 +49,14 @@ export default function SearchPage() {
               ) : (
                 <Users className="w-6 h-6 mr-2 text-gray-600" />
               )}
-              <Link href={`/${result.type}detail?name=${result.name}`} className="text-lg font-semibold text-blue-600 hover:underline">
+              <Link href={`/${result.type}/${result.name}`} className="text-lg font-semibold text-blue-600 hover:underline">
                 {result.name} ({result.koreanName})
               </Link>
             </li>
           ))}
         </ul>
       ) : (
-        <p className="text-gray-500">No results found for "{query}".</p>
+        <p className="text-gray-500">No results found for &quot;{query}&quot;.</p>
       )}
     </div>
   );

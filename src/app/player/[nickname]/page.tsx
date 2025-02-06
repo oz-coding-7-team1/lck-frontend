@@ -1,22 +1,23 @@
 import SocialLinks from "@/src/components/common/SocialLinks";
 import CommunitySimple from "@/src/components/community/CommunitySimple";
-import PlayerCommunity from "@/src/components/player/PlayerCommunity";
 import PlayerGallery from "@/src/components/player/PlayerGallery";
 import PlayerSchedule from "@/src/components/player/PlayerSchedule";
 import { Player, samplePlayers } from "@/src/types/player";
 import { sampleTeams } from "@/src/types/team";
+import { notFound } from "next/navigation";
 
-export default async function PlayerPage({ params }: { params: { id: string } }) {
-  const playerId = Number(params.id);
-  const player: Player | undefined = samplePlayers.find((p) => p.id === playerId);
-  const team = sampleTeams.find((t) => t.id === player?.teamId);
+export default function PlayerPage({ params }: { params: { nickname: string } }) {
+  // 닉네임을 소문자로 변환하여 매칭
+  const player: Player | undefined = samplePlayers.find(
+    (p) => p.nickname.toLowerCase() === params.nickname.toLowerCase()
+  );
 
-  if (!player) {
-    return <div className="container mx-auto p-6">선수 정보를 찾을 수 없습니다.</div>;
-  }
+  if (!player) return notFound();
+
+  const team = sampleTeams.find((t) => t.id === player.teamId);
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container p-6 mx-auto">
       <div className="flex flex-col items-center">
         <div>
           <h1 className="text-3xl font-bold">{player.nickname}</h1>
@@ -24,8 +25,6 @@ export default async function PlayerPage({ params }: { params: { id: string } })
           <p className="text-blue-500">♥ {player.fanVotes}</p>
         </div>
         <SocialLinks links={player.socialLinks} />
-        <div>
-        </div>
       </div>
       
       <div className="grid grid-cols-10 gap-4 mt-6">
