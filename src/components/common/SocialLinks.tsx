@@ -24,14 +24,11 @@ const SocialLinks: React.FC<SocialLinksProps> = ({ links }) => {
         if (!iconSrc) return null; // ✅ `src=""` 방지
 
         return (
-          <Link
-            key={platform}
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image src={iconSrc} alt={platform} className="w-6 h-6" width={24} height={24} />
-          </Link>
+          <div key={platform}>
+            <a href={url} target="_blank" rel="noopener noreferrer">
+              <Image src={iconSrc} alt={platform} className="w-6 h-6" width={24} height={24} />
+            </a>
+          </div>
         );
       })}
     </div>

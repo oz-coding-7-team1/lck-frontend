@@ -4,7 +4,7 @@ import 'tailwindcss/tailwind.css';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight, Heart } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { samplePlayers } from '@/src/types/player';
 
 export default function Home() {
@@ -16,6 +16,39 @@ export default function Home() {
     { name: 'SUPPORT', icon: '/icons/support.svg' },
   ];
   const [currentLane, setCurrentLane] = useState(0);
+  const [playersByLane, setPlayersByLane] = useState([]);
+
+  useEffect(() => {
+    const mockPlayersByLane = {
+      TOP: [
+        { id: 1, nickname: 'CANYON', fanVotes: 5000 },
+        { id: 2, nickname: 'NUGURI', fanVotes: 4500 },
+        { id: 3, nickname: 'ZEUS', fanVotes: 4700 },
+      ],
+      JUNGLE: [
+        { id: 4, nickname: 'PEANUT', fanVotes: 4300 },
+        { id: 5, nickname: 'CLOSER', fanVotes: 4200 },
+        { id: 6, nickname: 'ONFLEEK', fanVotes: 4100 },
+      ],
+      MID: [
+        { id: 7, nickname: 'FAKER', fanVotes: 5000 },
+        { id: 8, nickname: 'CHOVY', fanVotes: 4500 },
+        { id: 9, nickname: 'SHOWMAKER', fanVotes: 4700 },
+      ],
+      BOTTOM: [
+        { id: 10, nickname: 'GUMAYUSI', fanVotes: 4700 },
+        { id: 11, nickname: 'DEFT', fanVotes: 4600 },
+        { id: 12, nickname: 'RULER', fanVotes: 4500 },
+      ],
+      SUPPORT: [
+        { id: 13, nickname: 'KERIA', fanVotes: 4300 },
+        { id: 14, nickname: 'LEHENDS', fanVotes: 4200 },
+        { id: 15, nickname: 'BERRY', fanVotes: 4100 },
+      ],
+    };
+
+    setPlayersByLane(mockPlayersByLane[lanes[currentLane].name]);
+  }, [currentLane]);
 
   const handleNextLane = () => {
     setCurrentLane((prev) => (prev + 1) % lanes.length);
@@ -24,40 +57,6 @@ export default function Home() {
   const handlePrevLane = () => {
     setCurrentLane((prev) => (prev - 1 + lanes.length) % lanes.length);
   };
-
-  const getPlayersByLane = (lane: string) => {
-    return samplePlayers.filter(player => player.position === lane);
-  };
-
-  const mockPlayersByLane = {
-    TOP: [
-      { id: 1, nickname: 'CANYON', fanVotes: 5000 },
-      { id: 2, nickname: 'NUGURI', fanVotes: 4500 },
-      { id: 3, nickname: 'ZEUS', fanVotes: 4700 },
-    ],
-    JUNGLE: [
-      { id: 4, nickname: 'PEANUT', fanVotes: 4300 },
-      { id: 5, nickname: 'CLOSER', fanVotes: 4200 },
-      { id: 6, nickname: 'ONFLEEK', fanVotes: 4100 },
-    ],
-    MID: [
-      { id: 7, nickname: 'FAKER', fanVotes: 5000 },
-      { id: 8, nickname: 'CHOVY', fanVotes: 4500 },
-      { id: 9, nickname: 'SHOWMAKER', fanVotes: 4700 },
-    ],
-    BOTTOM: [
-      { id: 10, nickname: 'GUMAYUSI', fanVotes: 4700 },
-      { id: 11, nickname: 'DEFT', fanVotes: 4600 },
-      { id: 12, nickname: 'RULER', fanVotes: 4500 },
-    ],
-    SUPPORT: [
-      { id: 13, nickname: 'KERIA', fanVotes: 4300 },
-      { id: 14, nickname: 'LEHENDS', fanVotes: 4200 },
-      { id: 15, nickname: 'BERRY', fanVotes: 4100 },
-    ],
-  };
-
-  const playersByLane = mockPlayersByLane[lanes[currentLane].name];
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
@@ -76,90 +75,96 @@ export default function Home() {
             </h2>
 
             <div className="space-y-6">
-              <Link href="/player/faker" className="block">
-                <div className="aspect-[2/1] relative bg-white shadow-lg rounded-xl overflow-hidden">
-                  <div className="absolute inset-0">
-                    <Image
-                      src="/faker-img/T1-Faker-wins-Worlds-2023-esports-greatest-comeback.jpeg"
-                      alt="FAKER"
-                      layout="fill"
-                      objectFit="cover"
-                      className="opacity-80"
-                    />
-                  </div>
-                  <div className="absolute bottom-4 left-4">
-                    <div className="text-lg font-bold text-gray-600">1st</div>
-                    <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
-                      FAKER
+              <div className="block">
+                <Link href="/player/faker">
+                  <div className="aspect-[2/1] relative bg-white shadow-lg rounded-xl overflow-hidden">
+                    <div className="absolute inset-0">
                       <Image
-                        src="/icons/faker.svg"
+                        src="/faker-img/T1-Faker-wins-Worlds-2023-esports-greatest-comeback.jpeg"
                         alt="FAKER"
-                        width={24}
-                        height={24}
-                        className="w-6 h-6"
-                      />
-                    </div>
-                    <div className="text-lg text-gray-600">이상혁</div>
-                  </div>
-                </div>
-              </Link>
-
-              <div className="grid grid-cols-2 gap-6">
-                <Link href="/player/chovy" className="block">
-                  <div className="relative overflow-hidden bg-white shadow-lg aspect-square rounded-xl">
-                    <div className="absolute inset-y-0 left-0 w-1/2">
-                      <Image
-                        src="/icons/chovy.svg"
-                        alt="CHOVY"
                         layout="fill"
                         objectFit="cover"
-                        className="opacity-20"
+                        className="opacity-80"
                       />
                     </div>
                     <div className="absolute bottom-4 left-4">
-                      <div className="text-lg font-bold text-gray-600">2</div>
+                      <div className="text-lg font-bold text-gray-600">1st</div>
                       <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
-                        CHOVY
+                        FAKER
+                        <Image
+                          src="/icons/faker.svg"
+                          alt="FAKER"
+                          width={24}
+                          height={24}
+                          className="w-6 h-6"
+                        />
+                      </div>
+                      <div className="text-lg text-gray-600">이상혁</div>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+
+              <div className="grid grid-cols-2 gap-6">
+                <div className="block">
+                  <Link href="/player/chovy">
+                    <div className="relative overflow-hidden bg-white shadow-lg aspect-square rounded-xl">
+                      <div className="absolute inset-y-0 left-0 w-1/2">
                         <Image
                           src="/icons/chovy.svg"
                           alt="CHOVY"
-                          width={24}
-                          height={24}
-                          className="w-6 h-6"
+                          layout="fill"
+                          objectFit="cover"
+                          className="opacity-20"
                         />
                       </div>
-                      <div className="text-lg text-gray-600">정지훈</div>
+                      <div className="absolute bottom-4 left-4">
+                        <div className="text-lg font-bold text-gray-600">2</div>
+                        <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
+                          CHOVY
+                          <Image
+                            src="/icons/chovy.svg"
+                            alt="CHOVY"
+                            width={24}
+                            height={24}
+                            className="w-6 h-6"
+                          />
+                        </div>
+                        <div className="text-lg text-gray-600">정지훈</div>
+                      </div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </div>
 
-                <Link href="/player/gumayusi" className="block">
-                  <div className="relative overflow-hidden bg-white shadow-lg aspect-square rounded-xl">
-                    <div className="absolute inset-y-0 left-0 w-1/2">
-                      <Image
-                        src="/icons/gumayusi.svg"
-                        alt="GUMAYUSI"
-                        layout="fill"
-                        objectFit="cover"
-                        className="opacity-20"
-                      />
-                    </div>
-                    <div className="absolute bottom-4 left-4">
-                      <div className="text-lg font-bold text-gray-600">3</div>
-                      <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
-                        GUMAYUSI
+                <div className="block">
+                  <Link href="/player/gumayusi">
+                    <div className="relative overflow-hidden bg-white shadow-lg aspect-square rounded-xl">
+                      <div className="absolute inset-y-0 left-0 w-1/2">
                         <Image
                           src="/icons/gumayusi.svg"
                           alt="GUMAYUSI"
-                          width={24}
-                          height={24}
-                          className="w-6 h-6"
+                          layout="fill"
+                          objectFit="cover"
+                          className="opacity-20"
                         />
                       </div>
-                      <div className="text-lg text-gray-600">이민형</div>
+                      <div className="absolute bottom-4 left-4">
+                        <div className="text-lg font-bold text-gray-600">3</div>
+                        <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
+                          GUMAYUSI
+                          <Image
+                            src="/icons/gumayusi.svg"
+                            alt="GUMAYUSI"
+                            width={24}
+                            height={24}
+                            className="w-6 h-6"
+                          />
+                        </div>
+                        <div className="text-lg text-gray-600">이민형</div>
+                      </div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </div>
               </div>
 
               {Array.from({ length: 5 }, (_, i) => (
