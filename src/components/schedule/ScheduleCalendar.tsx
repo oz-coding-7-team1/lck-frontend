@@ -5,7 +5,6 @@ import { Calendar, Views, momentLocalizer, Event } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { ScheduleEvent } from "@/src/types/schedule";
-import ScheduleFormModal from "@/src/components/schedule/ScheduleFormModal";
 import ScheduleDetailModal from "@/src/components/schedule/ScheduleDetailModal";
 
 const localizer = momentLocalizer(moment);
@@ -47,10 +46,6 @@ export default function ScheduleCalendar({ events }: ScheduleCalendarProps) {
 
   return (
     <div className="p-4 border rounded-lg shadow relative">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">📅 선수 일정</h2>
-      </div>
-
       {/* 캘린더 UI */}
       <Calendar
         localizer={localizer}
