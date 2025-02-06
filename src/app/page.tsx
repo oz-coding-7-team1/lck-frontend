@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight, Heart } from 'lucide-react';
 import { useState } from 'react';
+import { samplePlayers } from '@/src/types/player';
 
 export default function Home() {
   const lanes = [
@@ -23,6 +24,40 @@ export default function Home() {
   const handlePrevLane = () => {
     setCurrentLane((prev) => (prev - 1 + lanes.length) % lanes.length);
   };
+
+  const getPlayersByLane = (lane: string) => {
+    return samplePlayers.filter(player => player.position === lane);
+  };
+
+  const mockPlayersByLane = {
+    TOP: [
+      { id: 1, nickname: 'CANYON', fanVotes: 5000 },
+      { id: 2, nickname: 'NUGURI', fanVotes: 4500 },
+      { id: 3, nickname: 'ZEUS', fanVotes: 4700 },
+    ],
+    JUNGLE: [
+      { id: 4, nickname: 'PEANUT', fanVotes: 4300 },
+      { id: 5, nickname: 'CLOSER', fanVotes: 4200 },
+      { id: 6, nickname: 'ONFLEEK', fanVotes: 4100 },
+    ],
+    MID: [
+      { id: 7, nickname: 'FAKER', fanVotes: 5000 },
+      { id: 8, nickname: 'CHOVY', fanVotes: 4500 },
+      { id: 9, nickname: 'SHOWMAKER', fanVotes: 4700 },
+    ],
+    BOTTOM: [
+      { id: 10, nickname: 'GUMAYUSI', fanVotes: 4700 },
+      { id: 11, nickname: 'DEFT', fanVotes: 4600 },
+      { id: 12, nickname: 'RULER', fanVotes: 4500 },
+    ],
+    SUPPORT: [
+      { id: 13, nickname: 'KERIA', fanVotes: 4300 },
+      { id: 14, nickname: 'LEHENDS', fanVotes: 4200 },
+      { id: 15, nickname: 'BERRY', fanVotes: 4100 },
+    ],
+  };
+
+  const playersByLane = mockPlayersByLane[lanes[currentLane].name];
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
@@ -261,44 +296,27 @@ export default function Home() {
                     <ChevronRight className="w-6 h-6 text-gray-500" />
                   </button>
                 </div>
-                <div className="flex flex-col items-center gap-6 p-6 bg-gray-100 rounded-lg">
-                  <div className="text-lg font-bold text-gray-600">1st</div>
-                  <div className="flex items-center gap-4">
+                {playersByLane.map((player, index) => (
+                  <div key={player.id} className="flex items-center gap-6 p-4">
+                    <div className="text-lg font-bold text-gray-600">{index + 1}</div>
                     <div className="w-12 h-12 overflow-hidden bg-gray-300 rounded-full">
                       <Image
-                        src="/icons/faker.svg"
-                        alt="FAKER"
+                        src={`/icons/${player.nickname.toLowerCase()}.svg`}
+                        alt={player.nickname}
                         width={48}
                         height={48}
                         className="object-cover"
                       />
                     </div>
-                    <div className="text-lg font-medium text-gray-900">
-                      FAKER
+                    <div className="flex-1 text-xl font-medium text-gray-900">
+                      {player.nickname}
+                    </div>
+                    <div className="flex items-center gap-4 text-lg text-gray-500">
+                      <Heart className="w-6 h-6 text-red-500" />
+                      {player.fanVotes}
                     </div>
                   </div>
-                  <div className="flex items-center gap-4 text-lg text-gray-500">
-                    <Heart className="w-6 h-6 text-red-500" />
-                    230,000
-                  </div>
-                </div>
-                <div className="space-y-6">
-                  {Array.from({ length: 4 }, (_, i) => (
-                    <div key={i} className="flex items-center gap-6 p-4">
-                      <div className="text-lg font-bold text-gray-600">
-                        {i + 2}
-                      </div>
-                      <div className="w-12 h-12 bg-gray-300 rounded-full"></div>
-                      <div className="flex-1 text-xl font-medium text-gray-900">
-                        Player
-                      </div>
-                      <div className="flex items-center gap-4 text-lg text-gray-500">
-                        <Heart className="w-6 h-6 text-red-500" />
-                        230,000
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                ))}
               </div>
             </section>
           </div>
