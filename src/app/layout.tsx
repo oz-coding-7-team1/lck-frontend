@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import '../styles/globals.css'; // Ensure this path is correct
 import { useState, useEffect } from 'react';
+import AuthConetxt from '../context/AuthContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -76,6 +77,7 @@ export default function RootLayout({
   return (
     <html lang="ko" suppressHydrationWarning>
       <body className={inter.className}>
+        <AuthConetxt>
         <header className="border-b bg-gray-50">
           <div className="container flex items-center justify-between h-16 px-4 mx-auto">
             <Link href="/" className="text-xl font-bold text-rose-500">
@@ -167,6 +169,7 @@ export default function RootLayout({
             </div>
           </div>
         )}
+        </AuthConetxt>
       </body>
     </html>
   );
