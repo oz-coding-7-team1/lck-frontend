@@ -69,8 +69,8 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen p-4 bg-gray-100"> {/* Added padding to check Tailwind CSS */}
-      <div className="py-20 bg-gradient-to-b from-gray-200 to-transparent">
+    <div className="flex flex-col min-h-screen bg-white"> {/* Changed bg-gray-100 to bg-white */}
+      <div className="py-16 bg-gradient-to-b from-gray-200 to-transparent"> {/* Added py-10 */}
         <h1 className="text-2xl font-bold text-center text-gray-900">
           당신의 최애 선수에게 투표하세요
         </h1>
@@ -301,10 +301,10 @@ export default function Home() {
               </div>
             </section>
 
-            <section className="mt-40">
+            <section>
               {' '}
               {/* Increased margin-top */}
-              <h2 className="mb-4 text-xl font-bold text-gray-800">
+              <h2 className="mt-20 text-xl font-bold text-gray-800">
                 Lane Rank
               </h2>
               <div className="p-10 mt-4 space-y-8 bg-white rounded-lg shadow-md">
