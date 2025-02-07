@@ -2,15 +2,15 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signIn, useSession } from "next-auth/react"; // ✅ 추가
+import { signIn, useSession } from "next-auth/react"; 
 import styles from "./LoginPage.module.css";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const {data: ssesion, status} = useSession()
-  console.log(ssesion, status)
+  const { data: session, status } = useSession();
+  console.log(session, status);
   const router = useRouter();
 
   const dummyUsername = "admin";
@@ -36,11 +36,25 @@ export default function LoginPage() {
 
   return (
     <div className={styles.container}>
-      <h1>LOGIN</h1>
+      <h1 className={styles.title}>LOGIN</h1>
       <form onSubmit={handleLogin} className={styles.form}>
         <div className={styles.inputGroup}>
-          <input type="text" placeholder="아이디" value={username} onChange={(e) => setUsername(e.target.value)} required />
-          <input type="password" placeholder="비밀번호" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <input 
+            type="text" 
+            placeholder="아이디" 
+            value={username} 
+            onChange={(e) => setUsername(e.target.value)} 
+            required 
+            className={styles.inputField}
+          />
+          <input 
+            type="password" 
+            placeholder="비밀번호" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} 
+            required 
+            className={styles.inputField}
+          />
         </div>
         <button type="submit" className={styles.loginButton} disabled={loading}>
           {loading ? "처리 중..." : "LOGIN"}
@@ -57,7 +71,7 @@ export default function LoginPage() {
       </div>
 
       <div className={styles.signupContainer}>
-        <p>아직 회원이 아니신가요?</p>
+        <p className={styles.signupText}>아직 회원이 아니신가요?</p>
         <button onClick={() => router.push("/join")} className={styles.signupButton}>회원가입</button>
       </div>
     </div>
