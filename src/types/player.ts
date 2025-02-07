@@ -5,7 +5,7 @@ export interface Player {
     birthdate: string; // 생년월일 (YYYY-MM-DD 형식)
     nationality: string; // 국적
     debutDate: string; // 데뷔 날짜
-    position: "TOP" | "JUNGLE" | "MID" | "AD" | "SUPPORT"; // 포지션
+    position: "TOP" | "JUNGLE" | "MID" | "BOT" | "SUPPORT"; // 포지션
     teamId: number; // 소속 팀 ID
     agency: string; // 소속사
     gamename: string; //롤 아이디
@@ -16,17 +16,19 @@ export interface Player {
       twitch?: string;
     }; // SNS 링크
     fanVotes?: number; // 팬 투표 수
+    profileImageUrl?: string; //선수 프로필 이미지
+    backgroundImageUrl?: string; //선수 상단 배경 이미지
   }
 
 
-export type PlayerCardData = Pick<Player, "id" | "name" | "nickname" | "position" | "socialLinks">;
+export type PlayerCardData = Pick<Player, "id" | "name" | "nickname" | "position" | "socialLinks" | "profileImageUrl">;
 
 // types/player.ts
 export const samplePlayers: Player[] = [
     {
       id: 1,
       name: "이상혁",
-      nickname: "FAKER",
+      nickname: "Faker",
       birthdate: "1996-05-07",
       nationality: "대한민국",
       debutDate: "2013-04-06",
@@ -36,16 +38,18 @@ export const samplePlayers: Player[] = [
       gamename: "Hide on bush#KR1",
       socialLinks: {
         instagram: "https://instagram.com/faker",
-        twitter: "https://x.com/faker",
+        xLogo: "https://x.com/faker",
         youtube: "https://youtube.com/faker",
         soop: "https://soop.tv/faker",
       },
       fanVotes: 5000,
+      profileImageUrl: "/images/profile/Faker.png",
+      backgroundImageUrl: "/images/background/Faker.png",
     },
     {
       id: 2,
       name: "류민석",
-      nickname: "KERIA",
+      nickname: "Keria",
       birthdate: "2002-10-14",
       nationality: "대한민국",
       debutDate: "2019-10-12",
@@ -55,30 +59,32 @@ export const samplePlayers: Player[] = [
       gamename: "Keria#KR1",
       socialLinks: {
         instagram: "https://instagram.com/keria",
-        x: "https://x.com/keria",
+        xLogo: "https://x.com/keria",
         youtube: "https://youtube.com/keria",
         soop: "https://soop.tv/keria",
       },
       fanVotes: 4500,
+      profileImageUrl: "/images/profile/Keria.png",
     },
     {
       id: 3,
       name: "이민형",
-      nickname: "GUMAYUSI",
+      nickname: "Gumayusi",
       birthdate: "2002-02-06",
       nationality: "대한민국",
       debutDate: "2019-11-25",
-      position: "AD",
+      position: "BOT",
       teamId: 101,
       agency: "FANABLE",
       gamename: "Gumayusi#KR1",
       socialLinks: {
         instagram: "https://instagram.com/gumayusi",
-        x: "https://x.com/gumayusi",
+        xLogo: "https://x.com/gumayusi",
         youtube: "https://youtube.com/gumayusi",
         soop: "https://soop.tv/gumayusi",
       },
       fanVotes: 4700,
+      profileImageUrl: "/images/profile/Gumayusi.png",
     },
   ];
   
