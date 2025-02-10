@@ -13,6 +13,8 @@ export interface Team {
       twitch?: string;
     }; // 팀의 SNS 링크
     fanVotes?: number; // 팬 투표 수
+    backgroundImageUrl?: string; // 상단 배경 이미지
+    logoImageUrl: string; //팀 로고 이미지
   }
 
 
@@ -25,10 +27,12 @@ export const sampleTeams: Team[] = [
         players: [1, 2, 3],
         socialLinks: {
             instagram: "https://instagram.com/t1",
-            twitter: "https://twitter.com/t1",
+            xLogo: "https://twitter.com/t1",
             youtube: "https://youtube.com/t1",
-            twitch: "https://twitch.tv/t1",
+            soop: "https://twitch.tv/t1",
           },
         fanVotes: 100000,
+        backgroundImageUrl: "/images/team/T1/background.png",
+        logoImageUrl: "/logos/T1_esports_logo.svg",
     }
 ];

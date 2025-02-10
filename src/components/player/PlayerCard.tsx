@@ -9,16 +9,18 @@ interface PlayerCardProps {
 
 export default function PlayerCard({ player }: PlayerCardProps) {
   return (
-    <div className="flex items-center p-4 space-x-4 bg-white rounded-lg shadow-md hover:shadow-lg transition">
-      <Image
-        src={player.profileImage || "/placeholder.svg"}
-        alt={player.name}
-        width={64}
-        height={64}
-        className="rounded-full"
-      />
+    <div className="flex flex-col items-center p-4 space-x-4 bg-white rounded-lg shadow-md hover:shadow-lg transition">
+      <div className="w-[200px] h-[200px] rounded-full overflow-hidden">
+        <Image
+          src={player.profileImageUrl || "/profile-sample.svg"}
+          alt={player.name}
+          width={200}
+          height={200}
+          className="object-cover w-full h-full"
+        />
+      </div>
       <div>
-        <h3 className="text-lg font-bold flex items-center">
+        <h3 className="text-lg font-bold flex items-center justify-center">
           {positionIcons[player.position] && (
             <Image
               src={positionIcons[player.position]}
@@ -28,9 +30,9 @@ export default function PlayerCard({ player }: PlayerCardProps) {
               className="mr-2"
             />
           )}
-          {player.nickname}
+          {player.nickname.toUpperCase()}
         </h3>
-        <p>{player.name}</p>
+        <p className="text-center">{player.name}</p>
         <SocialLinks links={player.socialLinks} />
       </div>
     </div>

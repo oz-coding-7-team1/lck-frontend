@@ -56,7 +56,7 @@ const samplePost: CommunityPost = {
     };
   
     return (
-      <div className="container mx-auto p-6">
+      <div className="container max-w-[695px] mx-auto p-6">
         <button className="mb-4 text-blue-500" onClick={() => router.back()}>
           ← 뒤로가기
         </button>

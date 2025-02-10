@@ -1,45 +1,40 @@
-'use client';
+import SocialLinks from "@/src/components/common/SocialLinks";
+import CommunitySimple from "@/src/components/community/CommunitySimple";
+import PlayerGallery from "@/src/components/player/PlayerGallery";
+import PlayerSchedule from "@/src/components/player/PlayerSchedule";
+import { Player, samplePlayers } from "@/src/types/player";
+import { sampleTeams } from "@/src/types/team";
+import Image from "next/image";
+import { notFound } from "next/navigation";
 
-import SocialLinks from '@/src/components/common/SocialLinks';
-import CommunitySimple from '@/src/components/community/CommunitySimple';
-import PlayerGallery from '@/src/components/player/PlayerGallery';
-import PlayerSchedule from '@/src/components/player/PlayerSchedule';
-import { Player, samplePlayers } from '@/src/types/player';
-import { sampleTeams } from '@/src/types/team';
-import { notFound } from 'next/navigation';
-import { useEffect, useState } from 'react';
+export default function PlayerPage({ params }: { params: { nickname: string } }) {
+  // 닉네임을 소문자로 변환하여 매칭
+  const player: Player | undefined = samplePlayers.find(
+    (p) => p.nickname.toLowerCase() === params.nickname.toLowerCase()
+  );
 
-export default function PlayerPage({
-  params,
-}: {
-  params: { nickname: string };
-}) {
-  const [player, setPlayer] = useState<Player | undefined>(undefined);
-
-  useEffect(() => {
-    const foundPlayer = samplePlayers.find(
-      (p) => p.nickname.toLowerCase() === params.nickname.toLowerCase()
-    );
-    if (!foundPlayer) {
-      notFound();
-    } else {
-      setPlayer(foundPlayer);
-    }
-  }, [params.nickname]);
-
-  if (!player) return null;
+  if (!player) return notFound();
 
   const team = sampleTeams.find((t) => t.id === player.teamId);
 
   return (
-    <div className="container p-6 mx-auto">
+    <div className="container mx-auto p-6">
       <div className="flex flex-col items-center">
+        <Image 
+          src={player.profileImageUrl} 
+          alt={player.nickname} 
+          width={150} 
+          height={150} 
+        />
         <div>
           <h1 className="text-3xl font-bold">{player.nickname}</h1>
           <p className="text-gray-500">{player.name}</p>
           <p className="text-blue-500">♥ {player.fanVotes}</p>
         </div>
-        <SocialLinks links={player.socialLinks} />
+        <SocialLinks 
+          links={player.socialLinks} 
+          iconClassName="w-6 h-6 hover:opacity-75"
+        />
       </div>
 
       <div className="grid grid-cols-10 gap-4 mt-6">

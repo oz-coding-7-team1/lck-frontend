@@ -9,6 +9,7 @@ interface PlayerScheduleProps {
   teamId: number;
 }
 
+// TODO: 서버에 요청할 때 부터 playerId, teamId를 보내서 일정 받아오기
 // 샘플 데이터 (API 연동 시 변경)
 const allEvents: ScheduleEvent[] = [
   {

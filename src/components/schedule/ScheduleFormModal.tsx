@@ -18,8 +18,8 @@ export default function ScheduleFormModal({ onClose, onSave }: ScheduleFormModal
   });
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-      <div className="bg-white p-6 rounded-lg w-96">
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-[9999]">
+      <div className="bg-white p-6 rounded-lg w-96 z-[99999]">
         <h2 className="text-xl font-bold mb-4">새 일정 추가</h2>
 
         <input
