@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import styles from "./SignupPage.module.css";
 
 export default function SignupPage() {
   const [nickname, setNickname] = useState("");
@@ -48,23 +47,23 @@ export default function SignupPage() {
   };
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Sign Up</h1>
-      <form onSubmit={handleSignup} className={styles.form}>
-        <div className={styles.inputGroup}>
-          <input type="text" placeholder="아이디" value={nickname} onChange={(e) => setNickname(e.target.value)} required className={styles.inputField} />
-          <input type="email" placeholder="이메일" value={email} onChange={(e) => setEmail(e.target.value)} required className={styles.inputField} />
-          <input type="password" placeholder="비밀번호" value={password} onChange={(e) => setPassword(e.target.value)} required className={styles.inputField} />
-          <input type="password" placeholder="비밀번호 확인" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required className={styles.inputField} />
+    <div className="flex flex-col items-center justify-center h-screen text-center p-6">
+      <h1 className="text-3xl font-bold mb-4">Sign Up</h1>
+      <form onSubmit={handleSignup} className="flex flex-col gap-4 w-96">
+        <div className="flex flex-col gap-3">
+          <input type="text" placeholder="아이디" value={nickname} onChange={(e) => setNickname(e.target.value)} required className="w-full p-3 text-lg bg-gray-100 border border-gray-300 rounded-md" />
+          <input type="email" placeholder="이메일" value={email} onChange={(e) => setEmail(e.target.value)} required className="w-full p-3 text-lg bg-gray-100 border border-gray-300 rounded-md" />
+          <input type="password" placeholder="비밀번호" value={password} onChange={(e) => setPassword(e.target.value)} required className="w-full p-3 text-lg bg-gray-100 border border-gray-300 rounded-md" />
+          <input type="password" placeholder="비밀번호 확인" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required className="w-full p-3 text-lg bg-gray-100 border border-gray-300 rounded-md" />
         </div>
-        <div className={styles.termsContainer}>
-          <div className={styles.checkboxContainer}>
-            <input type="checkbox" id="agree" checked={agree} onChange={() => setAgree(!agree)} />
+        <div className="flex justify-between items-center text-sm">
+          <div className="flex items-center">
+            <input type="checkbox" id="agree" checked={agree} onChange={() => setAgree(!agree)} className="mr-2" />
             <label htmlFor="agree"> 개인정보 처리방침 동의 </label>
           </div>
-          <a href="/terms" target="_blank" className={styles.termsLink}>(약관 동의 보기)</a>
+          <a href="/terms" target="_blank" className="text-blue-500 underline">(약관 동의 보기)</a>
         </div>
-        <button type="submit" className={styles.joinButton} disabled={loading}>
+        <button type="submit" className={`w-full p-3 text-white rounded-md ${loading ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-700'}`} disabled={loading}>
           {loading ? "처리 중..." : "JOIN"}
         </button>
       </form>
