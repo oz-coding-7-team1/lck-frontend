@@ -1,6 +1,6 @@
 'use client';
 
-import 'tailwindcss/tailwind.css';
+import 'tailwindcss/tailwind.css'; // Ensure this import is correct
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight, Heart } from 'lucide-react';
@@ -24,26 +24,36 @@ export default function Home() {
         { id: 1, nickname: 'CANYON', fanVotes: 5000 },
         { id: 2, nickname: 'NUGURI', fanVotes: 4500 },
         { id: 3, nickname: 'ZEUS', fanVotes: 4700 },
+        { id: 16, nickname: 'DOOR', fanVotes: 4000 },
+        { id: 17, nickname: 'SWORD', fanVotes: 3900 },
       ],
       JUNGLE: [
         { id: 4, nickname: 'PEANUT', fanVotes: 4300 },
         { id: 5, nickname: 'CLOSER', fanVotes: 4200 },
         { id: 6, nickname: 'ONFLEEK', fanVotes: 4100 },
+        { id: 18, nickname: 'SPIRIT', fanVotes: 4000 },
+        { id: 19, nickname: 'HARU', fanVotes: 3900 },
       ],
       MID: [
         { id: 7, nickname: 'FAKER', fanVotes: 5000 },
         { id: 8, nickname: 'CHOVY', fanVotes: 4500 },
         { id: 9, nickname: 'SHOWMAKER', fanVotes: 4700 },
+        { id: 20, nickname: 'PAWN', fanVotes: 4000 },
+        { id: 21, nickname: 'SCOUT', fanVotes: 3900 },
       ],
       BOTTOM: [
         { id: 10, nickname: 'GUMAYUSI', fanVotes: 4700 },
         { id: 11, nickname: 'DEFT', fanVotes: 4600 },
         { id: 12, nickname: 'RULER', fanVotes: 4500 },
+        { id: 22, nickname: 'TEDDY', fanVotes: 4000 },
+        { id: 23, nickname: 'VIPER', fanVotes: 3900 },
       ],
       SUPPORT: [
         { id: 13, nickname: 'KERIA', fanVotes: 4300 },
         { id: 14, nickname: 'LEHENDS', fanVotes: 4200 },
         { id: 15, nickname: 'BERRY', fanVotes: 4100 },
+        { id: 24, nickname: 'LIFE', fanVotes: 4000 },
+        { id: 25, nickname: 'MISSING', fanVotes: 3900 },
       ],
     };
 
@@ -59,8 +69,8 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
-      <div className="py-20 bg-gradient-to-b from-gray-200 to-transparent">
+    <div className="flex flex-col min-h-screen bg-white"> {/* Changed bg-gray-100 to bg-white */}
+      <div className="py-16 bg-gradient-to-b from-gray-200 to-transparent"> {/* Added py-10 */}
         <h1 className="text-2xl font-bold text-center text-gray-900">
           당신의 최애 선수에게 투표하세요
         </h1>
@@ -108,7 +118,7 @@ export default function Home() {
               <div className="grid grid-cols-2 gap-6">
                 <div className="block">
                   <Link href="/player/chovy">
-                    <div className="relative overflow-hidden bg-white shadow-lg aspect-square rounded-xl">
+                    <div className="relative overflow-hidden bg-white shadow-lg aspect-[3/2] rounded-xl"> {/* Adjusted aspect ratio */}
                       <div className="absolute inset-y-0 left-0 w-1/2">
                         <Image
                           src="/icons/chovy.svg"
@@ -138,7 +148,7 @@ export default function Home() {
 
                 <div className="block">
                   <Link href="/player/gumayusi">
-                    <div className="relative overflow-hidden bg-white shadow-lg aspect-square rounded-xl">
+                    <div className="relative overflow-hidden bg-white shadow-lg aspect-[3/2] rounded-xl"> {/* Adjusted aspect ratio */}
                       <div className="absolute inset-y-0 left-0 w-1/2">
                         <Image
                           src="/icons/gumayusi.svg"
@@ -167,7 +177,7 @@ export default function Home() {
                 </div>
               </div>
 
-              {Array.from({ length: 5 }, (_, i) => (
+              {Array.from({ length: 7 }, (_, i) => (
                 <div
                   key={i + 4}
                   className="flex items-center gap-6 p-6 bg-white rounded-lg shadow-md"
@@ -175,20 +185,23 @@ export default function Home() {
                   <div className="flex-shrink-0 w-12 h-12 bg-gray-300 rounded-full"></div>
                   <div>
                     <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
-                      KERIA
+                      Player {i + 4}
                       <Image
-                        src="/icons/keria.svg"
-                        alt="KERIA"
+                        src={`/icons/player${i + 4}.svg`}
+                        alt={`Player ${i + 4}`}
                         width={24}
                         height={24}
                         className="w-6 h-6"
                       />
                     </div>
-                    <div className="text-lg text-gray-600">류민석</div>
+                    <div className="text-lg text-gray-600">
+                      Player Name {i + 4}
+                    </div>
                   </div>
                   <div className="flex items-center gap-4 ml-auto text-lg text-gray-500">
                     <Heart className="w-6 h-6 text-red-500" />
-                    230,000
+                    {50000 + i * 1000}{' '}
+                    {/* Replace Math.random() with a consistent value */}
                   </div>
                 </div>
               ))}
@@ -201,10 +214,16 @@ export default function Home() {
                 Team Rank
               </h2>
               <div className="p-10 space-y-8 bg-white rounded-lg shadow-md">
+                {' '}
+                {/* Adjusted padding */}
                 <div className="flex flex-col items-center gap-6 p-6 bg-gray-100 rounded-lg">
+                  {' '}
+                  {/* Adjusted padding */}
                   <div className="text-lg font-bold text-gray-600">1st</div>
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 overflow-hidden bg-gray-300 rounded-full">
+                      {' '}
+                      {/* Adjusted size */}
                       <Image
                         src="/logos/t1.svg"
                         alt="T1"
@@ -253,10 +272,14 @@ export default function Home() {
                     key={index}
                   >
                     <div className="flex items-center gap-6 p-4">
+                      {' '}
+                      {/* Adjusted gap and padding */}
                       <div className="text-lg font-bold text-gray-600">
                         {team.rank}
                       </div>
                       <div className="w-12 h-12 overflow-hidden bg-gray-300 rounded-full">
+                        {' '}
+                        {/* Adjusted size */}
                         <Image
                           src={team.logo}
                           alt={team.name}
@@ -279,11 +302,17 @@ export default function Home() {
             </section>
 
             <section>
-              <h2 className="mt-4 mb-4 text-xl font-bold text-gray-800">
+              {' '}
+              {/* Increased margin-top */}
+              <h2 className="mt-20 text-xl font-bold text-gray-800">
                 Lane Rank
               </h2>
-              <div className="p-6 mt-4 space-y-6 bg-white rounded-lg shadow-md">
+              <div className="p-10 mt-4 space-y-8 bg-white rounded-lg shadow-md">
+                {' '}
+                {/* Adjusted padding */}
                 <div className="flex items-center justify-between mb-6">
+                  {' '}
+                  {/* Adjusted margin */}
                   <button onClick={handlePrevLane}>
                     <ChevronLeft className="w-6 h-6 text-gray-500" />
                   </button>
@@ -301,10 +330,16 @@ export default function Home() {
                     <ChevronRight className="w-6 h-6 text-gray-500" />
                   </button>
                 </div>
-                {playersByLane.map((player, index) => (
+                {playersByLane.slice(0, 5).map((player, index) => (
                   <div key={player.id} className="flex items-center gap-6 p-4">
-                    <div className="text-lg font-bold text-gray-600">{index + 1}</div>
+                    {' '}
+                    {/* Adjusted gap and padding */}
+                    <div className="text-lg font-bold text-gray-600">
+                      {index + 1}
+                    </div>
                     <div className="w-12 h-12 overflow-hidden bg-gray-300 rounded-full">
+                      {' '}
+                      {/* Adjusted size */}
                       <Image
                         src={`/icons/${player.nickname.toLowerCase()}.svg`}
                         alt={player.nickname}

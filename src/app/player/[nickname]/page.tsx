@@ -36,18 +36,34 @@ export default function PlayerPage({ params }: { params: { nickname: string } })
           iconClassName="w-6 h-6 hover:opacity-75"
         />
       </div>
-      
+
       <div className="grid grid-cols-10 gap-4 mt-6">
         <div className="col-span-3 p-4 border rounded-lg shadow">
           <h2 className="text-xl font-bold">PLAYER INFO.</h2>
-          <p><strong>이름</strong> {player.name}</p>
-          <p><strong>생년월일</strong> {player.birthdate}</p>
-          <p><strong>국적</strong> {player.nationality}</p>
-          <p><strong>데뷔</strong> {player.debutDate}</p>
-          <p><strong>포지션</strong> {player.position}</p>
-          <p><strong>소속 팀</strong> {team ? team.name : "소속팀 없음"}</p>
-          <p><strong>소속사</strong> {player.agency}</p>
-          <p><strong>ID</strong> {player.gamename}</p>
+          <p>
+            <strong>이름</strong> {player.name}
+          </p>
+          <p>
+            <strong>생년월일</strong> {player.birthdate}
+          </p>
+          <p>
+            <strong>국적</strong> {player.nationality}
+          </p>
+          <p>
+            <strong>데뷔</strong> {player.debutDate}
+          </p>
+          <p>
+            <strong>포지션</strong> {player.position}
+          </p>
+          <p>
+            <strong>소속 팀</strong> {team ? team.name : '소속팀 없음'}
+          </p>
+          <p>
+            <strong>소속사</strong> {player.agency}
+          </p>
+          <p>
+            <strong>ID</strong> {player.gamename}
+          </p>
         </div>
         <div className="col-span-7">
           <PlayerSchedule playerId={player.id} teamId={player.teamId} />
