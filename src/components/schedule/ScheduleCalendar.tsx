@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Calendar, Views, momentLocalizer } from "react-big-calendar";
+import { Calendar, View, Views, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { ScheduleEvent } from "@/src/types/schedule";
@@ -49,7 +49,7 @@ interface ScheduleCalendarProps {
 }
 
 export default function ScheduleCalendar({ events }: ScheduleCalendarProps) {
-  const [view, setView] = useState(Views.MONTH);
+  const [viewType, setViewType] = useState<View>(Views.MONTH);
   const [selectedEvent, setSelectedEvent] = useState<ScheduleEvent | null>(null);
 
   return (
@@ -61,14 +61,14 @@ export default function ScheduleCalendar({ events }: ScheduleCalendarProps) {
         startAccessor="start"
         endAccessor="end"
         views={[Views.MONTH, Views.WEEK, Views.DAY]}
-        defaultView={view}
-        onView={(newView) => setView(newView)}
+        defaultView={viewType}
+        onView={(newView) => setViewType(newView)}
         style={{ height: 600 }}
         eventPropGetter={(event) => {
           const color = categoryColors[event.type] || "#ccc";
 
           // ✅ Month 뷰에서는 배경색 제거
-          if (view === Views.MONTH) {
+          if (viewType === Views.MONTH) {
             return {
               style: {
                 backgroundColor: "transparent",
@@ -88,7 +88,7 @@ export default function ScheduleCalendar({ events }: ScheduleCalendarProps) {
           };
         }}
         components={{
-          event: view === Views.MONTH ? CustomEvent : undefined, // Month 뷰에서만 커스텀 UI 사용
+          event: viewType === Views.MONTH ? CustomEvent : undefined, // Month 뷰에서만 커스텀 UI 사용
         }}
         onSelectEvent={(event) => setSelectedEvent(event as ScheduleEvent)}
       />

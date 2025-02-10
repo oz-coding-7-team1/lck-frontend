@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 
-export default function CommunityWrite() {
+export default function PostWrite() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const type = searchParams.get("type"); // "team" 또는 "player"
@@ -30,6 +30,8 @@ export default function CommunityWrite() {
       alert("제목과 본문을 입력해주세요.");
       return;
     }
+
+    // TODO: image를 제외한 post 먼저 생성하고,  image를 따로 업로드해서 연결할지, Image와 post를 한번에 생성할지 결정해야함.
 
     const newPost = {
       id: Math.floor(Math.random() * 10000),

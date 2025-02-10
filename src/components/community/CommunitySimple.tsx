@@ -36,7 +36,7 @@ export default function CommunitySimple({ type, entityId }: CommunityProps) {
     <>
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold">커뮤니티</h2>
-        <Link href={`/community/write?type=${type}&id=${entityId}`} className="border px-4 py-2 rounded-lg">
+        <Link href={`/posts/write?type=${type}&id=${entityId}`} className="border px-4 py-2 rounded-lg">
           글쓰기
         </Link>
       </div>
@@ -49,7 +49,7 @@ export default function CommunitySimple({ type, entityId }: CommunityProps) {
               <p className="font-bold">{post.author}</p>
             </div>
 
-            <Link href={`/community/${post.id}`} className="block mt-2">
+            <Link href={`/posts/${post.id}`} className="block mt-2">
               <h3 className="font-semibold">{post.title}</h3>
               <p className="text-gray-500">{post.content}</p>
               {/* Swiper 적용된 이미지 슬라이드 */}

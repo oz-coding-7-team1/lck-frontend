@@ -16,7 +16,7 @@ export interface Player {
       twitch?: string;
     }; // SNS 링크
     fanVotes?: number; // 팬 투표 수
-    profileImageUrl?: string; //선수 프로필 이미지
+    profileImageUrl: string; //선수 프로필 이미지
     backgroundImageUrl?: string; //선수 상단 배경 이미지
   }
 
