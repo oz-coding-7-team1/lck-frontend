@@ -2,15 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signIn, useSession } from "next-auth/react"; // ✅ 추가
-import styles from "./LoginPage.module.css";
+import { signIn, useSession } from "next-auth/react";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const {data: ssesion, status} = useSession()
-  console.log(ssesion, status)
+  const { data: session, status } = useSession();
+  console.log(session, status);
   const router = useRouter();
 
   const dummyUsername = "admin";
@@ -35,30 +34,48 @@ export default function LoginPage() {
   };
 
   return (
-    <div className={styles.container}>
-      <h1>LOGIN</h1>
-      <form onSubmit={handleLogin} className={styles.form}>
-        <div className={styles.inputGroup}>
-          <input type="text" placeholder="아이디" value={username} onChange={(e) => setUsername(e.target.value)} required />
-          <input type="password" placeholder="비밀번호" value={password} onChange={(e) => setPassword(e.target.value)} required />
+    <div className="flex flex-col items-center justify-center h-screen gap-6 p-8">
+      <h1 className="text-3xl font-bold">LOGIN</h1>
+      <form onSubmit={handleLogin} className="flex flex-col items-center gap-4 w-96">
+        <div className="flex flex-col gap-2 w-full">
+          <input 
+            type="text" 
+            placeholder="아이디" 
+            value={username} 
+            onChange={(e) => setUsername(e.target.value)} 
+            required 
+            className="w-full p-3 text-lg bg-gray-100 border border-gray-300 rounded-md"
+          />
+          <input 
+            type="password" 
+            placeholder="비밀번호" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} 
+            required 
+            className="w-full p-3 text-lg bg-gray-100 border border-gray-300 rounded-md"
+          />
         </div>
-        <button type="submit" className={styles.loginButton} disabled={loading}>
+        <button 
+          type="submit" 
+          className={`w-full p-3 text-white rounded-md ${loading ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-700'}`} 
+          disabled={loading}
+        >
           {loading ? "처리 중..." : "LOGIN"}
         </button>
       </form>
 
-      <div className={styles.socialLogin}>
+      <div className="flex flex-col items-center w-full">
         <p>소셜 로그인</p>
-        <div className={styles.socialIcons}>
-          <button className={styles.kakao} onClick={() => signIn("kakao", { callbackUrl: "/" })}>카카오</button>
-          <button className={styles.google} onClick={() => signIn("google", { callbackUrl: "/" })}>구글</button>
-          <button className={styles.naver} onClick={() => signIn("naver", { callbackUrl: "/" })}>네이버</button>
+        <div className="flex gap-2 w-full justify-center">
+          <button className="w-32 h-10 bg-yellow-400 text-black border border-black rounded-md" onClick={() => signIn("kakao", { callbackUrl: "/" })}>카카오</button>
+          <button className="w-32 h-10 bg-white text-black border border-black rounded-md" onClick={() => signIn("google", { callbackUrl: "/" })}>구글</button>
+          <button className="w-32 h-10 bg-green-500 text-white border border-black rounded-md" onClick={() => signIn("naver", { callbackUrl: "/" })}>네이버</button>
         </div>
       </div>
 
-      <div className={styles.signupContainer}>
-        <p>아직 회원이 아니신가요?</p>
-        <button onClick={() => router.push("/join")} className={styles.signupButton}>회원가입</button>
+      <div className="flex items-center gap-2">
+        <p className="text-sm">아직 회원이 아니신가요?</p>
+        <button onClick={() => router.push("/join")} className="text-sm text-blue-500 underline">회원가입</button>
       </div>
     </div>
   );

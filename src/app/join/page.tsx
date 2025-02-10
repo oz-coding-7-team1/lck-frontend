@@ -8,23 +8,25 @@ export default function SignupPage() {
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [agree, setAgree] = useState(false);
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [agreement, setAgreement] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
+    if (password !== passwordConfirm) {
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
-    if (!agree) {
+    if (!agreement) {
       alert("개인정보 처리방침에 동의해야 합니다.");
       return;
     }
 
     setLoading(true);
+
+//TODO fetch대신 axios쓰기
 
     try {
       const res = await fetch("/api/auth/signup", {
@@ -49,20 +51,20 @@ export default function SignupPage() {
 
   return (
     <div className={styles.container}>
-      <h1>Sign Up</h1>
+      <h1 className={styles.title}>Sign Up</h1>
       <form onSubmit={handleSignup} className={styles.form}>
         <div className={styles.inputGroup}>
-          <input type="text" placeholder="아이디" value={nickname} onChange={(e) => setNickname(e.target.value)} required />
-          <input type="email" placeholder="이메일" value={email} onChange={(e) => setEmail(e.target.value)} required />
-          <input type="password" placeholder="비밀번호" value={password} onChange={(e) => setPassword(e.target.value)} required />
-          <input type="password" placeholder="비밀번호 확인" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+          <input type="text" placeholder="아이디" value={nickname} onChange={(e) => setNickname(e.target.value)} required className={styles.inputField} />
+          <input type="email" placeholder="이메일" value={email} onChange={(e) => setEmail(e.target.value)} required className={styles.inputField} />
+          <input type="password" placeholder="비밀번호" value={password} onChange={(e) => setPassword(e.target.value)} required className={styles.inputField} />
+          <input type="password" placeholder="비밀번호 확인" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} required className={styles.inputField} />
         </div>
         <div className={styles.termsContainer}>
-          <div>
-            <input type="checkbox" id="agree" checked={agree} onChange={() => setAgree(!agree)} />
+          <div className={styles.checkboxContainer}>
+            <input type="checkbox" id="agree" checked={agreement} onChange={() => setAgreement(!agreement)} />
             <label htmlFor="agree"> 개인정보 처리방침 동의 </label>
           </div>
-          <a href="/terms" target="_blank">(약관 동의 보기)</a>
+          <a href="/terms" target="_blank" className={styles.termsLink}>(약관 동의 보기)</a>
         </div>
         <button type="submit" className={styles.joinButton} disabled={loading}>
           {loading ? "처리 중..." : "JOIN"}
