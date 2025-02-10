@@ -3,6 +3,7 @@
 import { User } from 'lucide-react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { signOut, useSession } from 'next-auth/react';
 
 export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
@@ -15,6 +16,7 @@ export default function ProfilePage() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const router = useRouter();
+  const { data: session } = useSession();
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -24,9 +26,17 @@ export default function ProfilePage() {
     setIsChangingPassword(true);
   };
 
-  const handleLogoutClick = () => {
-    alert('User logged out');
-    router.push('/');
+  const handleLogoutClick = async () => {
+    try {
+      // Save any necessary data to session storage before logging out
+      sessionStorage.setItem('lastLogoutTime', new Date().toISOString());
+      sessionStorage.setItem('lastLoggedInUser', session?.user?.name || 'unknown');
+
+      await signOut({ redirect: false });
+      router.push('/');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
   };
 
   const handleDeleteAccountClick = () => {

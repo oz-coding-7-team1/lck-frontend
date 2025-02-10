@@ -4,6 +4,7 @@ import { Search, User, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 const mockData = [
   { name: "FAKER", koreanName: "이상혁" },
@@ -18,6 +19,7 @@ export default function Header() {
   >([]);
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     if (searchQuery) {
@@ -31,6 +33,18 @@ export default function Header() {
       setSearchResults([]);
     }
   }, [searchQuery]);
+
+  useEffect(() => {
+    // Check session storage for logout information
+    const lastLogoutTime = sessionStorage.getItem("lastLogoutTime");
+    const lastLoggedInUser = sessionStorage.getItem("lastLoggedInUser");
+
+    if (lastLogoutTime && lastLoggedInUser) {
+      console.log(
+        `Last logout: ${lastLogoutTime} by user: ${lastLoggedInUser}`
+      );
+    }
+  }, []);
 
   const handleSearch = () => {
     if (searchQuery) {
@@ -53,7 +67,53 @@ export default function Header() {
   };
 
   const handleMyPageClick = () => {
-    router.push("/login");
+    if (status === "authenticated") {
+      router.push("/mypage");
+    } else {
+      router.push("/login");
+    }
+  };
+
+  // Update the navigation menu to show different options based on auth status
+  const renderNavItems = () => {
+    const commonItems = (
+      <>
+        <Link
+          href="/"
+          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+        >
+          Home
+        </Link>
+        <Link
+          href="/playerlist"
+          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+        >
+          Player
+        </Link>
+        <Link
+          href="/teamlist"
+          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+        >
+          Team
+        </Link>
+      </>
+    );
+
+    if (status === "authenticated") {
+      return (
+        <>
+          {commonItems}
+          <Link
+            href="/mypage"
+            className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+          >
+            내 프로필
+          </Link>
+        </>
+      );
+    }
+
+    return commonItems;
   };
 
   return (
@@ -95,8 +155,15 @@ export default function Header() {
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <button onClick={handleMyPageClick}>
-              <User className="w-6 h-6 text-gray-600" />
+            <button
+              onClick={handleMyPageClick}
+              title={status === "authenticated" ? "내 프로필" : "로그인"}
+            >
+              <User
+                className={`w-6 h-6 ${
+                  status === "authenticated" ? "text-rose-500" : "text-gray-600"
+                }`}
+              />
             </button>
             <button onClick={toggleMenu}>
               {menuOpen ? (
@@ -117,32 +184,7 @@ export default function Header() {
             <button className="absolute top-4 right-4" onClick={toggleMenu}>
               <X className="w-6 h-6 text-gray-600" />
             </button>
-            <nav className="mt-16 space-y-4">
-              <Link
-                href="/"
-                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-              >
-                Home
-              </Link>
-              <Link
-                href="/playerlist"
-                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-              >
-                Player
-              </Link>
-              <Link
-                href="/teamlist"
-                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-              >
-                Team
-              </Link>
-              <Link
-                href="/mypage"
-                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-              >
-                My CHOEAE
-              </Link>
-            </nav>
+            <nav className="mt-16 space-y-4">{renderNavItems()}</nav>
           </div>
         </div>
       )}
