@@ -31,6 +31,8 @@ export default function CommunityWrite() {
       return;
     }
 
+    //TODO image를 제외한 post를 먼저 생성하고, 그 다음 image를 따로 업로드 해서 연결 할지, 아니면 image를 포함한 post를 한번에 생성할지 결정해야함
+
     const newPost = {
       id: Math.floor(Math.random() * 10000),
       author: "사용자 닉네임",
@@ -48,12 +50,12 @@ export default function CommunityWrite() {
   };
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container p-6 mx-auto">
       <button className="mb-4 text-blue-500" onClick={() => router.back()}>
         ← 뒤로가기
       </button>
 
-      <h1 className="text-2xl font-bold mb-4">게시글 작성</h1>
+      <h1 className="mb-4 text-2xl font-bold">게시글 작성</h1>
 
       <div className="mb-4">
         <label className="block font-semibold">제목</label>
@@ -61,7 +63,7 @@ export default function CommunityWrite() {
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full border p-2 rounded-lg"
+          className="w-full p-2 border rounded-lg"
           placeholder="제목을 입력하세요"
         />
       </div>
@@ -71,14 +73,20 @@ export default function CommunityWrite() {
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          className="w-full border p-2 rounded-lg h-40"
+          className="w-full h-40 p-2 border rounded-lg"
           placeholder="내용을 입력하세요"
         />
       </div>
 
       <div className="mb-4">
         <label className="block font-semibold">이미지 첨부 (최대 10개)</label>
-        <input type="file" multiple accept="image/*" onChange={handleImageUpload} className="w-full" />
+        <input
+          type="file"
+          multiple
+          accept="image/*"
+          onChange={handleImageUpload}
+          className="w-full"
+        />
         <div className="grid grid-cols-5 gap-2 mt-2">
           {images.map((image, index) => (
             <div key={index} className="relative">
@@ -90,7 +98,7 @@ export default function CommunityWrite() {
                 className="rounded-lg"
               />
               <button
-                className="absolute top-0 right-0 bg-red-500 text-white text-xs px-2 py-1 rounded-full"
+                className="absolute top-0 right-0 px-2 py-1 text-xs text-white bg-red-500 rounded-full"
                 onClick={() => setImages(images.filter((_, i) => i !== index))}
               >
                 ✖
@@ -102,7 +110,7 @@ export default function CommunityWrite() {
 
       <button
         onClick={handleSubmit}
-        className="w-full bg-blue-500 text-white py-2 rounded-lg"
+        className="w-full py-2 text-white bg-blue-500 rounded-lg"
       >
         작성 완료
       </button>
