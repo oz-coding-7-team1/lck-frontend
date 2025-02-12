@@ -7,13 +7,16 @@ import { useState, useEffect, useMemo } from "react";
 import { samplePlayers, Player } from "@/src/types/player";
 
 export default function Home() {
-  const lanes = useMemo(() => [
-    { name: "TOP", icon: "/icons/top.svg" },
-    { name: "JUNGLE", icon: "/icons/jungle.svg" },
-    { name: "MID", icon: "/icons/mid.svg" },
-    { name: "BOT", icon: "/icons/bottom.svg" }, // Changed from "BOTTOM" to "BOT"
-    { name: "SUPPORT", icon: "/icons/support.svg" },
-  ], []);
+  const lanes = useMemo(
+    () => [
+      { name: "TOP", icon: "/icons/top.svg" },
+      { name: "JUNGLE", icon: "/icons/jungle.svg" },
+      { name: "MID", icon: "/icons/mid.svg" },
+      { name: "BOT", icon: "/icons/bottom.svg" }, // Changed from "BOTTOM" to "BOT"
+      { name: "SUPPORT", icon: "/icons/support.svg" },
+    ],
+    []
+  );
 
   const [currentLane, setCurrentLane] = useState(0);
   const [playersByLane, setPlayersByLane] = useState<Player[]>([]);
@@ -46,8 +49,10 @@ export default function Home() {
         </h1>
       </div>
       <div className="container flex-grow px-4 mx-auto sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-4">
-          <section className="col-span-2 space-y-6">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+          {" "}
+          {/* Changed grid layout */}
+          <section className="space-y-6">
             <h2 className="flex items-center gap-2 text-xl font-bold text-gray-800">
               <span className="w-3 h-3 bg-yellow-400 rounded-full"></span>
               Player Rank
@@ -180,10 +185,9 @@ export default function Home() {
               ))}
             </div>
           </section>
-
-          <div className="col-span-2 space-y-12 md:col-span-1 lg:col-span-3">
+          <div className="space-y-12">
             {" "}
-            {/* Changed space-y-8 to space-y-12 */}
+            {/* Removed col-span classes and simplified */}
             <section>
               <h2 className="mt-4 text-xl font-bold text-gray-800">
                 Team Rank
