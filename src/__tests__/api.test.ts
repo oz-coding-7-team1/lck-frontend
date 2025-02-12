@@ -1,8 +1,6 @@
 import { setupServer } from "msw/node";
 import { handlers } from "./handlers";
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
-import Home from "../app/page";
 
 const server = setupServer(...handlers);
 const baseUrl = "http://localhost";
@@ -13,16 +11,16 @@ afterAll(() => server.close());
 
 test("fetches player information", async () => {
   const response = await fetch(`${baseUrl}/api/players`);
-  
+
   if (!response.ok) {
-    console.error('Response status:', response.status);
-    console.error('Response status text:', response.statusText);
+    console.error("Response status:", response.status);
+    console.error("Response status text:", response.statusText);
   }
-  
+
   expect(response.ok).toBe(true);
   const data = await response.json();
-  console.log('Player response:', data);
-  
+  console.log("Player response:", data);
+
   expect(Array.isArray(data.players)).toBe(true);
   expect(data.players).toHaveLength(4);
   expect(data.players[0].name).toBe("FAKER");
@@ -33,16 +31,16 @@ test("fetches player information", async () => {
 
 test("fetches team information", async () => {
   const response = await fetch(`${baseUrl}/api/teams`);
-  
+
   if (!response.ok) {
-    console.error('Response status:', response.status);
-    console.error('Response status text:', response.statusText);
+    console.error("Response status:", response.status);
+    console.error("Response status text:", response.statusText);
   }
-  
+
   expect(response.ok).toBe(true);
   const data = await response.json();
-  console.log('Team response:', data);
-  
+  console.log("Team response:", data);
+
   expect(Array.isArray(data.teams)).toBe(true);
   expect(data.teams).toHaveLength(5);
   expect(data.teams[0].name).toBe("T1");

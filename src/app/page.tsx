@@ -1,31 +1,30 @@
 "use client";
 
-import "tailwindcss/tailwind.css"; // Ensure this import is correct
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, Heart } from "lucide-react";
-import { useState, useEffect } from "react";
-import { samplePlayers } from "@/src/types/player";
+import { useState, useEffect, useMemo } from "react";
+import { samplePlayers, Player } from "@/src/types/player";
 
 export default function Home() {
-  const lanes = [
+  const lanes = useMemo(() => [
     { name: "TOP", icon: "/icons/top.svg" },
     { name: "JUNGLE", icon: "/icons/jungle.svg" },
     { name: "MID", icon: "/icons/mid.svg" },
     { name: "BOT", icon: "/icons/bottom.svg" }, // Changed from "BOTTOM" to "BOT"
     { name: "SUPPORT", icon: "/icons/support.svg" },
-  ];
+  ], []);
+
   const [currentLane, setCurrentLane] = useState(0);
-  const [playersByLane, setPlayersByLane] = useState([]);
+  const [playersByLane, setPlayersByLane] = useState<Player[]>([]);
 
   useEffect(() => {
     // Filter players by current lane and sort by fanVotes
     const filteredPlayers = samplePlayers
       .filter((player) => player.position === lanes[currentLane].name)
-      .sort((a, b) => b.fanVotes - a.fanVotes);
-
+      .sort((a, b) => (b?.fanVotes || 0) - (a?.fanVotes || 0));
     setPlayersByLane(filteredPlayers);
-  }, [currentLane]);
+  }, [lanes, currentLane]);
 
   const handleNextLane = () => {
     setCurrentLane((prev) => (prev + 1) % lanes.length);
@@ -182,14 +181,16 @@ export default function Home() {
             </div>
           </section>
 
-          <div className="col-span-2 space-y-6">
+          <div className="col-span-2 space-y-12 md:col-span-1 lg:col-span-3">
+            {" "}
+            {/* Changed space-y-8 to space-y-12 */}
             <section>
-              <h2 className="mb-4 text-xl font-bold text-gray-800">
+              <h2 className="mt-4 text-xl font-bold text-gray-800">
                 Team Rank
               </h2>
-              <div className="p-10 space-y-8 bg-white rounded-lg shadow-md">
+              <div className="p-10 mb-8 space-y-8 bg-white rounded-lg shadow-md">
                 {" "}
-                {/* Adjusted padding */}
+                {/* Added mb-8 */}
                 <div className="flex flex-col items-center gap-6 p-6 bg-gray-100 rounded-lg">
                   {" "}
                   {/* Adjusted padding */}
@@ -274,11 +275,10 @@ export default function Home() {
                 ))}
               </div>
             </section>
-
             <section>
-              {" "}
-              {/* Increased margin-top */}
-              <h2 className="mt-20 text-xl font-bold text-gray-800">
+              <h2 className="text-xl font-bold text-gray-800">
+                {" "}
+                {/* Removed mt-20 since we're using space-y-12 above */}
                 Lane Rank
               </h2>
               <div className="p-10 mt-4 space-y-8 bg-white rounded-lg shadow-md">
