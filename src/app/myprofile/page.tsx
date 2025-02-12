@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
 
 export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
@@ -16,7 +15,6 @@ export default function ProfilePage() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const router = useRouter();
-  const { data: session } = useSession();
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -26,21 +24,15 @@ export default function ProfilePage() {
     setIsChangingPassword(true);
   };
 
-  const handleLogoutClick = async () => {
-    try {
-      // Save any necessary data to session storage before logging out
-      sessionStorage.setItem("lastLogoutTime", new Date().toISOString());
-      sessionStorage.setItem(
-        "lastLoggedInUser",
-        session?.user?.name || "unknown"
-      );
+  const handleLogoutClick = () => {
+    alert("User logged out");
+    router.push("/");
+  };
 
-      alert("유저 회원탈퇴");
-      // Logic to delete the user's account goes here
-      router.push("/");
-    } catch (error) {
-      console.error("Logout failed", error);
-    }
+  const handleDeleteAccountClick = () => {
+    alert("유저 회원탈퇴");
+    // Logic to delete the user's account goes here
+    router.push("/");
   };
 
   const handleSaveClick = () => {
@@ -122,7 +114,10 @@ export default function ProfilePage() {
           >
             로그아웃
           </p>
-          <p className="w-full px-4 py-2 font-bold text-center text-red-500 cursor-pointer hover:underline">
+          <p
+            className="w-full px-4 py-2 font-bold text-center text-red-500 cursor-pointer hover:underline"
+            onClick={handleDeleteAccountClick}
+          >
             회원탈퇴
           </p>
         </div>
