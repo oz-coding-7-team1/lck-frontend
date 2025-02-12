@@ -19,7 +19,7 @@ export default function Header() {
   >([]);
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { status } = useSession();
 
   useEffect(() => {
     if (searchQuery) {
@@ -178,7 +178,7 @@ export default function Header() {
       {menuOpen && (
         <div
           className="fixed inset-0 z-20 bg-black bg-opacity-50"
-          onClick={toggleMenu}
+          onClick={() => setMenuOpen(false)}
         >
           <div className="fixed top-0 right-0 z-30 w-64 h-full bg-white shadow-lg">
             <button className="absolute top-4 right-4" onClick={toggleMenu}>
