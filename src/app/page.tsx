@@ -1,63 +1,30 @@
-'use client';
+"use client";
 
-import 'tailwindcss/tailwind.css'; // Ensure this import is correct
-import Link from 'next/link';
-import Image from 'next/image';
-import { ChevronLeft, ChevronRight, Heart } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { samplePlayers } from '@/src/types/player';
+import "tailwindcss/tailwind.css"; // Ensure this import is correct
+import Link from "next/link";
+import Image from "next/image";
+import { ChevronLeft, ChevronRight, Heart } from "lucide-react";
+import { useState, useEffect } from "react";
+import { samplePlayers } from "@/src/types/player";
 
 export default function Home() {
   const lanes = [
-    { name: 'TOP', icon: '/icons/top.svg' },
-    { name: 'JUNGLE', icon: '/icons/jungle.svg' },
-    { name: 'MID', icon: '/icons/mid.svg' },
-    { name: 'BOTTOM', icon: '/icons/bottom.svg' },
-    { name: 'SUPPORT', icon: '/icons/support.svg' },
+    { name: "TOP", icon: "/icons/top.svg" },
+    { name: "JUNGLE", icon: "/icons/jungle.svg" },
+    { name: "MID", icon: "/icons/mid.svg" },
+    { name: "BOT", icon: "/icons/bottom.svg" }, // Changed from "BOTTOM" to "BOT"
+    { name: "SUPPORT", icon: "/icons/support.svg" },
   ];
   const [currentLane, setCurrentLane] = useState(0);
   const [playersByLane, setPlayersByLane] = useState([]);
 
   useEffect(() => {
-    const mockPlayersByLane = {
-      TOP: [
-        { id: 1, nickname: 'CANYON', fanVotes: 5000 },
-        { id: 2, nickname: 'NUGURI', fanVotes: 4500 },
-        { id: 3, nickname: 'ZEUS', fanVotes: 4700 },
-        { id: 16, nickname: 'DOOR', fanVotes: 4000 },
-        { id: 17, nickname: 'SWORD', fanVotes: 3900 },
-      ],
-      JUNGLE: [
-        { id: 4, nickname: 'PEANUT', fanVotes: 4300 },
-        { id: 5, nickname: 'CLOSER', fanVotes: 4200 },
-        { id: 6, nickname: 'ONFLEEK', fanVotes: 4100 },
-        { id: 18, nickname: 'SPIRIT', fanVotes: 4000 },
-        { id: 19, nickname: 'HARU', fanVotes: 3900 },
-      ],
-      MID: [
-        { id: 7, nickname: 'FAKER', fanVotes: 5000 },
-        { id: 8, nickname: 'CHOVY', fanVotes: 4500 },
-        { id: 9, nickname: 'SHOWMAKER', fanVotes: 4700 },
-        { id: 20, nickname: 'PAWN', fanVotes: 4000 },
-        { id: 21, nickname: 'SCOUT', fanVotes: 3900 },
-      ],
-      BOTTOM: [
-        { id: 10, nickname: 'GUMAYUSI', fanVotes: 4700 },
-        { id: 11, nickname: 'DEFT', fanVotes: 4600 },
-        { id: 12, nickname: 'RULER', fanVotes: 4500 },
-        { id: 22, nickname: 'TEDDY', fanVotes: 4000 },
-        { id: 23, nickname: 'VIPER', fanVotes: 3900 },
-      ],
-      SUPPORT: [
-        { id: 13, nickname: 'KERIA', fanVotes: 4300 },
-        { id: 14, nickname: 'LEHENDS', fanVotes: 4200 },
-        { id: 15, nickname: 'BERRY', fanVotes: 4100 },
-        { id: 24, nickname: 'LIFE', fanVotes: 4000 },
-        { id: 25, nickname: 'MISSING', fanVotes: 3900 },
-      ],
-    };
+    // Filter players by current lane and sort by fanVotes
+    const filteredPlayers = samplePlayers
+      .filter((player) => player.position === lanes[currentLane].name)
+      .sort((a, b) => b.fanVotes - a.fanVotes);
 
-    setPlayersByLane(mockPlayersByLane[lanes[currentLane].name]);
+    setPlayersByLane(filteredPlayers);
   }, [currentLane]);
 
   const handleNextLane = () => {
@@ -69,13 +36,16 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-white"> {/* Changed bg-gray-100 to bg-white */}
-      <div className="py-16 bg-gradient-to-b from-gray-200 to-transparent"> {/* Added py-10 */}
+    <div className="flex flex-col min-h-screen bg-white">
+      {" "}
+      {/* Changed bg-gray-100 to bg-white */}
+      <div className="py-16 bg-gradient-to-b from-gray-200 to-transparent">
+        {" "}
+        {/* Added py-10 */}
         <h1 className="text-2xl font-bold text-center text-gray-900">
           당신의 최애 선수에게 투표하세요
         </h1>
       </div>
-
       <div className="container flex-grow px-4 mx-auto sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-4">
           <section className="col-span-2 space-y-6">
@@ -118,7 +88,9 @@ export default function Home() {
               <div className="grid grid-cols-2 gap-6">
                 <div className="block">
                   <Link href="/player/chovy">
-                    <div className="relative overflow-hidden bg-white shadow-lg aspect-[3/2] rounded-xl"> {/* Adjusted aspect ratio */}
+                    <div className="relative overflow-hidden bg-white shadow-lg aspect-[3/2] rounded-xl">
+                      {" "}
+                      {/* Adjusted aspect ratio */}
                       <div className="absolute inset-y-0 left-0 w-1/2">
                         <Image
                           src="/icons/chovy.svg"
@@ -148,7 +120,9 @@ export default function Home() {
 
                 <div className="block">
                   <Link href="/player/gumayusi">
-                    <div className="relative overflow-hidden bg-white shadow-lg aspect-[3/2] rounded-xl"> {/* Adjusted aspect ratio */}
+                    <div className="relative overflow-hidden bg-white shadow-lg aspect-[3/2] rounded-xl">
+                      {" "}
+                      {/* Adjusted aspect ratio */}
                       <div className="absolute inset-y-0 left-0 w-1/2">
                         <Image
                           src="/icons/gumayusi.svg"
@@ -200,7 +174,7 @@ export default function Home() {
                   </div>
                   <div className="flex items-center gap-4 ml-auto text-lg text-gray-500">
                     <Heart className="w-6 h-6 text-red-500" />
-                    {50000 + i * 1000}{' '}
+                    {50000 + i * 1000}{" "}
                     {/* Replace Math.random() with a consistent value */}
                   </div>
                 </div>
@@ -214,15 +188,15 @@ export default function Home() {
                 Team Rank
               </h2>
               <div className="p-10 space-y-8 bg-white rounded-lg shadow-md">
-                {' '}
+                {" "}
                 {/* Adjusted padding */}
                 <div className="flex flex-col items-center gap-6 p-6 bg-gray-100 rounded-lg">
-                  {' '}
+                  {" "}
                   {/* Adjusted padding */}
                   <div className="text-lg font-bold text-gray-600">1st</div>
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 overflow-hidden bg-gray-300 rounded-full">
-                      {' '}
+                      {" "}
                       {/* Adjusted size */}
                       <Image
                         src="/logos/t1.svg"
@@ -242,43 +216,43 @@ export default function Home() {
                 {[
                   {
                     rank: 2,
-                    name: 'GEN.G',
-                    votes: '220,000',
-                    logo: '/logos/geng.svg',
+                    name: "GEN.G",
+                    votes: "220,000",
+                    logo: "/logos/geng.svg",
                   },
                   {
                     rank: 3,
-                    name: 'Hanwha Life Esports',
-                    votes: '210,000',
-                    logo: '/logos/hle.svg',
+                    name: "Hanwha Life Esports",
+                    votes: "210,000",
+                    logo: "/logos/hle.svg",
                   },
                   {
                     rank: 4,
-                    name: 'Dplus KIA',
-                    votes: '200,000',
-                    logo: '/logos/dk.svg',
+                    name: "Dplus KIA",
+                    votes: "200,000",
+                    logo: "/logos/dk.svg",
                   },
                   {
                     rank: 5,
-                    name: 'kt Rolster',
-                    votes: '190,000',
-                    logo: '/logos/kt.svg',
+                    name: "kt Rolster",
+                    votes: "190,000",
+                    logo: "/logos/kt.svg",
                   },
                 ].map((team, index) => (
                   <Link
                     href={`/team/${team.name
                       .toLowerCase()
-                      .replace(/\s+/g, '-')}`}
+                      .replace(/\s+/g, "-")}`}
                     key={index}
                   >
                     <div className="flex items-center gap-6 p-4">
-                      {' '}
+                      {" "}
                       {/* Adjusted gap and padding */}
                       <div className="text-lg font-bold text-gray-600">
                         {team.rank}
                       </div>
                       <div className="w-12 h-12 overflow-hidden bg-gray-300 rounded-full">
-                        {' '}
+                        {" "}
                         {/* Adjusted size */}
                         <Image
                           src={team.logo}
@@ -302,16 +276,16 @@ export default function Home() {
             </section>
 
             <section>
-              {' '}
+              {" "}
               {/* Increased margin-top */}
               <h2 className="mt-20 text-xl font-bold text-gray-800">
                 Lane Rank
               </h2>
               <div className="p-10 mt-4 space-y-8 bg-white rounded-lg shadow-md">
-                {' '}
+                {" "}
                 {/* Adjusted padding */}
                 <div className="flex items-center justify-between mb-6">
-                  {' '}
+                  {" "}
                   {/* Adjusted margin */}
                   <button onClick={handlePrevLane}>
                     <ChevronLeft className="w-6 h-6 text-gray-500" />
@@ -332,13 +306,13 @@ export default function Home() {
                 </div>
                 {playersByLane.slice(0, 5).map((player, index) => (
                   <div key={player.id} className="flex items-center gap-6 p-4">
-                    {' '}
+                    {" "}
                     {/* Adjusted gap and padding */}
                     <div className="text-lg font-bold text-gray-600">
                       {index + 1}
                     </div>
                     <div className="w-12 h-12 overflow-hidden bg-gray-300 rounded-full">
-                      {' '}
+                      {" "}
                       {/* Adjusted size */}
                       <Image
                         src={`/icons/${player.nickname.toLowerCase()}.svg`}
