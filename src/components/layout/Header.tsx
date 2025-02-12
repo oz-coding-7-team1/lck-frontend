@@ -68,7 +68,7 @@ export default function Header() {
 
   const handleMyPageClick = () => {
     if (status === "authenticated") {
-      router.push("/mypage");
+      router.push("/myprofile"); // Changed from "/mypage" to "/myprofile"
     } else {
       router.push("/login");
     }
@@ -83,6 +83,12 @@ export default function Header() {
           className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
         >
           Home
+        </Link>
+        <Link
+          href="/my-choeae"
+          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+        >
+          My Choeae
         </Link>
         <Link
           href="/playerlist"
@@ -155,6 +161,14 @@ export default function Header() {
             </div>
           </div>
           <div className="flex items-center gap-4">
+            {status !== "authenticated" && (
+              <button
+                onClick={() => router.push("/login")}
+                className="px-4 py-2 text-sm font-medium text-white rounded-full bg-rose-500 hover:bg-rose-600"
+              >
+                로그인
+              </button>
+            )}
             <button
               onClick={handleMyPageClick}
               title={status === "authenticated" ? "내 프로필" : "로그인"}
