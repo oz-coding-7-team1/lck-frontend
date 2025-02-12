@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import { User } from 'lucide-react';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { signOut, useSession } from 'next-auth/react';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
-  const [isLoggedOut, setIsLoggedOut] = useState(false);
-  const [nickname, setNickname] = useState('UserNickname');
-  const [email, setEmail] = useState('user@example.com');
-  const [profileIcon, setProfileIcon] = useState('/path/to/default/icon.png');
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isLoggedOut] = useState(false);
+  const [nickname, setNickname] = useState("UserNickname");
+  const [email] = useState("user@example.com");
+  const [profileIcon, setProfileIcon] = useState("/path/to/default/icon.png");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const router = useRouter();
   const { data: session } = useSession();
 
@@ -29,20 +29,18 @@ export default function ProfilePage() {
   const handleLogoutClick = async () => {
     try {
       // Save any necessary data to session storage before logging out
-      sessionStorage.setItem('lastLogoutTime', new Date().toISOString());
-      sessionStorage.setItem('lastLoggedInUser', session?.user?.name || 'unknown');
+      sessionStorage.setItem("lastLogoutTime", new Date().toISOString());
+      sessionStorage.setItem(
+        "lastLoggedInUser",
+        session?.user?.name || "unknown"
+      );
 
-      await signOut({ redirect: false });
-      router.push('/');
+      alert("유저 회원탈퇴");
+      // Logic to delete the user's account goes here
+      router.push("/");
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error("Logout failed", error);
     }
-  };
-
-  const handleDeleteAccountClick = () => {
-    alert('유저 회원탈퇴');
-    // Logic to delete the user's account goes here
-    router.push('/');
   };
 
   const handleSaveClick = () => {
@@ -85,26 +83,46 @@ export default function ProfilePage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-6 mt-6 mb-20 bg-white border rounded-lg shadow"> {/* Adjusted mt-6 */}
+      <div className="w-full max-w-md p-6 mt-6 mb-20 bg-white border rounded-lg shadow">
+        {" "}
+        {/* Adjusted mt-6 */}
         <h1 className="mb-4 text-2xl font-bold text-center">My Profile</h1>
-        <div className="flex flex-col items-center mb-4"> {/* Centered content */}
-          <img src={profileIcon} alt="Profile Icon" className="w-24 h-24 mb-4 rounded-full" /> {/* Adjusted size and margin */}
-          <div className="text-center"> {/* Centered text */}
+        <div className="flex flex-col items-center mb-4">
+          {" "}
+          {/* Centered content */}
+          <Image
+            src={profileIcon}
+            alt="Profile Icon"
+            className="w-24 h-24 mb-4 rounded-full"
+          />{" "}
+          {/* Adjusted size and margin */}
+          <div className="text-center">
+            {" "}
+            {/* Centered text */}
             <p className="text-lg font-semibold">{nickname}</p>
             <p className="text-gray-500">{email}</p>
           </div>
         </div>
         <div className="space-y-4">
-          <p className="w-full px-4 py-2 font-bold text-center text-blue-500 cursor-pointer hover:underline" onClick={handleEditClick}>
+          <p
+            className="w-full px-4 py-2 font-bold text-center text-blue-500 cursor-pointer hover:underline"
+            onClick={handleEditClick}
+          >
             프로필 수정
           </p>
-          <p className="w-full px-4 py-2 font-bold text-center text-blue-500 cursor-pointer hover:underline" onClick={handlePasswordChangeClick}>
+          <p
+            className="w-full px-4 py-2 font-bold text-center text-blue-500 cursor-pointer hover:underline"
+            onClick={handlePasswordChangeClick}
+          >
             비밀번호 변경
           </p>
-          <p className="w-full px-4 py-2 font-bold text-center text-red-500 cursor-pointer hover:underline" onClick={handleLogoutClick}>
+          <p
+            className="w-full px-4 py-2 font-bold text-center text-red-500 cursor-pointer hover:underline"
+            onClick={handleLogoutClick}
+          >
             로그아웃
           </p>
-          <p className="w-full px-4 py-2 font-bold text-center text-red-500 cursor-pointer hover:underline" onClick={handleDeleteAccountClick}>
+          <p className="w-full px-4 py-2 font-bold text-center text-red-500 cursor-pointer hover:underline">
             회원탈퇴
           </p>
         </div>

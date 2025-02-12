@@ -1,10 +1,12 @@
 "use client";
 
+//TODO take out use client, header and footer move to components
+
+import "./globals.css"; // Replace the existing CSS import with this
 import { Inter } from "next/font/google";
 import { Search, User, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import "../styles/globals.css"; // Ensure this path is correct
 import { useState, useEffect } from "react";
 import AuthConetxt from "../context/AuthContext";
 

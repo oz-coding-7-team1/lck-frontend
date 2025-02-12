@@ -11,9 +11,10 @@ export interface Player {
   gamename: string; //롤 아이디
   socialLinks?: {
     instagram?: string;
-    twitter?: string;
+    X?: string;
     youtube?: string;
     twitch?: string;
+    soop?: string;
   }; // SNS 링크
   fanVotes?: number; // 팬 투표 수
   profileImageUrl: string; //선수 프로필 이미지
@@ -40,7 +41,7 @@ export const samplePlayers: Player[] = [
     gamename: "Hide on bush#KR1",
     socialLinks: {
       instagram: "https://instagram.com/faker",
-      xLogo: "https://x.com/faker",
+      X: "https://x.com/faker",
       youtube: "https://youtube.com/faker",
       soop: "https://soop.tv/faker",
     },
