@@ -55,7 +55,7 @@ export default function Home() {
           <section className="space-y-6">
             <h2 className="flex items-center gap-2 text-xl font-bold text-gray-800">
               <span className="w-3 h-3 bg-yellow-400 rounded-full"></span>
-              Player Rank
+              선수 랭킹
             </h2>
 
             <div className="space-y-6">
@@ -189,15 +189,15 @@ export default function Home() {
             {" "}
             {/* Removed col-span classes and simplified */}
             <section>
-              <h2 className="mt-4 text-xl font-bold text-gray-800">
-                Team Rank
+              <h2 className="mt-1 mb-1 text-xl font-bold text-gray-800">
+                팀 랭킹
               </h2>
-              <div className="p-10 mb-8 space-y-8 bg-white rounded-lg shadow-md">
+              <div className="p-10 mb-10 space-y-8 bg-white rounded-lg shadow-md min-h-[500px]">
                 {" "}
-                {/* Added mb-8 */}
-                <div className="flex flex-col items-center gap-6 p-6 bg-gray-100 rounded-lg">
+                {/* Changed height and removed overflow */}
+                <div className="flex flex-col items-center gap-8 p-8 bg-gray-100 rounded-lg">
                   {" "}
-                  {/* Adjusted padding */}
+                  {/* Increased gap */}
                   <div className="text-lg font-bold text-gray-600">1st</div>
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 overflow-hidden bg-gray-300 rounded-full">
@@ -280,17 +280,12 @@ export default function Home() {
               </div>
             </section>
             <section>
-              <h2 className="text-xl font-bold text-gray-800">
-                {" "}
-                {/* Removed mt-20 since we're using space-y-12 above */}
-                Lane Rank
+              <h2 className="text-xl font-bold text-gray-800 ">
+                라인별 선수 랭킹
               </h2>
-              <div className="p-10 mt-4 space-y-8 bg-white rounded-lg shadow-md">
-                {" "}
+              <div className="p-10 mt-6 space-y-8 bg-white rounded-lg shadow-md">
                 {/* Adjusted padding */}
                 <div className="flex items-center justify-between mb-6">
-                  {" "}
-                  {/* Adjusted margin */}
                   <button onClick={handlePrevLane}>
                     <ChevronLeft className="w-6 h-6 text-gray-500" />
                   </button>
