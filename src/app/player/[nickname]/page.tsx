@@ -1,3 +1,4 @@
+import PlayerSubscribeButton from "@/src/components/common/PlayerSubscribeButton";
 import SocialLinks from "@/src/components/common/SocialLinks";
 import CommunitySimple from "@/src/components/community/CommunitySimple";
 import PlayerGallery from "@/src/components/player/PlayerGallery";
@@ -15,7 +16,7 @@ export default function PlayerPage({ params }: { params: { nickname: string } })
 
   if (!player) return notFound();
 
-  const team = sampleTeams.find((t) => t.id === player.teamId);
+  const team = sampleTeams.find((t) => t.id === player.team_id);
 
   return (
     <div className="container mx-auto p-6">
@@ -27,12 +28,12 @@ export default function PlayerPage({ params }: { params: { nickname: string } })
           height={150} 
         />
         <div>
-          <h1 className="text-3xl font-bold">{player.nickname}</h1>
-          <p className="text-gray-500">{player.name}</p>
+          <h1 className="text-3xl font-bold">{player.nickname}<PlayerSubscribeButton playerId={player.id} /></h1>
+          <p className="text-gray-500">{player.realname}</p>
           <p className="text-blue-500">♥ {player.fanVotes}</p>
         </div>
         <SocialLinks 
-          links={player.socialLinks} 
+          links={player.social} 
           iconClassName="w-6 h-6 hover:opacity-75"
         />
       </div>
@@ -41,16 +42,16 @@ export default function PlayerPage({ params }: { params: { nickname: string } })
         <div className="col-span-3 p-4 border rounded-lg shadow">
           <h2 className="text-xl font-bold">PLAYER INFO.</h2>
           <p>
-            <strong>이름</strong> {player.name}
+            <strong>이름</strong> {player.realname}
           </p>
           <p>
-            <strong>생년월일</strong> {player.birthdate}
+            <strong>생년월일</strong> {player.date_of_birth}
           </p>
           <p>
             <strong>국적</strong> {player.nationality}
           </p>
           <p>
-            <strong>데뷔</strong> {player.debutDate}
+            <strong>데뷔</strong> {player.debut_date}
           </p>
           <p>
             <strong>포지션</strong> {player.position}
@@ -66,7 +67,7 @@ export default function PlayerPage({ params }: { params: { nickname: string } })
           </p>
         </div>
         <div className="col-span-7">
-          <PlayerSchedule playerId={player.id} teamId={player.teamId} />
+          <PlayerSchedule playerId={player.id} teamId={player.team_id} />
         </div>
       </div>
 

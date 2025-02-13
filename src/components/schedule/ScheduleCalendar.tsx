@@ -19,7 +19,7 @@ const categoryColors: Record<string, string> = {
 
 // 커스텀 이벤트 UI (Month 뷰 전용)
 const CustomEvent = ({ event }: { event: ScheduleEvent }) => {
-  const color = categoryColors[event.type] || "#ccc";
+  const color = categoryColors[event.category] || "#ccc";
 
   return (
     <div className="flex items-center space-x-2 w-full">
@@ -61,13 +61,12 @@ export default function ScheduleCalendar({ events }: ScheduleCalendarProps) {
         startAccessor="start"
         endAccessor="end"
         views={[Views.MONTH, Views.WEEK, Views.DAY]}
-        defaultView={viewType}
-        onView={(newView) => setViewType(newView)}
+        view={viewType}  // 여기서 `viewType` 상태를 사용합니다.
+        onView={(newView) => setViewType(newView)} // onView 이벤트가 발생하면 `viewType` 상태를 갱신
         style={{ height: 600 }}
         eventPropGetter={(event) => {
           const color = categoryColors[event.type] || "#ccc";
 
-          // ✅ Month 뷰에서는 배경색 제거
           if (viewType === Views.MONTH) {
             return {
               style: {
@@ -77,7 +76,6 @@ export default function ScheduleCalendar({ events }: ScheduleCalendarProps) {
             };
           }
 
-          // ✅ Week & Day 뷰에서는 배경색 적용
           return {
             style: {
               backgroundColor: color,
@@ -88,10 +86,11 @@ export default function ScheduleCalendar({ events }: ScheduleCalendarProps) {
           };
         }}
         components={{
-          event: viewType === Views.MONTH ? CustomEvent : undefined, // Month 뷰에서만 커스텀 UI 사용
+          event: viewType === Views.MONTH ? CustomEvent : undefined,
         }}
         onSelectEvent={(event) => setSelectedEvent(event as ScheduleEvent)}
       />
+
 
       {/* 일정 상세 모달 */}
       {selectedEvent && (

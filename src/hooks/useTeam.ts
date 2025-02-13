@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Team } from "@/types/team";
-import { fetchTeamById } from "@/utils/api";
+import { Team } from "@/src/types/team";
+import { fetchTeamById } from "@/src/utils/api";
 
 export function useTeam(teamId: number) {
   const [team, setTeam] = useState<Team | null>(null);
@@ -12,8 +12,12 @@ export function useTeam(teamId: number) {
       try {
         const data = await fetchTeamById(teamId);
         setTeam(data);
-      } catch (err) {
-        setError("팀 데이터를 불러오는 중 오류가 발생했습니다.");
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(`팀 데이터를 불러오는 중 오류가 발생했습니다: ${err.message}`);
+        } else {
+          setError("팀 데이터를 불러오는 중 알 수 없는 오류가 발생했습니다.");
+        }
       } finally {
         setLoading(false);
       }
