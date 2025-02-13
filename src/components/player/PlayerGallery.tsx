@@ -1,4 +1,4 @@
-"use client"; // Next.js App Router 환경에서 클라이언트 컴포넌트로 설정
+"use client";
 
 import { useState } from "react";
 import Image from "next/image";

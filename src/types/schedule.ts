@@ -1,6 +1,6 @@
 export interface ScheduleEvent {
     id: number;
-    type: "game" | "boardcast" | "metting" | "ect";
+    category: "경기" | "방송" | "팬미팅" | "기타";
     title: string;
     start: Date;
     end: Date;

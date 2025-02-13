@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Player } from "@/types/player";
-import { fetchPlayerById } from "@/utils/api";
+import { Player } from "@/src/types/player";
+import { fetchPlayerById } from "@/src/utils/api";
 
 export function usePlayer(playerId: number) {
   const [player, setPlayer] = useState<Player | null>(null);
@@ -12,8 +12,12 @@ export function usePlayer(playerId: number) {
       try {
         const data = await fetchPlayerById(playerId);
         setPlayer(data);
-      } catch (err) {
-        setError("선수 데이터를 불러오는 중 오류가 발생했습니다.");
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(`선수 데이터를 불러오는 중 오류가 발생했습니다: ${err.message}`);
+        } else {
+          setError("선수 데이터를 불러오는 중 알 수 없는 오류가 발생했습니다.");
+        }
       } finally {
         setLoading(false);
       }
