@@ -1,11 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
-
-interface PlayerGalleryProps {
-  playerId: number;
-}
+import { useState } from "react";
 
 const sampleImages = [
   "/images/sample1.jpg",
@@ -18,7 +14,7 @@ const sampleImages = [
   "/images/sample8.jpg",
 ];
 
-export default function PlayerGallery({ playerId }: PlayerGalleryProps) {
+export default function PlayerGallery() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   return (

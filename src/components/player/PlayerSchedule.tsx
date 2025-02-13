@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import ScheduleCalendar from "@/src/components/schedule/ScheduleCalendar";
 import { ScheduleEvent } from "@/src/types/schedule";
 
@@ -14,7 +13,7 @@ interface PlayerScheduleProps {
 const allEvents: ScheduleEvent[] = [
   {
     id: 1,
-    type: "game",
+    category: "경기",
     title: "T1 vs DK",
     start: new Date(2025, 1, 15, 19, 30),
     end: new Date(2025, 1, 15, 21, 30),
@@ -24,7 +23,7 @@ const allEvents: ScheduleEvent[] = [
   },
   {
     id: 2,
-    type: "broadcast",
+    category: "방송",
     title: "Faker 개인 방송",
     start: new Date(2025, 1, 10, 18, 0),
     end: new Date(2025, 1, 10, 20, 0),

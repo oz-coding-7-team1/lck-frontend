@@ -65,7 +65,7 @@ export default function ScheduleCalendar({ events }: ScheduleCalendarProps) {
         onView={(newView) => setViewType(newView)} // onView 이벤트가 발생하면 `viewType` 상태를 갱신
         style={{ height: 600 }}
         eventPropGetter={(event) => {
-          const color = categoryColors[event.type] || "#ccc";
+          const color = categoryColors[event.category] || "#ccc";
 
           if (viewType === Views.MONTH) {
             return {

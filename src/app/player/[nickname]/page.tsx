@@ -8,10 +8,12 @@ import { sampleTeams } from "@/src/types/team";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-export default function PlayerPage({ params }: { params: { nickname: string } }) {
+export default async function PlayerPage({ params }: { params: Promise<{ nickname: string }> }) {
   // 닉네임을 소문자로 변환하여 매칭
+  const nickname =  (await params).nickname
+
   const player: Player | undefined = samplePlayers.find(
-    (p) => p.nickname.toLowerCase() === params.nickname.toLowerCase()
+    (p) => p.nickname.toLowerCase() === nickname.toLowerCase()
   );
 
   if (!player) return notFound();
@@ -76,7 +78,7 @@ export default function PlayerPage({ params }: { params: { nickname: string } })
           <CommunitySimple type="player" entityId={player.id} />
         </div>
         <div className="col-span-4">
-          <PlayerGallery playerId={player.id} />
+          <PlayerGallery  />
         </div>
       </div>
     </div>

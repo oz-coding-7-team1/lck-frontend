@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ScheduleEvent } from "@/src/types/schedule";
+import { ScheduleEvent, ScheduleEventCategory } from "@/src/types/schedule";
 
 interface ScheduleFormModalProps {
   onClose: () => void;
@@ -12,7 +12,7 @@ export default function ScheduleFormModal({ onClose, onSave }: ScheduleFormModal
     title: "",
     start: new Date(),
     end: new Date(),
-    category: "",
+    category: "경기",
     location: "",
     allDay: false,
   });
@@ -47,13 +47,13 @@ export default function ScheduleFormModal({ onClose, onSave }: ScheduleFormModal
 
         <select
           value={newEvent.category}
-          onChange={(e) => setNewEvent({ ...newEvent, category: e.target.value })}
+          onChange={(e) => setNewEvent({ ...newEvent, category: e.target.value as ScheduleEventCategory })}
           className="w-full p-2 border rounded mb-4"
         >
-          <option value="game">경기</option>
-          <option value="boardcast">방송</option>
-          <option value="metting">미팅</option>
-          <option value="ect">기타</option>
+          <option value="경기">경기</option>
+          <option value="방송">방송</option>
+          <option value="팬미팅">팬미팅</option>
+          <option value="기타">기타</option>
         </select>
 
         <div className="flex justify-end space-x-2">

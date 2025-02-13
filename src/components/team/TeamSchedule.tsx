@@ -11,7 +11,7 @@ async function getTeamEvents(teamId: number): Promise<ScheduleEvent[]> {
       title: "T1 vs DK",
       start: new Date(2025, 2, 15, 19, 30),
       end: new Date(2025, 2, 15, 21, 30),
-      category: "game",
+      category: "경기",
       location: "서울 롤파크",
       allDay: false,
     },
@@ -21,7 +21,7 @@ async function getTeamEvents(teamId: number): Promise<ScheduleEvent[]> {
       title: "KT vs T1",
       start: new Date(2025, 2, 24, 19, 30),
       end: new Date(2025, 2, 24, 21, 30),
-      category: "game", 
+      category: "경기", 
       location: "서울 롤파크",
       allDay: false,
     },
@@ -31,7 +31,7 @@ async function getTeamEvents(teamId: number): Promise<ScheduleEvent[]> {
       title: "GEN.G vs DK",
       start: new Date(2025, 2, 18, 18, 0),
       end: new Date(2025, 2, 18, 20, 0),
-      category: "game",
+      category: "경기",
       location: "부산 e스포츠 아레나",
       allDay: false,
     },
@@ -41,14 +41,14 @@ async function getTeamEvents(teamId: number): Promise<ScheduleEvent[]> {
       title: "T1 팬미팅",
       start: new Date(2025, 2, 24, 19, 30),
       end: new Date(2025, 2, 24, 21, 30),
-      category: "meeting",
+      category: "팬미팅",
       location: "서울 롤파크",
       allDay: false,
     },
   ];
 
   // ✅ 현재 팀의 경기 일정만 필터링
-  return allEvents.filter((event) => event.teamId === teamId && event.category === "game");
+  return allEvents.filter((event) => event.teamId === teamId && event.category === "경기");
 }
 
 interface TeamScheduleProps {

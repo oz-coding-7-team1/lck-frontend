@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { fetchPlayerById } from "@/utils/api";
-import { Player } from "@/types/player";
+import { fetchPlayerById } from "@/src/utils/api";
+import { Player } from "@/src/types/player";
 
 interface PlayerContextType {
   player: Player | null;

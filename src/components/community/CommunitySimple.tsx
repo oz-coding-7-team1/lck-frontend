@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client"; // 클라이언트 컴포넌트
 
 import { useState } from "react";
@@ -28,8 +29,8 @@ const samplePosts: CommunityPost[] = Array.from({ length: 10 }, (_, i) => ({
 }));
 
 export default function CommunitySimple({ type, entityId }: CommunityProps) {
-  const [posts, setPosts] = useState<CommunityPost[]>(samplePosts);
-  const [loading, setLoading] = useState(false);
+  const [posts] = useState<CommunityPost[]>(samplePosts);
+  const [loading] = useState(false);
 
 
   return (

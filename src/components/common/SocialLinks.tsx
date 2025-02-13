@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 const socialIcons: Record<string, string> = {
   instagram: "/icons/instagram-logo.svg",
   xLogo: "/icons/x-logo.svg",
@@ -11,7 +12,10 @@ interface SocialLinksProps {
   iconClassName?: string; // Tailwind로 크기 조절 가능
 }
 
-const SocialLinks: React.FC<SocialLinksProps> = ({ links, iconClassName = "w-6 h-6" }) => {
+const SocialLinks: React.FC<SocialLinksProps> = ({
+  links,
+  iconClassName = "w-6 h-6",
+}) => {
   if (!links) return null;
 
   return (
@@ -21,7 +25,12 @@ const SocialLinks: React.FC<SocialLinksProps> = ({ links, iconClassName = "w-6 h
         if (!iconSrc) return null;
 
         return (
-          <a key={platform} href={url} target="_blank" rel="noopener noreferrer">
+          <a
+            key={platform}
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img src={iconSrc} alt={platform} className={iconClassName} />
           </a>
         );
