@@ -1,105 +1,104 @@
 export interface Player {
-    id: number; // 선수의 고유 ID
-    realname: string; // 선수 이름
-    nickname: string; // 게임 내 닉네임
-    date_of_birth: string; // 생년월일 (YYYY-MM-DD 형식)
-    nationality: string; // 국적
-    debut_date: string; // 데뷔 날짜
-    position: "TOP" | "JUNGLE" | "MID" | "BOT" | "SUPPORT"; // 포지션
-    team_id: number; // 소속 팀 ID
-    agency: string; // 소속사
-    gamename: string; //롤 아이디
-    social?: {
-      insta?: string;
-      youtube?: string;
-      facebook?: string;
-      X?: string;
-      soop?: string;
-      chzzk?: string;
-    }; // SNS 링크
-    fanVotes?: number; // 팬 투표 수
-    profileImageUrl: string; //선수 프로필 이미지
-    backgroundImageUrl?: string; //선수 상단 배경 이미지
-  }
+  id: number; // 선수의 고유 ID
+  realname: string; // 선수 이름
+  nickname: string; // 게임 내 닉네임
+  date_of_birth: string; // 생년월일 (YYYY-MM-DD 형식)
+  nationality: string; // 국적
+  debut_date: string; // 데뷔 날짜
+  position: "TOP" | "JUNGLE" | "MID" | "BOT" | "SUPPORT"; // 포지션
+  team_id: number; // 소속 팀 ID
+  agency: string; // 소속사
+  gamename: string; //롤 아이디
+  social?: {
+    insta?: string;
+    youtube?: string;
+    facebook?: string;
+    X?: string;
+    soop?: string;
+    chzzk?: string;
+  }; // SNS 링크
+  fanVotes?: number; // 팬 투표 수
+  profileImageUrl: string; //선수 프로필 이미지
+  backgroundImageUrl?: string; //선수 상단 배경 이미지
+}
 
-
-export type PlayerCardData = Pick<Player, "id" | "realname" | "nickname" | "position" | "social" | "profileImageUrl">;
+export type PlayerCardData = Pick<
+  Player,
+  "id" | "realname" | "nickname" | "position" | "social" | "profileImageUrl"
+>;
 
 // types/player.ts
 export const samplePlayers: Player[] = [
-    {
-      id: 1,
-      realname: "이상혁",
-      nickname: "Faker",
-      date_of_birth: "1996-05-07",
-      nationality: "대한민국",
-      debut_date: "2013-04-06",
-      position: "MID",
-      team_id: 101,
-      agency: "FANABLE",
-      gamename: "Hide on bush#KR1",
-      social: {
-        insta: "https://instagram.com/faker",
-        X: "https://x.com/faker",
-        youtube: "https://youtube.com/faker",
-        soop: "https://soop.tv/faker",
-      },
-      fanVotes: 5000,
-      profileImageUrl: "/images/profile/Faker.png",
-      backgroundImageUrl: "/images/background/Faker.png",
+  {
+    id: 1,
+    realname: "이상혁",
+    nickname: "Faker",
+    date_of_birth: "1996-05-07",
+    nationality: "대한민국",
+    debut_date: "2013-04-06",
+    position: "MID",
+    team_id: 101,
+    agency: "FANABLE",
+    gamename: "Hide on bush#KR1",
+    social: {
+      insta: "https://instagram.com/faker",
+      X: "https://x.com/faker",
+      youtube: "https://youtube.com/faker",
+      soop: "https://soop.tv/faker",
     },
-    {
-      id: 2,
-      realname: "류민석",
-      nickname: "Keria",
-      date_of_birth: "2002-10-14",
-      nationality: "대한민국",
-      debut_date: "2019-10-12",
-      position: "SUPPORT",
-      team_id: 101,
-      agency: "FANABLE",
-      gamename: "Keria#KR1",
-      social: {
-        insta: "https://instagram.com/keria",
-        X: "https://x.com/keria",
-        youtube: "https://youtube.com/keria",
-        soop: "https://soop.tv/keria",
-      },
-      fanVotes: 4500,
-      profileImageUrl: "/images/profile/Keria.png",
+    fanVotes: 5000,
+    profileImageUrl: "/images/profile/Faker.png",
+    backgroundImageUrl: "/images/background/Faker.png",
+  },
+  {
+    id: 2,
+    realname: "류민석",
+    nickname: "Keria",
+    date_of_birth: "2002-10-14",
+    nationality: "대한민국",
+    debut_date: "2019-10-12",
+    position: "SUPPORT",
+    team_id: 101,
+    agency: "FANABLE",
+    gamename: "Keria#KR1",
+    social: {
+      insta: "https://instagram.com/keria",
+      X: "https://x.com/keria",
+      youtube: "https://youtube.com/keria",
+      soop: "https://soop.tv/keria",
     },
-    {
-      id: 3,
-      realname: "이민형",
-      nickname: "Gumayusi",
-      date_of_birth: "2002-02-06",
-      nationality: "대한민국",
-      debut_date: "2019-11-25",
-      position: "BOT",
-      team_id: 101,
-      agency: "FANABLE",
-      gamename: "Gumayusi#KR1",
-      social: {
-        insta: "https://instagram.com/gumayusi",
-        X: "https://x.com/gumayusi",
-        youtube: "https://youtube.com/gumayusi",
-        soop: "https://soop.tv/gumayusi",
-      },
-      fanVotes: 4700,
-      profileImageUrl: "/images/profile/Gumayusi.png",
+    fanVotes: 4500,
+    profileImageUrl: "/images/profile/Keria.png",
+  },
+  {
+    id: 3,
+    realname: "이민형",
+    nickname: "Gumayusi",
+    date_of_birth: "2002-02-06",
+    nationality: "대한민국",
+    debut_date: "2019-11-25",
+    position: "BOT",
+    team_id: 101,
+    agency: "FANABLE",
+    gamename: "Gumayusi#KR1",
+    social: {
+      insta: "https://instagram.com/gumayusi",
+      X: "https://x.com/gumayusi",
+      youtube: "https://youtube.com/gumayusi",
+      soop: "https://soop.tv/gumayusi",
     },
     fanVotes: 4700,
     profileImageUrl: "/images/profile/Gumayusi.png",
   },
   {
     id: 4,
-    name: "최우제",
+    realname: "최우제",
     nickname: "Zeus",
-    birthdate: "2004-01-31",
+    date_of_birth: "2004-01-31",
     nationality: "대한민국",
-    debutDate: "2021-01-21",
+    debut_date: "2021-01-21",
     position: "TOP",
-    teamId: 101,
+    team_id: 101,
     agency: "T1",
     gamename: "Zeus#KR1",
     fanVotes: 4800,
@@ -107,13 +106,13 @@ export const samplePlayers: Player[] = [
   },
   {
     id: 5,
-    name: "장하권",
+    realname: "장하권",
     nickname: "Nuguri",
-    birthdate: "2000-07-03",
+    date_of_birth: "2000-07-03",
     nationality: "대한민국",
-    debutDate: "2017-12-27",
+    debut_date: "2017-12-27",
     position: "TOP",
-    teamId: 102,
+    team_id: 102,
     agency: "DWG KIA",
     gamename: "Nuguri#KR1",
     fanVotes: 4600,
@@ -121,13 +120,13 @@ export const samplePlayers: Player[] = [
   },
   {
     id: 6,
-    name: "문우찬",
+    realname: "문우찬",
     nickname: "Canyon",
-    birthdate: "2001-06-18",
+    date_of_birth: "2001-06-18",
     nationality: "대한민국",
-    debutDate: "2019-01-16",
+    debut_date: "2019-01-16",
     position: "JUNGLE",
-    teamId: 102,
+    team_id: 102,
     agency: "DWG KIA",
     gamename: "Canyon#KR1",
     fanVotes: 4900,
@@ -135,13 +134,13 @@ export const samplePlayers: Player[] = [
   },
   {
     id: 7,
-    name: "한왕호",
+    realname: "한왕호",
     nickname: "Peanut",
-    birthdate: "1998-02-03",
+    date_of_birth: "1998-02-03",
     nationality: "대한민국",
-    debutDate: "2015-11-23",
+    debut_date: "2015-11-23",
     position: "JUNGLE",
-    teamId: 103,
+    team_id: 103,
     agency: "Gen.G",
     gamename: "Peanut#KR1",
     fanVotes: 4700,
@@ -149,13 +148,13 @@ export const samplePlayers: Player[] = [
   },
   {
     id: 8,
-    name: "정지훈",
+    realname: "정지훈",
     nickname: "Chovy",
-    birthdate: "2001-03-03",
+    date_of_birth: "2001-03-03",
     nationality: "대한민국",
-    debutDate: "2018-11-25",
+    debut_date: "2018-11-25",
     position: "MID",
-    teamId: 103,
+    team_id: 103,
     agency: "Gen.G",
     gamename: "Chovy#KR1",
     fanVotes: 4800,
@@ -163,13 +162,13 @@ export const samplePlayers: Player[] = [
   },
   {
     id: 9,
-    name: "김하람",
+    realname: "김하람",
     nickname: "Deft",
-    birthdate: "1996-10-23",
+    date_of_birth: "1996-10-23",
     nationality: "대한민국",
-    debutDate: "2013-05-07",
+    debut_date: "2013-05-07",
     position: "BOT",
-    teamId: 104,
+    team_id: 104,
     agency: "DRX",
     gamename: "Deft#KR1",
     fanVotes: 4850,
@@ -177,13 +176,13 @@ export const samplePlayers: Player[] = [
   },
   {
     id: 10,
-    name: "박재혁",
+    realname: "박재혁",
     nickname: "Ruler",
-    birthdate: "1999-07-17",
+    date_of_birth: "1999-07-17",
     nationality: "대한민국",
-    debutDate: "2016-05-09",
+    debut_date: "2016-05-09",
     position: "BOT",
-    teamId: 103,
+    team_id: 103,
     agency: "Gen.G",
     gamename: "Ruler#KR1",
     fanVotes: 4750,
@@ -191,13 +190,13 @@ export const samplePlayers: Player[] = [
   },
   {
     id: 11,
-    name: "손시우",
+    realname: "손시우",
     nickname: "Lehends",
-    birthdate: "1999-01-24",
+    date_of_birth: "1999-01-24",
     nationality: "대한민국",
-    debutDate: "2017-12-27",
+    debut_date: "2017-12-27",
     position: "SUPPORT",
-    teamId: 105,
+    team_id: 105,
     agency: "KT Rolster",
     gamename: "Lehends#KR1",
     fanVotes: 4400,
@@ -206,13 +205,13 @@ export const samplePlayers: Player[] = [
   // Additional TOP laners
   {
     id: 12,
-    name: "김창동",
+    realname: "김창동",
     nickname: "Canna",
-    birthdate: "2000-03-23",
+    date_of_birth: "2000-03-23",
     nationality: "대한민국",
-    debutDate: "2020-01-15",
+    debut_date: "2020-01-15",
     position: "TOP",
-    teamId: 105,
+    team_id: 105,
     agency: "DRX",
     gamename: "Canna#KR1",
     fanVotes: 4300,
@@ -220,13 +219,13 @@ export const samplePlayers: Player[] = [
   },
   {
     id: 13,
-    name: "김기인",
+    realname: "김기인",
     nickname: "Kiin",
-    birthdate: "1999-05-28",
+    date_of_birth: "1999-05-28",
     nationality: "대한민국",
-    debutDate: "2017-12-27",
+    debut_date: "2017-12-27",
     position: "TOP",
-    teamId: 106,
+    team_id: 106,
     agency: "KT Rolster",
     gamename: "Kiin#KR1",
     fanVotes: 4400,
@@ -234,13 +233,13 @@ export const samplePlayers: Player[] = [
   },
   {
     id: 14,
-    name: "박종범",
+    realname: "박종범",
     nickname: "Morgan",
-    birthdate: "2000-03-03",
+    date_of_birth: "2000-03-03",
     nationality: "대한민국",
-    debutDate: "2020-05-15",
+    debut_date: "2020-05-15",
     position: "TOP",
-    teamId: 107,
+    team_id: 107,
     agency: "Fredit BRION",
     gamename: "Morgan#KR1",
     fanVotes: 4200,
@@ -250,13 +249,13 @@ export const samplePlayers: Player[] = [
   // Additional JUNGLE
   {
     id: 15,
-    name: "서창동",
+    realname: "서창동",
     nickname: "Umti",
-    birthdate: "1999-08-12",
+    date_of_birth: "1999-08-12",
     nationality: "대한민국",
-    debutDate: "2018-01-16",
+    debut_date: "2018-01-16",
     position: "JUNGLE",
-    teamId: 108,
+    team_id: 108,
     agency: "Kwangdong Freecs",
     gamename: "Umti#KR1",
     fanVotes: 4100,
@@ -264,13 +263,13 @@ export const samplePlayers: Player[] = [
   },
   {
     id: 16,
-    name: "김태민",
+    realname: "김태민",
     nickname: "Clid",
-    birthdate: "1999-10-19",
+    date_of_birth: "1999-10-19",
     nationality: "대한민국",
-    debutDate: "2017-05-15",
+    debut_date: "2017-05-15",
     position: "JUNGLE",
-    teamId: 109,
+    team_id: 109,
     agency: "Gen.G",
     gamename: "Clid#KR1",
     fanVotes: 4300,
@@ -278,13 +277,13 @@ export const samplePlayers: Player[] = [
   },
   {
     id: 17,
-    name: "문현준",
+    realname: "문현준",
     nickname: "Pyosik",
-    birthdate: "2000-05-12",
+    date_of_birth: "2000-05-12",
     nationality: "대한민국",
-    debutDate: "2019-12-24",
+    debut_date: "2019-12-24",
     position: "JUNGLE",
-    teamId: 110,
+    team_id: 110,
     agency: "DRX",
     gamename: "Pyosik#KR1",
     fanVotes: 4200,
@@ -294,13 +293,13 @@ export const samplePlayers: Player[] = [
   // Additional MID
   {
     id: 18,
-    name: "곽보성",
+    realname: "곽보성",
     nickname: "Bdd",
-    birthdate: "1999-03-01",
+    date_of_birth: "1999-03-01",
     nationality: "대한민국",
-    debutDate: "2016-05-15",
+    debut_date: "2016-05-15",
     position: "MID",
-    teamId: 111,
+    team_id: 111,
     agency: "Gen.G",
     gamename: "Bdd#KR1",
     fanVotes: 4400,
@@ -308,13 +307,13 @@ export const samplePlayers: Player[] = [
   },
   {
     id: 19,
-    name: "이예찬",
+    realname: "이예찬",
     nickname: "Scout",
-    birthdate: "1998-07-15",
+    date_of_birth: "1998-07-15",
     nationality: "대한민국",
-    debutDate: "2016-03-15",
+    debut_date: "2016-03-15",
     position: "MID",
-    teamId: 112,
+    team_id: 112,
     agency: "EDG",
     gamename: "Scout#KR1",
     fanVotes: 4300,
@@ -322,13 +321,13 @@ export const samplePlayers: Player[] = [
   },
   {
     id: 20,
-    name: "허수",
+    realname: "허수",
     nickname: "ShowMaker",
-    birthdate: "2000-07-22",
+    date_of_birth: "2000-07-22",
     nationality: "대한민국",
-    debutDate: "2019-01-16",
+    debut_date: "2019-01-16",
     position: "MID",
-    teamId: 113,
+    team_id: 113,
     agency: "DWG KIA",
     gamename: "ShowMaker#KR1",
     fanVotes: 4600,
@@ -338,13 +337,13 @@ export const samplePlayers: Player[] = [
   // Additional BOT
   {
     id: 21,
-    name: "김동현",
+    realname: "김동현",
     nickname: "Aiming",
-    birthdate: "2000-07-20",
+    date_of_birth: "2000-07-20",
     nationality: "대한민국",
-    debutDate: "2018-01-16",
+    debut_date: "2018-01-16",
     position: "BOT",
-    teamId: 114,
+    team_id: 114,
     agency: "KT Rolster",
     gamename: "Aiming#KR1",
     fanVotes: 4300,
@@ -352,13 +351,13 @@ export const samplePlayers: Player[] = [
   },
   {
     id: 22,
-    name: "박진성",
+    realname: "박진성",
     nickname: "Teddy",
-    birthdate: "1998-03-15",
+    date_of_birth: "1998-03-15",
     nationality: "대한민국",
-    debutDate: "2017-05-15",
+    debut_date: "2017-05-15",
     position: "BOT",
-    teamId: 115,
+    team_id: 115,
     agency: "T1",
     gamename: "Teddy#KR1",
     fanVotes: 4400,
@@ -368,13 +367,13 @@ export const samplePlayers: Player[] = [
   // Additional SUPPORT
   {
     id: 23,
-    name: "조용인",
+    realname: "조용인",
     nickname: "Kellin",
-    birthdate: "2000-09-23",
+    date_of_birth: "2000-09-23",
     nationality: "대한민국",
-    debutDate: "2019-12-24",
+    debut_date: "2019-12-24",
     position: "SUPPORT",
-    teamId: 116,
+    team_id: 116,
     agency: "DRX",
     gamename: "Kellin#KR1",
     fanVotes: 4100,
@@ -382,13 +381,13 @@ export const samplePlayers: Player[] = [
   },
   {
     id: 24,
-    name: "김혁규",
+    realname: "김혁규",
     nickname: "Delight",
-    birthdate: "2001-05-15",
+    date_of_birth: "2001-05-15",
     nationality: "대한민국",
-    debutDate: "2020-05-15",
+    debut_date: "2020-05-15",
     position: "SUPPORT",
-    teamId: 117,
+    team_id: 117,
     agency: "KT Rolster",
     gamename: "Delight#KR1",
     fanVotes: 4000,
@@ -396,13 +395,13 @@ export const samplePlayers: Player[] = [
   },
   {
     id: 25,
-    name: "이상혁",
+    realname: "이상혁",
     nickname: "Effort",
-    birthdate: "2000-03-23",
+    date_of_birth: "2000-03-23",
     nationality: "대한민국",
-    debutDate: "2017-12-27",
+    debut_date: "2017-12-27",
     position: "SUPPORT",
-    teamId: 118,
+    team_id: 118,
     agency: "Liiv SANDBOX",
     gamename: "Effort#KR1",
     fanVotes: 4200,

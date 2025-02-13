@@ -1,17 +1,17 @@
 import SocialLinks from "@/src/components/common/SocialLinks";
+import SubscribeButton from "@/src/components/common/SubscribeButton";
 import CommunitySimple from "@/src/components/community/CommunitySimple";
 import PlayerCard from "@/src/components/player/PlayerCard";
 import TeamSchedule from "@/src/components/team/TeamSchedule";
 import { samplePlayers } from "@/src/types/player";
 import { sampleTeams, Team } from "@/src/types/team";
-import { notFound } from "next/navigation";
 import { decodeTeamName } from "@/src/utils/urlUtils";
 import Image from "next/image";
-import SubscribeButton from "@/src/components/common/SubscribeButton";
+import { notFound } from "next/navigation";
 
-export default function TeamPage({ params }: { params: { name: string } }) {
+export default async function TeamPage({ params }: { params: Promise<{ name: string }> }) {
   // 🔹 URL에서 받은 `name`을 원래 팀 이름으로 변환
-  const formattedName = decodeTeamName(params.name);
+  const formattedName = decodeTeamName((await params).name);
   const team: Team | undefined = sampleTeams.find((t) => t.name.toLowerCase() === formattedName.toLowerCase());
 
   if (!team) return notFound();
