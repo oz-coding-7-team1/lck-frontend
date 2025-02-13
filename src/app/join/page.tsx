@@ -12,24 +12,60 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleSignup = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("비밀번호가 일치하지 않습니다.");
-      return;
-    }
-    if (!agree) {
-      alert("개인정보 처리방침에 동의해야 합니다.");
-      return;
+  // 🔹 유효성 검사 함수
+  const validateForm = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // 이메일 형식 검사
+    if (!emailRegex.test(email)) {
+      alert("올바른 이메일 형식을 입력하세요.");
+      return false;
     }
 
+    if (password.length < 6) {
+      alert("비밀번호는 최소 6자 이상이어야 합니다.");
+      return false;
+    }
+
+    if (password !== confirmPassword) {
+      alert("비밀번호가 일치하지 않습니다.");
+      return false;
+    }
+
+    if (!nickname.trim()) {
+      alert("닉네임을 입력하세요.");
+      return false;
+    }
+
+    if (!agree) {
+      alert("개인정보 처리방침에 동의해야 합니다.");
+      return false;
+    }
+
+    return true;
+  };
+
+  // 🔹 회원가입 처리 함수
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
+
     setLoading(true);
+
+    const signupData = {
+      email,
+      password,
+      nickname,
+      agreements: [
+        { terms_id: 1, agreed: 1 },
+        { terms_id: 2, agreed: 1 }
+      ]
+    };
 
     try {
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nickname, email, password }),
+        body: JSON.stringify(signupData),
       });
 
       if (res.ok) {
@@ -51,19 +87,58 @@ export default function SignupPage() {
       <h1 className="text-3xl font-bold mb-4">Sign Up</h1>
       <form onSubmit={handleSignup} className="flex flex-col gap-4 w-96">
         <div className="flex flex-col gap-3">
-          <input type="text" placeholder="아이디" value={nickname} onChange={(e) => setNickname(e.target.value)} required className="w-full p-3 text-lg bg-gray-100 border border-gray-300 rounded-md" />
-          <input type="email" placeholder="이메일" value={email} onChange={(e) => setEmail(e.target.value)} required className="w-full p-3 text-lg bg-gray-100 border border-gray-300 rounded-md" />
-          <input type="password" placeholder="비밀번호" value={password} onChange={(e) => setPassword(e.target.value)} required className="w-full p-3 text-lg bg-gray-100 border border-gray-300 rounded-md" />
-          <input type="password" placeholder="비밀번호 확인" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required className="w-full p-3 text-lg bg-gray-100 border border-gray-300 rounded-md" />
+          <input 
+            type="email" 
+            placeholder="ID" 
+            value={nickname} 
+            onChange={(e) => setNickname(e.target.value)} 
+            required 
+            className="w-full p-3 text-lg bg-gray-100 border border-gray-300 rounded-md" 
+          />
+          <input 
+            type="email" 
+            placeholder="email" 
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)} 
+            required 
+            className="w-full p-3 text-lg bg-gray-100 border border-gray-300 rounded-md" 
+          />
+          <input 
+            type="password" 
+            placeholder="password" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} 
+            required 
+            className="w-full p-3 text-lg bg-gray-100 border border-gray-300 rounded-md" 
+          />
+          <input 
+            type="password" 
+            placeholder="confirm password" 
+            value={confirmPassword} 
+            onChange={(e) => setConfirmPassword(e.target.value)} 
+            required 
+            className="w-full p-3 text-lg bg-gray-100 border border-gray-300 rounded-md" 
+          />
         </div>
         <div className="flex justify-between items-center text-sm">
           <div className="flex items-center">
-            <input type="checkbox" id="agree" checked={agree} onChange={() => setAgree(!agree)} className="mr-2" />
+            <input 
+              type="checkbox" 
+              id="agree" 
+              checked={agree} 
+              onChange={() => setAgree(!agree)} 
+              className="mr-2" 
+            />
             <label htmlFor="agree"> 개인정보 처리방침 동의 </label>
           </div>
           <a href="/terms" target="_blank" className="text-blue-500 underline">(약관 동의 보기)</a>
         </div>
-        <button type="submit" className={`w-full p-3 text-white rounded-md ${loading ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-700'}`} disabled={loading}>
+
+        <button 
+          type="submit" 
+          className={`w-full p-3 text-white rounded-md ${loading ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-700'}`} 
+          disabled={loading}
+        >
           {loading ? "처리 중..." : "JOIN"}
         </button>
       </form>

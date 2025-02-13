@@ -2,17 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signIn, useSession } from "next-auth/react";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const { data: session, status } = useSession();
-  console.log(session, status);
   const router = useRouter();
 
-  const dummyUsername = "admin";
+  const dummyUsername = "admin@gmail.com";
   const dummyPassword = "123456";
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -39,8 +36,8 @@ export default function LoginPage() {
       <form onSubmit={handleLogin} className="flex flex-col items-center gap-4 w-96">
         <div className="flex flex-col gap-2 w-full">
           <input 
-            type="text" 
-            placeholder="아이디" 
+            type="email" 
+            placeholder="ID" 
             value={username} 
             onChange={(e) => setUsername(e.target.value)} 
             required 
@@ -48,7 +45,7 @@ export default function LoginPage() {
           />
           <input 
             type="password" 
-            placeholder="비밀번호" 
+            placeholder="password" 
             value={password} 
             onChange={(e) => setPassword(e.target.value)} 
             required 
@@ -63,15 +60,6 @@ export default function LoginPage() {
           {loading ? "처리 중..." : "LOGIN"}
         </button>
       </form>
-
-      <div className="flex flex-col items-center w-full">
-        <p>소셜 로그인</p>
-        <div className="flex gap-2 w-full justify-center">
-          <button className="w-32 h-10 bg-yellow-400 text-black border border-black rounded-md" onClick={() => signIn("kakao", { callbackUrl: "/" })}>카카오</button>
-          <button className="w-32 h-10 bg-white text-black border border-black rounded-md" onClick={() => signIn("google", { callbackUrl: "/" })}>구글</button>
-          <button className="w-32 h-10 bg-green-500 text-white border border-black rounded-md" onClick={() => signIn("naver", { callbackUrl: "/" })}>네이버</button>
-        </div>
-      </div>
 
       <div className="flex items-center gap-2">
         <p className="text-sm">아직 회원이 아니신가요?</p>
