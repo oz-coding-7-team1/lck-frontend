@@ -20,9 +20,13 @@ export default function LoginPage() {
         password,
       });
 
-      // 로그인 성공 -> 토큰 저장 후 페이지 이동
+      // Store tokens
       localStorage.setItem("accessToken", response.data.access);
       localStorage.setItem("refreshToken", response.data.refresh);
+      
+      // Dispatch a custom event to notify the header
+      window.dispatchEvent(new Event("auth-change"));
+      
       alert("로그인 성공! 메인 페이지로 이동합니다.");
       router.push("/");
     } catch (error) {

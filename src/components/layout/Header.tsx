@@ -18,6 +18,26 @@ export default function Header() {
   >([]);
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const checkLoginStatus = () => {
+      const accessToken = localStorage.getItem("accessToken");
+      setIsLoggedIn(!!accessToken);
+    };
+
+    // Initial check
+    checkLoginStatus();
+
+    // Listen for both storage and custom auth-change events
+    window.addEventListener("storage", checkLoginStatus);
+    window.addEventListener("auth-change", checkLoginStatus);
+
+    return () => {
+      window.removeEventListener("storage", checkLoginStatus);
+      window.removeEventListener("auth-change", checkLoginStatus);
+    };
+  }, []);
 
   useEffect(() => {
     if (searchQuery) {
@@ -64,9 +84,17 @@ export default function Header() {
     setMenuOpen(!menuOpen);
   };
 
-  const handleMyPageClick = () => {
-    if (status === "authenticated") {
-      router.push("/myprofile"); // Changed from "/mypage" to "/myprofile"
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    window.dispatchEvent(new Event("auth-change"));
+    setIsLoggedIn(false);
+    router.push("/");
+  };
+
+  const handleProfileClick = () => {
+    if (isLoggedIn) {
+      router.push("/myprofile");
     } else {
       router.push("/login");
     }
@@ -103,12 +131,12 @@ export default function Header() {
       </>
     );
 
-    if (status === "authenticated") {
+    if (isLoggedIn) {
       return (
         <>
           {commonItems}
           <Link
-            href="/mypage"
+            href="/myprofile"
             className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
           >
             내 프로필
@@ -122,9 +150,9 @@ export default function Header() {
 
   return (
     <>
-      <header className="border-b bg-gray-50">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
         <div className="container flex items-center justify-between h-16 px-4 mx-auto">
-          <Link href="/" className="text-xl font-bold text-rose-500">
+          <Link href="/" className="text-xl font-bold">
             CHOEAELOL
           </Link>
           <div className="flex-1 max-w-xl px-4 mx-auto">
@@ -159,24 +187,65 @@ export default function Header() {
             </div>
           </div>
           <div className="flex items-center gap-4">
-            {status !== "authenticated" && (
-              <button
-                onClick={() => router.push("/login")}
-                className="px-4 py-2 text-sm font-medium text-white rounded-full bg-rose-500 hover:bg-rose-600"
-              >
-                로그인
-              </button>
+            {isLoggedIn ? (
+              <>
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                >
+                  로그아웃
+                </button>
+                <button
+                  onClick={handleProfileClick}
+                  className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                  aria-label="Profile"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-gray-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    />
+                  </svg>
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                >
+                  로그인
+                </Link>
+                <button
+                  onClick={handleProfileClick}
+                  className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                  aria-label="Profile"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-gray-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    />
+                  </svg>
+                </button>
+              </>
             )}
-            <button
-              onClick={handleMyPageClick}
-              title={status === "authenticated" ? "내 프로필" : "로그인"}
-            >
-              <User
-                className={`w-6 h-6 ${
-                  status === "authenticated" ? "text-rose-500" : "text-gray-600"
-                }`}
-              />
-            </button>
             <button onClick={toggleMenu}>
               {menuOpen ? (
                 <X className="w-6 h-6 text-gray-600" />
@@ -187,6 +256,7 @@ export default function Header() {
           </div>
         </div>
       </header>
+      <div className="h-16 w-full"></div>
       {menuOpen && (
         <div
           className="fixed inset-0 z-20 bg-black bg-opacity-50"

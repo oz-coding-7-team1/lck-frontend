@@ -6,6 +6,13 @@ import { ChevronLeft, ChevronRight, Heart } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
 import { samplePlayers, Player } from "@/src/types/player";
 
+// Add new interface for top player response
+interface TopPlayer {
+  id: number;
+  nickname: string;
+  realname: string;
+}
+
 export default function Home() {
   const lanes = useMemo(
     () => [
@@ -20,6 +27,9 @@ export default function Home() {
 
   const [currentLane, setCurrentLane] = useState(0);
   const [playersByLane, setPlayersByLane] = useState<Player[]>([]);
+  const [topPlayers, setTopPlayers] = useState<TopPlayer[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     // Filter players by current lane and sort by fanVotes
@@ -28,6 +38,43 @@ export default function Home() {
       .sort((a, b) => (b?.fanVotes || 0) - (a?.fanVotes || 0));
     setPlayersByLane(filteredPlayers);
   }, [lanes, currentLane]);
+
+  useEffect(() => {
+    const fetchTopPlayers = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        const token = localStorage.getItem("token");
+        const headers: HeadersInit = {
+          "Content-Type": "application/json",
+        };
+
+        // Only add Authorization header if token exists
+        if (token) {
+          headers.Authorization = `Bearer ${token}`;
+        }
+
+        const response = await fetch("/api/v1/players/top", {
+          headers,
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch top players");
+        }
+
+        const data = await response.json();
+        setTopPlayers(data);
+      } catch (error) {
+        console.error("Error fetching top players:", error);
+        setError("Failed to load player rankings");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchTopPlayers();
+  }, []); // Remove router dependency
 
   const handleNextLane = () => {
     setCurrentLane((prev) => (prev + 1) % lanes.length);
@@ -39,12 +86,8 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      {" "}
-      {/* Changed bg-gray-100 to bg-white */}
-      <div className="py-16 bg-gradient-to-b from-gray-200 to-transparent">
-        {" "}
-        {/* Added py-10 */}
-        <h1 className="text-2xl font-bold text-center text-gray-900">
+      <div className="bg-gradient-to-b from-gray-200 to-transparent">
+        <h1 className="text-2xl font-bold text-center text-gray-900 py-8">
           당신의 최애 선수에게 투표하세요
         </h1>
       </div>
@@ -58,132 +101,125 @@ export default function Home() {
               선수 랭킹
             </h2>
 
-            <div className="space-y-6">
-              <div className="block">
-                <Link href="/player/faker">
-                  <div className="aspect-[2/1] relative bg-white shadow-lg rounded-xl overflow-hidden">
-                    <div className="absolute inset-0">
+            {isLoading ? (
+              <div className="text-center py-8">
+                <p className="text-gray-600">Loading player rankings...</p>
+              </div>
+            ) : error ? (
+              <div className="text-center py-8">
+                <p className="text-gray-600">{error}</p>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {topPlayers.length > 0 && (
+                  <div className="block">
+                    <Link
+                      href={`/player/${topPlayers[0].nickname.toLowerCase()}`}
+                    >
+                      <div className="aspect-[2/1] relative bg-white shadow-lg rounded-xl overflow-hidden">
+                        <div className="absolute inset-0">
+                          <Image
+                            src={`/player-images/${topPlayers[0].nickname.toLowerCase()}.jpg`}
+                            alt={topPlayers[0].nickname}
+                            layout="fill"
+                            objectFit="cover"
+                            className="opacity-80"
+                          />
+                        </div>
+                        <div className="absolute bottom-4 left-4">
+                          <div className="text-lg font-bold text-gray-600">
+                            1st
+                          </div>
+                          <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
+                            {topPlayers[0].nickname}
+                            <Image
+                              src={`/icons/${topPlayers[0].nickname.toLowerCase()}.svg`}
+                              alt={topPlayers[0].nickname}
+                              width={24}
+                              height={24}
+                              className="w-6 h-6"
+                            />
+                          </div>
+                          <div className="text-lg text-gray-600">
+                            {topPlayers[0].realname}
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-2 gap-6">
+                  {topPlayers.slice(1, 3).map((player, index) => (
+                    <div key={player.id} className="block">
+                      <Link href={`/player/${player.nickname.toLowerCase()}`}>
+                        <div className="relative overflow-hidden bg-white shadow-lg aspect-[3/2] rounded-xl">
+                          <div className="absolute inset-y-0 left-0 w-1/2">
+                            <Image
+                              src={`/icons/${player.nickname.toLowerCase()}.svg`}
+                              alt={player.nickname}
+                              layout="fill"
+                              objectFit="cover"
+                              className="opacity-20"
+                            />
+                          </div>
+                          <div className="absolute bottom-4 left-4">
+                            <div className="text-lg font-bold text-gray-600">
+                              {index + 2}
+                            </div>
+                            <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
+                              {player.nickname}
+                              <Image
+                                src={`/icons/${player.nickname.toLowerCase()}.svg`}
+                                alt={player.nickname}
+                                width={24}
+                                height={24}
+                                className="w-6 h-6"
+                              />
+                            </div>
+                            <div className="text-lg text-gray-600">
+                              {player.realname}
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+
+                {topPlayers.slice(3, 10).map((player, index) => (
+                  <div
+                    key={player.id}
+                    className="flex items-center gap-6 p-6 bg-white rounded-lg shadow-md"
+                  >
+                    <div className="flex-shrink-0 w-12 h-12 bg-gray-300 rounded-full">
                       <Image
-                        src="/faker-img/T1-Faker-wins-Worlds-2023-esports-greatest-comeback.jpeg"
-                        alt="FAKER"
-                        layout="fill"
-                        objectFit="cover"
-                        className="opacity-80"
+                        src={`/icons/${player.nickname.toLowerCase()}.svg`}
+                        alt={player.nickname}
+                        width={48}
+                        height={48}
+                        className="w-full h-full object-cover rounded-full"
                       />
                     </div>
-                    <div className="absolute bottom-4 left-4">
-                      <div className="text-lg font-bold text-gray-600">1st</div>
+                    <div>
                       <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
-                        FAKER
+                        {player.nickname}
                         <Image
-                          src="/icons/faker.svg"
-                          alt="FAKER"
+                          src={`/icons/${player.nickname.toLowerCase()}.svg`}
+                          alt={player.nickname}
                           width={24}
                           height={24}
                           className="w-6 h-6"
                         />
                       </div>
-                      <div className="text-lg text-gray-600">이상혁</div>
+                      <div className="text-lg text-gray-600">
+                        {player.realname}
+                      </div>
                     </div>
                   </div>
-                </Link>
+                ))}
               </div>
-
-              <div className="grid grid-cols-2 gap-6">
-                <div className="block">
-                  <Link href="/player/chovy">
-                    <div className="relative overflow-hidden bg-white shadow-lg aspect-[3/2] rounded-xl">
-                      {" "}
-                      {/* Adjusted aspect ratio */}
-                      <div className="absolute inset-y-0 left-0 w-1/2">
-                        <Image
-                          src="/icons/chovy.svg"
-                          alt="CHOVY"
-                          layout="fill"
-                          objectFit="cover"
-                          className="opacity-20"
-                        />
-                      </div>
-                      <div className="absolute bottom-4 left-4">
-                        <div className="text-lg font-bold text-gray-600">2</div>
-                        <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
-                          CHOVY
-                          <Image
-                            src="/icons/chovy.svg"
-                            alt="CHOVY"
-                            width={24}
-                            height={24}
-                            className="w-6 h-6"
-                          />
-                        </div>
-                        <div className="text-lg text-gray-600">정지훈</div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-
-                <div className="block">
-                  <Link href="/player/gumayusi">
-                    <div className="relative overflow-hidden bg-white shadow-lg aspect-[3/2] rounded-xl">
-                      {" "}
-                      {/* Adjusted aspect ratio */}
-                      <div className="absolute inset-y-0 left-0 w-1/2">
-                        <Image
-                          src="/icons/gumayusi.svg"
-                          alt="GUMAYUSI"
-                          layout="fill"
-                          objectFit="cover"
-                          className="opacity-20"
-                        />
-                      </div>
-                      <div className="absolute bottom-4 left-4">
-                        <div className="text-lg font-bold text-gray-600">3</div>
-                        <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
-                          GUMAYUSI
-                          <Image
-                            src="/icons/gumayusi.svg"
-                            alt="GUMAYUSI"
-                            width={24}
-                            height={24}
-                            className="w-6 h-6"
-                          />
-                        </div>
-                        <div className="text-lg text-gray-600">이민형</div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              </div>
-
-              {Array.from({ length: 7 }, (_, i) => (
-                <div
-                  key={i + 4}
-                  className="flex items-center gap-6 p-6 bg-white rounded-lg shadow-md"
-                >
-                  <div className="flex-shrink-0 w-12 h-12 bg-gray-300 rounded-full"></div>
-                  <div>
-                    <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
-                      Player {i + 4}
-                      <Image
-                        src={`/icons/player${i + 4}.svg`}
-                        alt={`Player ${i + 4}`}
-                        width={24}
-                        height={24}
-                        className="w-6 h-6"
-                      />
-                    </div>
-                    <div className="text-lg text-gray-600">
-                      Player Name {i + 4}
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4 ml-auto text-lg text-gray-500">
-                    <Heart className="w-6 h-6 text-red-500" />
-                    {50000 + i * 1000}{" "}
-                    {/* Replace Math.random() with a consistent value */}
-                  </div>
-                </div>
-              ))}
-            </div>
+            )}
           </section>
           <div className="space-y-12">
             {" "}

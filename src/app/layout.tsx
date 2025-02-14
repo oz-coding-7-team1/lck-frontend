@@ -14,11 +14,13 @@ export default function RootLayout({
   return (
     <html lang="ko" suppressHydrationWarning>
       <body className={inter.className}>
-          <Header />
-            <Suspense>
-              <main>{children}</main>
-            </Suspense>
-          <Footer />
+        <Header />
+        <Suspense>
+          <main className="min-h-screen">
+            {children}
+          </main>
+        </Suspense>
+        <Footer />
       </body>
     </html>
   );
