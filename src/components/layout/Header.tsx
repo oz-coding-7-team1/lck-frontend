@@ -4,7 +4,6 @@ import { Search, User, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 
 const mockData = [
   { name: "FAKER", koreanName: "이상혁" },
@@ -19,7 +18,6 @@ export default function Header() {
   >([]);
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
-  const { status } = useSession();
 
   useEffect(() => {
     if (searchQuery) {
