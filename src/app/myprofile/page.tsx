@@ -1,20 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { authApi } from "@/src/services/authApi";
 import Image from "next/image";
 
 export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
-  const [isLoggedOut] = useState(false);
-  const [nickname, setNickname] = useState("UserNickname");
-  const [email] = useState("user@example.com");
-  const [profileIcon, setProfileIcon] = useState("/path/to/default/icon.png");
+  const [isLoggedOut, setIsLoggedOut] = useState(false);
+  const [nickname, setNickname] = useState("");
+  const [email, setEmail] = useState("");
+  const [profileIcon, setProfileIcon] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const response = await authApi.getUserInfo();
+      const user = response.data;
+      setNickname(user.nickname);
+      setEmail(user.email);
+      setProfileIcon(user.profileImageUrl);
+    };
+
+    fetchUserInfo();
+  }, []);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -24,29 +37,29 @@ export default function ProfilePage() {
     setIsChangingPassword(true);
   };
 
-  const handleLogoutClick = () => {
-    alert("User logged out");
+  const handleLogoutClick = async () => {
+    await authApi.logout();
+    setIsLoggedOut(true);
     router.push("/");
   };
 
-  const handleDeleteAccountClick = () => {
-    alert("유저 회원탈퇴");
-    // Logic to delete the user's account goes here
+  const handleDeleteAccountClick = async () => {
+    await authApi.withdraw();
     router.push("/");
   };
 
-  const handleSaveClick = () => {
+  const handleSaveClick = async () => {
+    await authApi.updateUserInfo({ nickname, profileImageUrl: profileIcon });
     setIsEditing(false);
-    // Save changes logic here
   };
 
   const handleCancelClick = () => {
     setIsEditing(false);
   };
 
-  const handlePasswordSaveClick = () => {
+  const handlePasswordSaveClick = async () => {
+    await authApi.changePassword({ currentPassword, newPassword });
     setIsChangingPassword(false);
-    // Save password change logic here
   };
 
   const handlePasswordCancelClick = () => {

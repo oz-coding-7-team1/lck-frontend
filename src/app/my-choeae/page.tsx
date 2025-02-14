@@ -2,21 +2,28 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { subscriptionApi } from "@/src/services/subscriptionApi";
 
 export default function MyChoeae() {
   const router = useRouter();
 
   useEffect(() => {
-    // Get the favorite player ID from localStorage or any other state management solution
-    const favoritePlayerId = localStorage.getItem("favoritePlayerId");
+    const fetchFavoritePlayer = async () => {
+      try {
+        const response = await subscriptionApi.getFavoritePlayer();
+        const favoritePlayer = response.data;
 
-    if (favoritePlayerId) {
-      // Redirect to the player's page
-      router.push(`/player/${favoritePlayerId}`);
-    } else {
-      // If no favorite player is selected, redirect to players page
-      router.push("/players");
-    }
+        if (favoritePlayer && favoritePlayer.player_id) {
+          router.push(`/player/${favoritePlayer.player_id}`);
+        } else {
+          router.push("/players");
+        }
+      } catch {
+        router.push("/players");
+      }
+    };
+
+    fetchFavoritePlayer();
   }, [router]);
 
   return (
