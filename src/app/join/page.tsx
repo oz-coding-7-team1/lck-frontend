@@ -79,8 +79,8 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen text-center p-6">
-      <h1 className="text-3xl font-bold mb-4">Sign Up</h1>
+    <div className="flex flex-col items-center justify-center h-screen p-6 text-center">
+      <h1 className="mb-4 text-3xl font-bold">Sign Up</h1>
       <form onSubmit={handleSignup} className="flex flex-col gap-4 w-96">
         <div className="flex flex-col gap-3">
           <input 
@@ -116,7 +116,7 @@ export default function SignupPage() {
             className="w-full p-3 text-lg bg-gray-100 border border-gray-300 rounded-md" 
           />
         </div>
-        <div className="flex justify-between items-center text-sm">
+        <div className="flex items-center justify-between text-sm">
           <div className="flex items-center">
             <input 
               type="checkbox" 

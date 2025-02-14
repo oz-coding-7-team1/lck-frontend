@@ -3,39 +3,47 @@ import SocialLinks from "@/src/components/common/SocialLinks";
 import CommunitySimple from "@/src/components/community/CommunitySimple";
 import PlayerGallery from "@/src/components/player/PlayerGallery";
 import PlayerSchedule from "@/src/components/player/PlayerSchedule";
-import { Player, samplePlayers } from "@/src/types/player";
-import { sampleTeams } from "@/src/types/team";
+import { playerApi } from "@/src/services/playerApi";
+import { teamApi } from "@/src/services/teamApi";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { Player } from "@/src/types/api";
 
-export default async function PlayerPage({ params }: { params: Promise<{ nickname: string }> }) {
-  // 닉네임을 소문자로 변환하여 매칭
-  const nickname =  (await params).nickname
+type Props = {
+  params: { nickname: string };
+};
 
-  const player: Player | undefined = samplePlayers.find(
-    (p) => p.nickname.toLowerCase() === nickname.toLowerCase()
+export default async function PlayerPage({ params }: Props) {
+  const players = await playerApi.getPlayers();
+  const player = players.data.find(
+    (p: Player) => p.nickname.toLowerCase() === params.nickname.toLowerCase()
   );
 
   if (!player) return notFound();
 
-  const team = sampleTeams.find((t) => t.id === player.team_id);
+  const team = player.team_id
+    ? (await teamApi.getTeamById(player.team_id)).data
+    : null;
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container p-6 mx-auto">
       <div className="flex flex-col items-center">
-        <Image 
-          src={player.profileImageUrl} 
-          alt={player.nickname} 
-          width={150} 
-          height={150} 
+        <Image
+          src={player.profileImageUrl}
+          alt={player.nickname}
+          width={150}
+          height={150}
         />
         <div>
-          <h1 className="text-3xl font-bold">{player.nickname}<PlayerSubscribeButton playerId={player.id} /></h1>
+          <h1 className="text-3xl font-bold">
+            {player.nickname}
+            <PlayerSubscribeButton playerId={player.id} />
+          </h1>
           <p className="text-gray-500">{player.realname}</p>
           <p className="text-blue-500">♥ {player.fanVotes}</p>
         </div>
-        <SocialLinks 
-          links={player.social} 
+        <SocialLinks
+          links={player.social}
           iconClassName="w-6 h-6 hover:opacity-75"
         />
       </div>
@@ -59,7 +67,7 @@ export default async function PlayerPage({ params }: { params: Promise<{ nicknam
             <strong>포지션</strong> {player.position}
           </p>
           <p>
-            <strong>소속 팀</strong> {team ? team.name : '소속팀 없음'}
+            <strong>소속 팀</strong> {team ? team.name : "소속팀 없음"}
           </p>
           <p>
             <strong>소속사</strong> {player.agency}
@@ -78,7 +86,7 @@ export default async function PlayerPage({ params }: { params: Promise<{ nicknam
           <CommunitySimple type="player" entityId={player.id} />
         </div>
         <div className="col-span-4">
-          <PlayerGallery  />
+          <PlayerGallery />
         </div>
       </div>
     </div>
