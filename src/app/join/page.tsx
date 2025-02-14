@@ -53,7 +53,7 @@ export default function SignupPage() {
 
     const signupData = {
       email,
-      nickname: nickname,
+      nickname,
       password,
       terms_agreements: [
         {
@@ -62,9 +62,9 @@ export default function SignupPage() {
         }
       ]
     };
-    console.log(signupData)
+
     try {
-      const response = await axios.post("http://43.200.180.205/api/v1/users/signup/", signupData,{withCredentials: true});
+      const response = await axios.post("http://43.200.180.205/api/v1/users/signup/", signupData, { withCredentials: true });
 
       if (response.status === 201) {
         alert("회원가입 성공! 로그인 페이지로 이동합니다.");
@@ -92,7 +92,7 @@ export default function SignupPage() {
             className="w-full p-3 text-lg bg-gray-100 border border-gray-300 rounded-md" 
           />
           <input 
-            type="string" 
+            type="text" 
             placeholder="nickname" 
             value={nickname} 
             onChange={(e) => setNickname(e.target.value)} 
