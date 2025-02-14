@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { authApi } from "@/src/services/authApi";
 
 export default function SignupPage() {
   const [nickname, setNickname] = useState("");
@@ -62,18 +63,13 @@ export default function SignupPage() {
     };
 
     try {
-      const res = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(signupData),
-      });
+      const res = await authApi.register(signupData);
 
-      if (res.ok) {
+      if (res.status === 200) {
         alert("회원가입 성공! 로그인 페이지로 이동합니다.");
         router.push("/login");
       } else {
-        const data = await res.json();
-        alert(data.message || "회원가입 실패!");
+        alert(res.data.message || "회원가입 실패!");
       }
     } catch {
       alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
@@ -83,13 +79,13 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen text-center p-6">
-      <h1 className="text-3xl font-bold mb-4">Sign Up</h1>
+    <div className="flex flex-col items-center justify-center h-screen p-6 text-center">
+      <h1 className="mb-4 text-3xl font-bold">Sign Up</h1>
       <form onSubmit={handleSignup} className="flex flex-col gap-4 w-96">
         <div className="flex flex-col gap-3">
           <input
-            type="email"
-            placeholder="ID"
+            type="text"
+            placeholder="닉네임"
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
             required
@@ -120,7 +116,7 @@ export default function SignupPage() {
             className="w-full p-3 text-lg bg-gray-100 border border-gray-300 rounded-md"
           />
         </div>
-        <div className="flex justify-between items-center text-sm">
+        <div className="flex items-center justify-between text-sm">
           <div className="flex items-center">
             <input
               type="checkbox"
