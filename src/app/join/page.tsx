@@ -64,7 +64,7 @@ export default function SignupPage() {
     };
     console.log(signupData)
     try {
-      const response = await axios.post("http://43.200.180.205/api/v1/users/signup/", signupData);
+      const response = await axios.post("http://43.200.180.205/api/v1/users/signup/", signupData,{withCredentials: true});
 
       if (response.status === 201) {
         alert("회원가입 성공! 로그인 페이지로 이동합니다.");
@@ -79,8 +79,8 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen p-6 text-center">
-      <h1 className="mb-4 text-3xl font-bold">Sign Up</h1>
+    <div className="flex flex-col items-center justify-center h-screen text-center p-6">
+      <h1 className="text-3xl font-bold mb-4">Sign Up</h1>
       <form onSubmit={handleSignup} className="flex flex-col gap-4 w-96">
         <div className="flex flex-col gap-3">
           <input 
@@ -116,7 +116,7 @@ export default function SignupPage() {
             className="w-full p-3 text-lg bg-gray-100 border border-gray-300 rounded-md" 
           />
         </div>
-        <div className="flex items-center justify-between text-sm">
+        <div className="flex justify-between items-center text-sm">
           <div className="flex items-center">
             <input 
               type="checkbox" 
