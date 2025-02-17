@@ -26,8 +26,11 @@ export default function LoginPage() {
       const user = response.data.user; 
   
       if (accessToken && user) {
-        localStorage.setItem("accessToken", accessToken); // ✅ 토큰 저장
-        localStorage.setItem("user", JSON.stringify(user)); // ✅ 사용자 정보 저장
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("user", JSON.stringify(user));
+        
+        // Dispatch auth-change event to update header state
+        window.dispatchEvent(new Event("auth-change"));
       } else {
         console.error("❌ Access Token 또는 사용자 정보가 없습니다.");
         return;

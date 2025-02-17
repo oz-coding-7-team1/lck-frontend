@@ -25,6 +25,7 @@ export default function Header() {
   const [isSearching, setIsSearching] = useState(false);
   const [searchError, setSearchError] = useState("");
   const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Debounced search function
   useEffect(() => {
@@ -73,6 +74,26 @@ export default function Header() {
     }
   }, []);
 
+  // Check login status when component mounts
+  useEffect(() => {
+    const checkLoginStatus = () => {
+      const token = localStorage.getItem("accessToken");
+      setIsLoggedIn(!!token);
+    };
+
+    // Initial check
+    checkLoginStatus();
+
+    // Listen for storage changes (in case of login/logout in other tabs)
+    window.addEventListener("storage", checkLoginStatus);
+    window.addEventListener("auth-change", checkLoginStatus);
+
+    return () => {
+      window.removeEventListener("storage", checkLoginStatus);
+      window.removeEventListener("auth-change", checkLoginStatus);
+    };
+  }, []);
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
@@ -90,11 +111,26 @@ export default function Header() {
   };
 
   const handleMyPageClick = () => {
-    if (status === "authenticated") {
+    if (isLoggedIn) {
       router.push("/myprofile"); // Changed from "/mypage" to "/myprofile"
     } else {
       router.push("/login");
     }
+  };
+
+  const handleLogout = () => {
+    // Remove tokens
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+
+    // Update state
+    setIsLoggedIn(false);
+
+    // Dispatch event to notify other components
+    window.dispatchEvent(new Event("auth-change"));
+
+    // Redirect to home page
+    router.push("/");
   };
 
   // Update the navigation menu to show different options based on auth status
@@ -128,7 +164,7 @@ export default function Header() {
       </>
     );
 
-    if (status === "authenticated") {
+    if (isLoggedIn) {
       return (
         <>
           {commonItems}
@@ -197,7 +233,14 @@ export default function Header() {
             </form>
           </div>
           <div className="flex items-center gap-4">
-            {status !== "authenticated" && (
+            {isLoggedIn ? (
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 text-sm font-medium text-white rounded-full bg-rose-500 hover:bg-rose-600"
+              >
+                로그아웃
+              </button>
+            ) : (
               <button
                 onClick={() => router.push("/login")}
                 className="px-4 py-2 text-sm font-medium text-white rounded-full bg-rose-500 hover:bg-rose-600"
@@ -207,11 +250,11 @@ export default function Header() {
             )}
             <button
               onClick={handleMyPageClick}
-              title={status === "authenticated" ? "내 프로필" : "로그인"}
+              title={isLoggedIn ? "내 프로필" : "로그인"}
             >
               <User
                 className={`w-6 h-6 ${
-                  status === "authenticated" ? "text-rose-500" : "text-gray-600"
+                  isLoggedIn ? "text-rose-500" : "text-gray-600"
                 }`}
               />
             </button>
