@@ -1,63 +1,172 @@
-'use client';
+"use client";
 
-import { useSearchParams } from 'next/navigation';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { User, Users } from 'lucide-react';
+import { useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Link from "next/link";
+import Image from "next/image";
+import { AxiosError } from "axios";
 
-const mockData = [
-  { name: 'FAKER', koreanName: '이상혁', type: 'player' },
-  { name: 'CHOVY', koreanName: '정지훈', type: 'player' },
-  { name: 'GUMAYUSI', koreanName: '이민형', type: 'player' },
-  { name: 'KERIA', koreanName: '류민석', type: 'player' },
-  { name: 'T1', koreanName: 'T1', type: 'team' },
-  { name: 'GEN.G', koreanName: '젠지', type: 'team' },
-  { name: 'Hanwha Life Esports', koreanName: '한화생명 e스포츠', type: 'team' },
-  { name: 'Dplus KIA', koreanName: '디플러스 기아', type: 'team' },
-  { name: 'kt Rolster', koreanName: 'kt 롤스터', type: 'team' },
-];
+interface SearchResult {
+  id: number;
+  nickname: string;
+  realname: string;
+  profileImageUrl?: string;
+}
+
+interface Tag {
+  name: string;
+  slug: string;
+}
+
+const DEFAULT_PROFILE_IMAGE = "/images/default-avatar.svg";
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
-  const query = searchParams.get('query') || '';
-  const [searchResults, setSearchResults] = useState<
-    { name: string; koreanName: string; type: string }[]
-  >([]);
+  const query = searchParams.get("query");
+  const tag = searchParams.get("tag");
+
+  const [results, setResults] = useState<SearchResult[]>([]);
+  const [relatedTags, setRelatedTags] = useState<Tag[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (query) {
-      const results = mockData.filter(
-        (item) =>
-          item.name.toLowerCase().includes(query.toLowerCase()) ||
-          item.koreanName.includes(query)
-      );
-      setSearchResults(results);
+    const fetchResults = async () => {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        let endpoint = "http://43.200.180.205/api/v1/search/";
+        const searchParam = tag ? tag : query;
+
+        if (searchParam) {
+          endpoint += `?search=${encodeURIComponent(searchParam)}`;
+        }
+
+        const response = await axios.get(endpoint);
+
+        if (response.data.error) {
+          setError(response.data.error);
+          setResults([]);
+          setRelatedTags([]);
+        } else {
+          setResults(response.data.results || []);
+          setRelatedTags(response.data.related_tags || []);
+        }
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          console.error("Search error:", error);
+          if (error.response?.status === 404) {
+            setError("검색 결과가 없습니다");
+          } else {
+            setError(
+              error.response?.data?.message ||
+                "검색 중 일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+            );
+          }
+        } else {
+          setError("검색 중 오류가 발생했습니다");
+        }
+        setResults([]);
+        setRelatedTags([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (query || tag) {
+      fetchResults();
     } else {
-      setSearchResults([]);
+      setIsLoading(false);
+      setError(null);
+      setResults([]);
+      setRelatedTags([]);
     }
-  }, [query]);
+  }, [query, tag]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-gray-600">검색 중...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-red-500">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="container px-4 py-8 mx-auto">
-      <h1 className="mb-4 text-2xl font-bold">Search Results for &quot;{query}&quot;</h1>
-      {searchResults.length > 0 ? (
-        <ul className="space-y-4">
-          {searchResults.map((result, index) => (
-            <li key={index} className="flex items-center p-4 border rounded-lg shadow">
-              {result.type === 'player' ? (
-                <User className="w-6 h-6 mr-2 text-gray-600" />
-              ) : (
-                <Users className="w-6 h-6 mr-2 text-gray-600" />
-              )}
-              <Link href={`/${result.type}/${result.name}`} className="text-lg font-semibold text-blue-600 hover:underline">
-                {result.name} ({result.koreanName})
+      <div className="max-w-4xl mx-auto">
+        {/* Search Header */}
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold text-gray-900">
+            {tag ? `#${tag} 검색 결과` : `'${query}' 검색 결과`}
+          </h1>
+          <p className="mt-2 text-gray-600">
+            {results.length}개의 결과를 찾았습니다
+          </p>
+        </div>
+
+        {/* Related Tags */}
+        {relatedTags.length > 0 && (
+          <div className="mb-8">
+            <h2 className="mb-4 text-lg font-semibold text-gray-800">
+              관련 태그
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {relatedTags.map((relatedTag) => (
+                <Link
+                  key={relatedTag.slug}
+                  href={`/search?tag=${encodeURIComponent(relatedTag.slug)}`}
+                  className="px-3 py-1 text-sm text-gray-600 bg-gray-100 rounded-full hover:bg-gray-200"
+                >
+                  #{relatedTag.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Search Results */}
+        <div className="space-y-6">
+          {results.length > 0 ? (
+            results.map((result) => (
+              <Link
+                key={result.id}
+                href={`/player/${result.nickname.toLowerCase()}`}
+                className="flex items-center gap-4 p-4 transition-colors bg-white rounded-lg shadow hover:bg-gray-50"
+              >
+                <div className="flex-shrink-0 w-16 h-16 overflow-hidden rounded-full">
+                  <Image
+                    src={result.profileImageUrl || DEFAULT_PROFILE_IMAGE}
+                    alt={result.nickname}
+                    width={64}
+                    height={64}
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    {result.nickname}
+                  </h3>
+                  <p className="text-gray-600">{result.realname}</p>
+                </div>
               </Link>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="text-gray-500">No results found for &quot;{query}&quot;.</p>
-      )}
+            ))
+          ) : (
+            <div className="p-8 text-center text-gray-500 bg-white rounded-lg shadow">
+              검색 결과가 없습니다
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
