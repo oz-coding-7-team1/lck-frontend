@@ -6,6 +6,7 @@ import Image from "next/image";
 import axios from "axios";
 
 interface UserProfile {
+  id: number;
   email: string;
   nickname: string;
 }

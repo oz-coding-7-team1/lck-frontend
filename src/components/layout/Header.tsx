@@ -5,8 +5,15 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { AxiosError } from "axios";
 
-// Add interface for search response
+// Add Tag interface
+interface Tag {
+  name: string;
+  slug: string;
+}
+
+// Update SearchResponse interface
 interface SearchResponse {
   error?: string;
   results?: {
@@ -14,6 +21,12 @@ interface SearchResponse {
     nickname: string;
     realname: string;
   }[];
+  tags?: Tag[];  // Add back the tags field
+}
+
+// Add TagSearchResponse interface
+interface TagSearchResponse {
+  [key: string]: string; // matches the API response format
 }
 
 export default function Header() {
@@ -26,8 +39,9 @@ export default function Header() {
   const [searchError, setSearchError] = useState("");
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [tagResults, setTagResults] = useState<Tag[]>([]);
 
-  // Debounced search function
+  // Update useEffect for search
   useEffect(() => {
     const timer = setTimeout(async () => {
       if (searchQuery.trim()) {
@@ -39,23 +53,45 @@ export default function Header() {
             )}`
           );
 
-          if (response.data.error) {
-            setSearchError(response.data.error);
-            setSearchResults([]);
-          } else {
-            setSearchResults(response.data.results || []);
-            setSearchError("");
-          }
+          // Handle both player and tag results from the same endpoint
+          setSearchResults(response.data.results || []);
+          setTagResults(response.data.tags || []);
+          setSearchError("");
         } catch (error) {
-          console.error("Search error:", error);
-          setSearchError("검색 중 오류가 발생했습니다");
-          setSearchResults([]);
+          if (error instanceof AxiosError) {
+            console.error("Search error:", error);
+            if (error.response?.status === 404) {
+              // Treat 404 as empty results
+              setSearchResults([]);
+              setTagResults([]);
+              setSearchError("");
+            } else if (error.response?.status === 400) {
+              // Handle validation error
+              setSearchError("검색어를 입력하세요");
+              setSearchResults([]);
+              setTagResults([]);
+            } else {
+              setSearchError(
+                error.response?.data?.message ||
+                "검색 중 일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+              );
+              setSearchResults([]);
+              setTagResults([]);
+            }
+          } else {
+            setSearchError("검색 중 오류가 발생했습니다");
+            setSearchResults([]);
+            setTagResults([]);
+          }
         } finally {
           setIsSearching(false);
         }
       } else {
+        // Clear everything when search query is empty
         setSearchResults([]);
+        setTagResults([]);
         setSearchError("");
+        setIsSearching(false);
       }
     }, 300);
 
@@ -97,8 +133,9 @@ export default function Header() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      router.push(`/search?query=${encodeURIComponent(searchQuery)}`);
+      router.push(`/search?search=${encodeURIComponent(searchQuery)}`);
       setSearchResults([]);
+      setTagResults([]);
     }
   };
 
@@ -205,7 +242,9 @@ export default function Header() {
               </button>
 
               {/* Search Results Dropdown */}
-              {((searchResults && searchResults.length > 0) || searchError) &&
+              {(searchResults.length > 0 ||
+                tagResults.length > 0 ||
+                searchError) &&
                 searchQuery && (
                   <div className="absolute z-10 w-full mt-2 bg-white border border-gray-200 rounded-lg shadow-lg">
                     {isSearching ? (
@@ -217,16 +256,51 @@ export default function Header() {
                         {searchError}
                       </div>
                     ) : (
-                      searchResults?.map((result) => (
-                        <Link
-                          key={result.id}
-                          href={`/player/${result.nickname.toLowerCase()}`}
-                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                          onClick={() => setSearchResults([])}
-                        >
-                          {result.nickname} ({result.realname})
-                        </Link>
-                      ))
+                      <>
+                        {searchResults.length > 0 && (
+                          <div className="border-b border-gray-200">
+                            <div className="px-4 py-2 text-sm font-semibold text-gray-500">
+                              선수
+                            </div>
+                            {searchResults.map((result) => (
+                              <Link
+                                key={result.id}
+                                href={`/player/${result.nickname.toLowerCase()}`}
+                                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                                onClick={() => {
+                                  setSearchResults([]);
+                                  setTagResults([]);
+                                }}
+                              >
+                                {result.nickname} ({result.realname})
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+
+                        {tagResults.length > 0 && (
+                          <div>
+                            <div className="px-4 py-2 text-sm font-semibold text-gray-500">
+                              태그
+                            </div>
+                            {tagResults.map((tag) => (
+                              <Link
+                                key={tag.slug}
+                                href={`/search?tag=${encodeURIComponent(
+                                  tag.slug
+                                )}`}
+                                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                                onClick={() => {
+                                  setSearchResults([]);
+                                  setTagResults([]);
+                                }}
+                              >
+                                #{tag.name}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </>
                     )}
                   </div>
                 )}
