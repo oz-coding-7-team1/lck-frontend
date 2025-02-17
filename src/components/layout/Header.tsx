@@ -34,9 +34,9 @@ export default function Header() {
         setIsSearching(true);
         try {
           const response = await axios.get<SearchResponse>(
-            `http://43.200.180.205/api/v1/tag-search/${encodeURIComponent(
+            `http://43.200.180.205/api/v1/search/?search=${encodeURIComponent(
               searchQuery
-            )}/`
+            )}`
           );
 
           if (response.data.error) {
