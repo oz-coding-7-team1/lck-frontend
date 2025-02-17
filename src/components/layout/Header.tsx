@@ -4,32 +4,61 @@ import { Search, User, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import axios from "axios";
 
-const mockData = [
-  { name: "FAKER", koreanName: "이상혁" },
-  { name: "CHOVY", koreanName: "정지훈" },
-  // ...existing mockData...
-];
+// Add interface for search response
+interface SearchResponse {
+  error?: string;
+  results?: {
+    id: number;
+    nickname: string;
+    realname: string;
+  }[];
+}
 
 export default function Header() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<
-    { name: string; koreanName: string }[]
-  >([]);
+  const [searchResults, setSearchResults] = useState<SearchResponse["results"]>(
+    []
+  );
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchError, setSearchError] = useState("");
   const router = useRouter();
 
+  // Debounced search function
   useEffect(() => {
-    if (searchQuery) {
-      const results = mockData.filter(
-        (item) =>
-          item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.koreanName.includes(searchQuery)
-      );
-      setSearchResults(results);
-    } else {
-      setSearchResults([]);
-    }
+    const timer = setTimeout(async () => {
+      if (searchQuery.trim()) {
+        setIsSearching(true);
+        try {
+          const response = await axios.get<SearchResponse>(
+            `http://43.200.180.205/api/v1/tag-search/${encodeURIComponent(
+              searchQuery
+            )}/`
+          );
+
+          if (response.data.error) {
+            setSearchError(response.data.error);
+            setSearchResults([]);
+          } else {
+            setSearchResults(response.data.results || []);
+            setSearchError("");
+          }
+        } catch (error) {
+          console.error("Search error:", error);
+          setSearchError("검색 중 오류가 발생했습니다");
+          setSearchResults([]);
+        } finally {
+          setIsSearching(false);
+        }
+      } else {
+        setSearchResults([]);
+        setSearchError("");
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
   }, [searchQuery]);
 
   useEffect(() => {
@@ -44,20 +73,16 @@ export default function Header() {
     }
   }, []);
 
-  const handleSearch = () => {
-    if (searchQuery) {
-      router.push(`/search?query=${searchQuery}`);
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/search?query=${encodeURIComponent(searchQuery)}`);
+      setSearchResults([]);
     }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      handleSearch();
-    }
   };
 
   const toggleMenu = () => {
@@ -128,35 +153,48 @@ export default function Header() {
             CHOEAELOL
           </Link>
           <div className="flex-1 max-w-xl px-4 mx-auto">
-            <div className="relative">
+            <form onSubmit={handleSearch} className="relative">
               <input
                 type="text"
                 placeholder="검색어를 입력하세요"
                 value={searchQuery}
                 onChange={handleInputChange}
-                onKeyDown={handleKeyDown}
                 className="w-full py-2 pl-4 pr-10 bg-gray-100 border border-gray-200 rounded-full"
               />
               <button
+                type="submit"
                 className="absolute -translate-y-1/2 right-3 top-1/2"
-                onClick={handleSearch}
               >
                 <Search className="w-5 h-5 text-gray-400" />
               </button>
-              {searchResults.length > 0 && (
-                <div className="absolute z-10 w-full mt-2 bg-white border border-gray-200 rounded-lg shadow-lg">
-                  {searchResults.map((result, index) => (
-                    <Link
-                      key={index}
-                      href={`/search?query=${result.name}`}
-                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    >
-                      {result.name} ({result.koreanName})
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
+
+              {/* Search Results Dropdown */}
+              {((searchResults && searchResults.length > 0) || searchError) &&
+                searchQuery && (
+                  <div className="absolute z-10 w-full mt-2 bg-white border border-gray-200 rounded-lg shadow-lg">
+                    {isSearching ? (
+                      <div className="p-4 text-center text-gray-500">
+                        검색 중...
+                      </div>
+                    ) : searchError ? (
+                      <div className="p-4 text-center text-red-500">
+                        {searchError}
+                      </div>
+                    ) : (
+                      searchResults?.map((result) => (
+                        <Link
+                          key={result.id}
+                          href={`/player/${result.nickname.toLowerCase()}`}
+                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                          onClick={() => setSearchResults([])}
+                        >
+                          {result.nickname} ({result.realname})
+                        </Link>
+                      ))
+                    )}
+                  </div>
+                )}
+            </form>
           </div>
           <div className="flex items-center gap-4">
             {status !== "authenticated" && (
