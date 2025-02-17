@@ -1,4 +1,3 @@
-profile
 "use client";
 
 import { useAuth } from '@/src/context/AuthContext';

@@ -1,10 +1,9 @@
-layout
 import "./globals.css";
 import { Inter } from "next/font/google";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import { Suspense } from "react";
-import { AuthProvider } from "../context/AuthContext"; // ✅ AuthProvider 임포트
+import { AuthProvider } from '../context/AuthContext'; // ✅ AuthProvider 임포트
 
 const inter = Inter({ subsets: ["latin"] });
 
