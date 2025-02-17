@@ -4,7 +4,11 @@ import Image from "next/image";
 import SocialLinks from "../common/SocialLinks";
 
 interface PlayerCardProps {
-  player: PlayerCardData;
+  player: {
+    nickname: string;
+    realname: string;
+    profileImageUrl?: string;
+  };
 }
 
 export default function PlayerCard({ player }: PlayerCardProps) {
@@ -13,7 +17,7 @@ export default function PlayerCard({ player }: PlayerCardProps) {
       <div className="w-full h-full aspect-w-1 aspect-h-1 rounded-full overflow-hidden">
         <Image
           src={player.profileImageUrl || "/profile-sample.svg"}
-          alt={player.realname}
+          alt={player.nickname}
           layout="responsive"
           width={200}
           height={200}
