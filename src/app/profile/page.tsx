@@ -1,18 +1,10 @@
+profile
 "use client";
 
-import { useEffect, useState } from "react";
+import { useAuth } from '@/src/context/AuthContext';
 
 export default function ProfilePage() {
-  const [user, setUser] = useState<{ email: string; nickname: string } | null>(null);
-
-  useEffect(() => {
-    // ✅ localStorage에서 사용자 정보 가져오기
-    const storedUser = localStorage.getItem("user");
-
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
+  const { user } = useAuth(); // ✅ useAuth에서 user 가져오기
 
   return (
     <div className="flex flex-col items-center justify-center h-screen text-center p-6">
