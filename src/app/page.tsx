@@ -42,14 +42,44 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Update the lanes array and fetchPositionPlayers function
+  // Update the lanes array with proper icon dimensions
   const lanes = useMemo(
     () => [
-      { name: "TOP", icon: "/icons/top.svg", key: "top" },
-      { name: "JUNGLE", icon: "/icons/jungle.svg", key: "jungle" },
-      { name: "MID", icon: "/icons/mid.svg", key: "mid" },
-      { name: "BOT", icon: "/icons/bottom.svg", key: "AD Carry" },
-      { name: "SUPPORT", icon: "/icons/support.svg", key: "support" },
+      {
+        name: "TOP",
+        icon: "/icons/top.svg",
+        key: "top",
+        width: 24,
+        height: 24,
+      },
+      {
+        name: "JUNGLE",
+        icon: "/icons/jungle.svg",
+        key: "jungle",
+        width: 24,
+        height: 24,
+      },
+      {
+        name: "MID",
+        icon: "/icons/mid.svg",
+        key: "mid",
+        width: 24,
+        height: 24,
+      },
+      {
+        name: "BOT",
+        icon: "/icons/bottom.svg",
+        key: "AD Carry",
+        width: 24,
+        height: 24,
+      },
+      {
+        name: "SUPPORT",
+        icon: "/icons/support.svg",
+        key: "support",
+        width: 24,
+        height: 24,
+      },
     ],
     []
   );

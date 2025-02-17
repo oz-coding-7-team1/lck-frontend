@@ -112,7 +112,7 @@ export default function Header() {
 
   const handleMyPageClick = () => {
     if (isLoggedIn) {
-      router.push("/myprofile"); // Changed from "/mypage" to "/myprofile"
+      router.push("/mypage");
     } else {
       router.push("/login");
     }
@@ -172,7 +172,7 @@ export default function Header() {
             href="/mypage"
             className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
           >
-            내 프로필
+            마이페이지
           </Link>
         </>
       );
@@ -250,7 +250,7 @@ export default function Header() {
             )}
             <button
               onClick={handleMyPageClick}
-              title={isLoggedIn ? "내 프로필" : "로그인"}
+              title={isLoggedIn ? "마이페이지" : "로그인"}
             >
               <User
                 className={`w-6 h-6 ${
@@ -268,6 +268,8 @@ export default function Header() {
           </div>
         </div>
       </header>
+
+      {/* Menu Items */}
       {menuOpen && (
         <div
           className="fixed inset-0 z-20 bg-black bg-opacity-50"
