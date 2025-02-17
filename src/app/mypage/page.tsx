@@ -40,23 +40,34 @@ export default function MyPage() {
   });
 
   useEffect(() => {
-    const checkAuth = () => {
+    const fetchUserProfile = async () => {
       const token = localStorage.getItem("accessToken");
       if (!token) {
         router.push("/login");
         return;
       }
 
-      const userStr = localStorage.getItem("user");
-      if (userStr) {
-        const user = JSON.parse(userStr);
-        setUserProfile(user);
-        setEditForm({ email: user.email, nickname: user.nickname });
+      try {
+        const response = await axios.get(
+          "http://43.200.180.205/api/v1/users/mypage/",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        setUserProfile(response.data);
+        setEditForm({
+          email: response.data.email,
+          nickname: response.data.nickname,
+        });
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Failed to fetch user profile:", error);
+        router.push("/login");
       }
-      setIsLoading(false);
     };
 
-    checkAuth();
+    fetchUserProfile();
   }, [router]);
 
   const handleLogout = () => {
@@ -89,24 +100,60 @@ export default function MyPage() {
   const handleUpdateProfile = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      await axios.put("http://43.200.180.205/api/v1/users/update/", editForm, {
-        headers: { Authorization: `Bearer ${token}` },
+
+      // Log the request data
+      console.log("Sending update request with:", {
+        url: "http://43.200.180.205/api/v1/users/mypage/",
+        data: editForm,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       });
 
-      // Update local storage with new profile data
-      const userStr = localStorage.getItem("user");
-      if (userStr) {
-        const user = JSON.parse(userStr);
-        const updatedUser = { ...user, ...editForm };
-        localStorage.setItem("user", JSON.stringify(updatedUser));
-        setUserProfile(updatedUser);
-      }
+      // Include the user ID in the update data
+      const updateData = {
+        id: userProfile?.id, // Assuming userProfile has an id field
+        email: editForm.email,
+        nickname: editForm.nickname,
+      };
 
+      const updateResponse = await axios.put(
+        "http://43.200.180.205/api/v1/users/mypage/",
+        updateData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("Update response:", updateResponse);
+
+      // Refresh user data
+      const profileResponse = await axios.get(
+        "http://43.200.180.205/api/v1/users/mypage/",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      console.log("Profile refresh response:", profileResponse);
+
+      setUserProfile(profileResponse.data);
       setIsEditingProfile(false);
       alert("프로필이 업데이트되었습니다.");
     } catch (error) {
-      console.error("Profile update failed:", error);
-      alert("프로필 업데이트에 실패했습니다.");
+      if (axios.isAxiosError(error)) {
+        console.error("Profile update failed:", error.response?.data);
+        alert(
+          error.response?.data?.message || "프로필 업데이트에 실패했습니다."
+        );
+      } else {
+        console.error("An unexpected error occurred:", error);
+        alert("프로필 업데이트에 실패했습니다.");
+      }
     }
   };
 

@@ -53,7 +53,7 @@ export default function LoginPage() {
         <div className="flex flex-col gap-2 w-full">
           <input 
             type="email" 
-            placeholder="ID" 
+            placeholder="이메일" 
             value={email} 
             onChange={(e) => setEmail(e.target.value)} 
             required 
