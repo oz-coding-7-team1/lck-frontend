@@ -17,8 +17,6 @@ interface TopPlayer {
 interface TeamRank {
   id: number;
   name: string;
-  subscription_count: number;
-  logo_url: string;
 }
 
 interface PositionPlayer {
@@ -28,26 +26,13 @@ interface PositionPlayer {
   subscription_count: number;
 }
 
-// Update the interface for position players response
-interface PositionPlayersResponse {
-  top: PositionPlayer[];
-  jungle: PositionPlayer[];
-  mid: PositionPlayer[];
-  "AD Carry": PositionPlayer[];
-  support: PositionPlayer[];
-}
-
 // Update the constants at the top of the file
 const DEFAULT_PLAYER_IMAGE = "/images/default-avatar.svg"; // Changed to .svg
 const DEFAULT_TEAM_LOGO = "/images/default-team.svg"; // Changed to .svg
 
 // Update the getPlayerImageSrc function to always return the default image for now
-const getPlayerImageSrc = (nickname: string | undefined) => {
-  // For now, always return the default image
+const getPlayerImageSrc = () => {
   return DEFAULT_PLAYER_IMAGE;
-  // When you have proper images, you can uncomment this:
-  // if (!nickname) return DEFAULT_PLAYER_IMAGE;
-  // return `/icons/${nickname.toLowerCase()}.svg`;
 };
 
 export default function Home() {
@@ -103,7 +88,7 @@ export default function Home() {
       const response = await axios.get(
         "http://43.200.180.205/api/v1/players/position_top/"
       );
-      
+
       // Get the players for the current position from the response
       const positionData = response.data[position] || [];
       setPositionPlayers(positionData);
@@ -185,7 +170,7 @@ export default function Home() {
                     <div className="aspect-[2/1] relative bg-white shadow-lg rounded-xl overflow-hidden">
                       <div className="absolute inset-0">
                         <Image
-                          src={getPlayerImageSrc(topPlayers[0].nickname)}
+                          src={getPlayerImageSrc()}
                           alt={topPlayers[0].nickname}
                           layout="fill"
                           objectFit="cover"
@@ -203,7 +188,7 @@ export default function Home() {
                         <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                           {topPlayers[0].nickname}
                           <Image
-                            src={getPlayerImageSrc(topPlayers[0].nickname)}
+                            src={getPlayerImageSrc()}
                             alt={topPlayers[0].nickname}
                             width={24}
                             height={24}
@@ -227,7 +212,7 @@ export default function Home() {
                       <div className="relative overflow-hidden bg-white shadow-lg aspect-[3/2] rounded-xl">
                         <div className="absolute inset-y-0 left-0 w-1/2">
                           <Image
-                            src={getPlayerImageSrc(player.nickname)}
+                            src={getPlayerImageSrc()}
                             alt={player.nickname}
                             layout="fill"
                             objectFit="cover"
@@ -256,14 +241,14 @@ export default function Home() {
               </div>
 
               {/* 4th to 10th place - list items */}
-              {topPlayers.slice(3, 10).map((player, index) => (
+              {topPlayers.slice(3, 10).map((player) => (
                 <div
                   key={player.id}
                   className="flex items-center gap-6 p-6 bg-white rounded-lg shadow-md"
                 >
                   <div className="flex-shrink-0 w-12 h-12 bg-gray-300 rounded-full">
                     <Image
-                      src={getPlayerImageSrc(player.nickname)}
+                      src={getPlayerImageSrc()}
                       alt={player.nickname}
                       width={48}
                       height={48}
@@ -317,10 +302,6 @@ export default function Home() {
                       <div className="flex-1 text-lg font-medium text-gray-900">
                         {team.name}
                       </div>
-                      <div className="flex items-center gap-4 text-lg text-gray-500">
-                        <Heart className="w-6 h-6 text-red-500" />
-                        {team.subscription_count}
-                      </div>
                     </div>
                   </Link>
                 ))}
@@ -360,7 +341,7 @@ export default function Home() {
                       </div>
                       <div className="w-12 h-12 overflow-hidden bg-gray-300 rounded-full">
                         <Image
-                          src={getPlayerImageSrc(player.nickname)}
+                          src={getPlayerImageSrc()}
                           alt={player.nickname || "Player"}
                           width={48}
                           height={48}
