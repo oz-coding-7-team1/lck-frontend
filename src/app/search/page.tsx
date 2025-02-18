@@ -11,7 +11,9 @@ interface SearchResult {
   id: number;
   nickname: string;
   realname: string;
-  profileImageUrl?: string;
+  gamename: string;
+  position: string;
+  social: Record<string, string>; // Adjust based on your API response
 }
 
 interface Tag {
@@ -37,14 +39,17 @@ export default function SearchPage() {
       setError(null);
 
       try {
-        let endpoint = "http://43.200.180.205/api/v1/search/";
+        let endpoint = "http://43.200.180.205/api/v1/tag-search/";
         const searchParam = tag ? tag : query;
 
         if (searchParam) {
           endpoint += `?search=${encodeURIComponent(searchParam)}`;
         }
 
+        console.log("Fetching from endpoint:", endpoint);
+
         const response = await axios.get(endpoint);
+        console.log("API Response:", response.data);
 
         if (response.data.error) {
           setError(response.data.error);
@@ -138,12 +143,14 @@ export default function SearchPage() {
         <div className="space-y-6">
           {results.length > 0 ? (
             results.map((result) => (
-              <Link
+              <div
                 key={result.id}
-                href={`/player/${result.nickname.toLowerCase()}`}
                 className="flex items-center gap-4 p-4 transition-colors bg-white rounded-lg shadow hover:bg-gray-50"
               >
-                <div className="flex-shrink-0 w-16 h-16 overflow-hidden rounded-full">
+                <Link
+                  href={`/player/${result.nickname.toLowerCase()}`}
+                  className="flex-shrink-0 w-16 h-16 overflow-hidden rounded-full"
+                >
                   <Image
                     src={result.profileImageUrl || DEFAULT_PROFILE_IMAGE}
                     alt={result.nickname}
@@ -151,14 +158,30 @@ export default function SearchPage() {
                     height={64}
                     className="object-cover w-full h-full"
                   />
-                </div>
+                </Link>
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900">
                     {result.nickname}
                   </h3>
                   <p className="text-gray-600">{result.realname}</p>
+                  <p className="text-gray-500">Game Name: {result.gamename}</p>
+                  <p className="text-gray-500">Position: {result.position}</p>
+                  {/* Render social links */}
+                  <div className="mt-2">
+                    {Object.entries(result.social).map(([platform, url]) => (
+                      <a
+                        key={platform}
+                        href={url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 hover:underline"
+                      >
+                        {platform}
+                      </a>
+                    ))}
+                  </div>
                 </div>
-              </Link>
+              </div>
             ))
           ) : (
             <div className="p-8 text-center text-gray-500 bg-white rounded-lg shadow">

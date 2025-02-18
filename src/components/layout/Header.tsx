@@ -21,7 +21,7 @@ interface SearchResponse {
     nickname: string;
     realname: string;
   }[];
-  tags?: Tag[];  // Add back the tags field
+  tags?: Tag[]; // Add back the tags field
 }
 
 // Add TagSearchResponse interface
@@ -48,7 +48,7 @@ export default function Header() {
         setIsSearching(true);
         try {
           const response = await axios.get<SearchResponse>(
-            `http://43.200.180.205/api/v1/search/?search=${encodeURIComponent(
+            `http://43.200.180.205/api/v1/tag-search/?search=${encodeURIComponent(
               searchQuery
             )}`
           );
@@ -73,7 +73,7 @@ export default function Header() {
             } else {
               setSearchError(
                 error.response?.data?.message ||
-                "검색 중 일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+                  "검색 중 일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
               );
               setSearchResults([]);
               setTagResults([]);
@@ -130,17 +130,17 @@ export default function Header() {
     };
   }, []);
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      router.push(`/search?search=${encodeURIComponent(searchQuery)}`);
-      setSearchResults([]);
-      setTagResults([]);
+      // Navigate to the search results page with the query
+      router.push(`/search?query=${encodeURIComponent(searchQuery)}`);
+      setSearchQuery(""); // Clear the search input
     }
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
   };
 
   const toggleMenu = () => {
@@ -267,10 +267,6 @@ export default function Header() {
                                 key={result.id}
                                 href={`/player/${result.nickname.toLowerCase()}`}
                                 className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                                onClick={() => {
-                                  setSearchResults([]);
-                                  setTagResults([]);
-                                }}
                               >
                                 {result.nickname} ({result.realname})
                               </Link>
@@ -290,10 +286,6 @@ export default function Header() {
                                   tag.slug
                                 )}`}
                                 className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                                onClick={() => {
-                                  setSearchResults([]);
-                                  setTagResults([]);
-                                }}
                               >
                                 #{tag.name}
                               </Link>
