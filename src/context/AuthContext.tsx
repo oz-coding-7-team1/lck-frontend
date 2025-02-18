@@ -1,14 +1,9 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
-import axios from "axios";
+import { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-
-interface User {
-  id: number;
-  email: string;
-  nickname: string;
-}
+import { authApi } from "@/src/services/authApi"; // authApi 사용
+import { User } from "@/src/types/api";
 
 interface AuthContextType {
   user: User | null;
@@ -25,7 +20,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
 
   useEffect(() => {
-    // ✅ localStorage에서 토큰과 사용자 정보 가져오기
     const storedToken = localStorage.getItem("accessToken");
     const storedUser = localStorage.getItem("user");
 
@@ -35,47 +29,35 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
-  // ✅ 로그인 함수
   const login = async (email: string, password: string) => {
     try {
-      const response = await axios.post("http://43.200.180.205/api/v1/users/login/", {
-        email,
-        password,
-      });
+      const response = await authApi.login(email, password);
+      const token = response.data.token;
 
-      console.log("🔍 로그인 응답 데이터:", response.data);
+      if (token) {
+        setAccessToken(token);
+        localStorage.setItem("accessToken", token);
 
-      const accessToken = response.data.access_token;
-      const user = response.data.user;
+        const userResponse = await authApi.getUserInfo();
+        setUser(userResponse.data);
+        localStorage.setItem("user", JSON.stringify(userResponse.data));
 
-      if (accessToken && user) {
-        setAccessToken(accessToken);
-        setUser(user);
-
-        // ✅ localStorage에도 저장
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("user", JSON.stringify(user));
-      } else {
-        console.error("❌ Access Token 또는 사용자 정보가 없습니다.");
-        return;
+        alert("로그인 성공!");
+        router.push("/"); // 로그인 후 메인 페이지로 이동
       }
-
-      alert("로그인 성공! 메인 페이지로 이동합니다.");
-      router.push("/");
     } catch (error) {
-      console.error("❌ 로그인 요청 실패:", error);
+      console.error("로그인 실패", error);
       alert("로그인 실패! 이메일 또는 비밀번호를 확인하세요.");
     }
   };
 
-  // ✅ 로그아웃 함수
   const logout = () => {
     setUser(null);
     setAccessToken(null);
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
     alert("로그아웃 되었습니다.");
-    router.push("/login");
+    router.push("/login"); // 로그아웃 후 로그인 페이지로 이동
   };
 
   return (
@@ -85,7 +67,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-// ✅ AuthContext를 쉽게 사용할 수 있도록 하는 훅
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

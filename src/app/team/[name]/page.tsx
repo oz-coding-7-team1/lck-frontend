@@ -3,20 +3,30 @@ import SubscribeButton from "@/src/components/common/SubscribeButton";
 import CommunitySimple from "@/src/components/community/CommunitySimple";
 import PlayerCard from "@/src/components/player/PlayerCard";
 import TeamSchedule from "@/src/components/team/TeamSchedule";
-import { samplePlayers } from "@/src/types/player";
-import { sampleTeams, Team } from "@/src/types/team";
-import { decodeTeamName } from "@/src/utils/urlUtils";
+import { playerApi } from "@/src/services/playerApi";
+import { teamApi } from "@/src/services/teamApi";
+import { decodeTeamName } from "@/src/utils/urlUtils"; 
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { Team, Player } from "@/src/types/api";
 
-export default async function TeamPage({ params }: { params: Promise<{ name: string }> }) {
+type Props = {
+  params: { name: string };
+};
+
+export default async function TeamPage({ params }: Props) {
   // 🔹 URL에서 받은 `name`을 원래 팀 이름으로 변환
-  const formattedName = decodeTeamName((await params).name);
-  const team: Team | undefined = sampleTeams.find((t) => t.name.toLowerCase() === formattedName.toLowerCase());
+  const formattedName = decodeTeamName(params.name);
+
+  // API에서 팀 데이터 가져오기
+  const teamsResponse = await teamApi.getTeams();
+  const team = teamsResponse.data.find((t: Team) => t.name.toLowerCase() === formattedName.toLowerCase());
 
   if (!team) return notFound();
 
-  const teamPlayers = samplePlayers.filter((player) => team.players.includes(player.id));
+  // 팀에 속한 선수들 가져오기 (팀 ID로 필터링)
+  const playersResponse = await playerApi.getPlayers();
+  const teamPlayers = playersResponse.data.filter((player: Player) => player.team_id === team.id);
 
   return (
     <>
@@ -45,7 +55,7 @@ export default async function TeamPage({ params }: { params: Promise<{ name: str
                   <SocialLinks links={team.social} iconClassName="w-6 h-6 filter invert brightness-0" />
                 </div>
               </div>
-              <SubscribeButton teamId={team.id}/>
+              <SubscribeButton teamId={team.id} />
             </div>
           </div>
         </div>
@@ -55,7 +65,7 @@ export default async function TeamPage({ params }: { params: Promise<{ name: str
         <div className="mt-6">
           <h2 className="text-xl font-bold">Team Player</h2>
           <div className="grid grid-cols-5 gap-4 mt-4">
-            {teamPlayers.map((player) => (
+            {teamPlayers.map((player: { id?: number; nickname: string; realname: string; profileImageUrl?: string | undefined; }) => (
               <PlayerCard key={player.id} player={player} />
             ))}
           </div>
@@ -70,7 +80,6 @@ export default async function TeamPage({ params }: { params: Promise<{ name: str
           </div>
         </div>
       </div>
-
     </>
   );
 }
