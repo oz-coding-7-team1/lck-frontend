@@ -11,10 +11,10 @@ const localizer = momentLocalizer(moment);
 
 // ✅ 카테고리별 색상 설정
 const categoryColors: Record<string, string> = {
-  game: "#ff4d4d", // 경기
-  broadcast: "#4da6ff", // 방송
-  meeting: "#ffcc00", // 미팅
-  etc: "#808080", // 기타
+  경기: "#ff4d4d", // 경기
+  방송: "#4da6ff", // 방송
+  팬미팅: "#ffcc00", // 미팅
+  기타: "#808080", // 기타
 };
 
 // 커스텀 이벤트 UI (Month 뷰 전용)

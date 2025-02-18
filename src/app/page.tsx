@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight, Heart } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
 import axios from "axios";
+import { encodePlayerName, encodeTeamName } from "../utils/urlUtils";
 
 // Add interfaces for API responses
 interface TopPlayer {
@@ -195,7 +196,7 @@ export default function Home() {
               {topPlayers.length > 0 && (
                 <div className="block">
                   <Link
-                    href={`/player/${topPlayers[0].nickname?.toLowerCase()}`}
+                    href={`/player/${encodePlayerName(topPlayers[0].nickname)}`}
                   >
                     <div className="aspect-[2/1] relative bg-white shadow-lg rounded-xl overflow-hidden">
                       <div className="absolute inset-0">
@@ -238,7 +239,7 @@ export default function Home() {
               <div className="grid grid-cols-2 gap-6">
                 {topPlayers.slice(1, 3).map((player, index) => (
                   <div className="block" key={player.id}>
-                    <Link href={`/player/${player.nickname?.toLowerCase()}`}>
+                    <Link href={`/player/${encodePlayerName(player.nickname)}`}>
                       <div className="relative overflow-hidden bg-white shadow-lg aspect-[3/2] rounded-xl">
                         <div className="absolute inset-y-0 left-0 w-1/2">
                           <Image
@@ -311,9 +312,7 @@ export default function Home() {
               <div className="p-10 space-y-8 bg-white rounded-lg shadow-md">
                 {topTeams.map((team, index) => (
                   <Link
-                    href={`/team/${team.name
-                      .toLowerCase()
-                      .replace(/\s+/g, "-")}`}
+                    href={`/team/${encodeTeamName(team.name)}`}
                     key={team.id}
                   >
                     <div className="flex items-center gap-6 p-4">

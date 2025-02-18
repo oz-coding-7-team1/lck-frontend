@@ -47,8 +47,11 @@ export interface APIResponse<T> {
 export interface Schedule {
   id: number;
   title: string;
-  description: string;
-  date: string;
+  category: string;
+  detail: string;
+  start_date: string;
+  end_date: string;
+  place: string;
   player_id?: number;
   team_id?: number;
 }

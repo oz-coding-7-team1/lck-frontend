@@ -10,6 +10,5 @@ export interface ScheduleEvent {
     teamId?: number; // 팀 일정이면 존재
     playerId?: number; // 선수 일정이면 존재
     allDay: boolean;
-    description?: string;
+    detail?: string;
   }
-  

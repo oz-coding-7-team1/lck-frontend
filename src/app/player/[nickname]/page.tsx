@@ -8,6 +8,7 @@ import { teamApi } from "@/src/services/teamApi";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Player } from "@/src/types/api";
+import { encodePlayerName } from "@/src/utils/urlUtils";
 
 type Props = {
   params: { nickname: string };
@@ -16,7 +17,7 @@ type Props = {
 export default async function PlayerPage({ params }: Props) {
   const players = await playerApi.getPlayers();
   const player = players.data.find(
-    (p: Player) => p.nickname.toLowerCase() === params.nickname.toLowerCase()
+    (p: Player) => encodePlayerName(p.nickname) === params.nickname
   );
 
   if (!player) return notFound();
