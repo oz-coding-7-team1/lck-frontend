@@ -9,7 +9,7 @@ async function getPlayers() {
 }
 
 export default async function PlayerListPage() {
-  const players = await getPlayers();
+  const players = getPlayers();
 
   return (
     <div className="min-h-screen bg-gray-100">
