@@ -25,17 +25,14 @@ const SocialLinks: React.FC<SocialLinksProps> = ({
       {Object.entries(links).map(([platform, url]) => {
         const iconSrc = socialIcons[platform]; // ✅ SVG 파일의 경로 가져오기
         if (!iconSrc) return null;
-
-        return (
-          <Link
-            key={platform}
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img src={iconSrc} alt={platform} className={iconClassName} />
-          </Link>
-        );
+        <Link
+          key={platform}
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src={iconSrc} alt={platform} className={iconClassName} />
+        </Link>;
       })}
     </div>
   );

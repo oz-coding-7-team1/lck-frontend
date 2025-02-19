@@ -18,13 +18,13 @@ export interface Player {
     chzzk?: string;
   }; // SNS 링크
   fanVotes?: number; // 팬 투표 수
-  profileImageUrl: string; //선수 프로필 이미지
+  profile_image_url: string; //선수 프로필 이미지
   backgroundImageUrl?: string; //선수 상단 배경 이미지
 }
 
 export type PlayerCardData = Pick<
   Player,
-  "id" | "realname" | "nickname" | "position" | "social" | "profileImageUrl"
+  "id" | "realname" | "nickname" | "position" | "social" | "profile_image_url"
 >;
 
 // // types/player.ts
