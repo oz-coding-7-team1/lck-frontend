@@ -39,4 +39,21 @@ export const playerApi = {
   getTopPlayersByPosition: () =>
     api.get<APIResponse<Player[]>>("/players/position_top/"),
   getTopPlayers: () => api.get<APIResponse<Player[]>>("/players/top/"),
+  getFavoritePlayer: async () => {
+    const token = localStorage.getItem("accessToken");
+    try {
+      const response = await api.get<APIResponse<Player>>(
+        "/subscriptions/player/choeae/",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching favorite player:", error);
+      throw error;
+    }
+  },
 };

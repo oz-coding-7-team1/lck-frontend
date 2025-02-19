@@ -1,4 +1,3 @@
-
 // 팀 타입 정의
 export interface Team {
     id: number; // 팀의 고유 ID

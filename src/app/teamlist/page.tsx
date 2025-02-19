@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { teamApi } from "@/src/services/teamApi";
 import Link from "next/link";
 import Image from "next/image";
-import { Heart } from "lucide-react";
 
 interface Team {
   id: number;
@@ -24,7 +23,7 @@ export default function TeamListPage() {
       try {
         const data = await teamApi.getTeams();
         setTeams(data);
-      } catch (error) {
+      } catch {
         setError("Failed to load teams");
       } finally {
         setIsLoading(false);
@@ -34,6 +33,8 @@ export default function TeamListPage() {
     fetchTeams();
   }, []);
 
+  console.log(teams);
+
   if (isLoading) {
     return <div>Loading teams...</div>;
   }
@@ -42,10 +43,12 @@ export default function TeamListPage() {
     return <div className="text-red-500">{error}</div>;
   }
 
+  //todo 팀별 구독수 따로 api 호출해서 가져오기
+
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="container px-4 py-8 mx-auto">
-        <h1 className="mb-4 text-2xl font-bold">Team List</h1>
+        <h1 className="mb-4 text-2xl font-bold">팀 목록</h1>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {teams.map((team) => (
             <Link
@@ -56,7 +59,7 @@ export default function TeamListPage() {
               <div className="overflow-hidden transition-shadow bg-white rounded-lg shadow-md hover:shadow-lg">
                 <div className="relative aspect-video">
                   <Image
-                    src={team.backgroundImage || "/images/default-team.svg"}
+                    src={"/images/default-team.svg"}
                     alt={team.name}
                     layout="fill"
                     objectFit="cover"
@@ -66,27 +69,9 @@ export default function TeamListPage() {
                 <div className="p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 overflow-hidden bg-gray-300 rounded-full">
-                        <Image
-                          src={team.logo || "/images/default-team.svg"}
-                          alt={team.name}
-                          width={48}
-                          height={48}
-                          className="object-cover"
-                        />
+                      <div className="text-xl font-bold text-gray-900">
+                        {team.name}
                       </div>
-                      <div>
-                        <div className="text-lg font-bold text-gray-600">
-                          {team.rank}
-                        </div>
-                        <div className="text-xl font-bold text-gray-900">
-                          {team.name}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-500">
-                      <Heart className="w-5 h-5 text-red-500" />
-                      {team.votes ? team.votes.toLocaleString() : "N/A"}
                     </div>
                   </div>
                 </div>

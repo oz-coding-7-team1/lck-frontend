@@ -27,4 +27,21 @@ export const teamApi = {
   deleteTeamSchedule: (teamId: number, scheduleId: number) =>
     api.delete<APIResponse<void>>(`/teams/${teamId}/schedule/${scheduleId}/`),
   getTopTeams: () => api.get<APIResponse<Team[]>>("/teams/rank/"),
+  getFavoriteTeam: async () => {
+    const token = localStorage.getItem("accessToken");
+    try {
+      const response = await api.get<APIResponse<Team>>(
+        "/subscriptions/team/choeae/",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching favorite team:", error);
+      throw error;
+    }
+  },
 };

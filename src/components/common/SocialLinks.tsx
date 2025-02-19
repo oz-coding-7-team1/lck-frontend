@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 /* eslint-disable @next/next/no-img-element */
 const socialIcons: Record<string, string> = {
   instagram: "/icons/instagram-logo.svg",
@@ -19,21 +21,18 @@ const SocialLinks: React.FC<SocialLinksProps> = ({
   if (!links) return null;
 
   return (
-    <div className="flex space-x-3 mt-3">
+    <div className="flex mt-3 space-x-3">
       {Object.entries(links).map(([platform, url]) => {
         const iconSrc = socialIcons[platform]; // ✅ SVG 파일의 경로 가져오기
         if (!iconSrc) return null;
-
-        return (
-          <a
-            key={platform}
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img src={iconSrc} alt={platform} className={iconClassName} />
-          </a>
-        );
+        <Link
+          key={platform}
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src={iconSrc} alt={platform} className={iconClassName} />
+        </Link>;
       })}
     </div>
   );

@@ -24,6 +24,6 @@ export interface Player {
 
 export type PlayerCardData = Pick<
   Player,
-  "id" | "realname" | "nickname" | "position" | "social" | "profileImageUrl"
+  "id" | "realname" | "nickname" | "position" | "social" | "profile_image_url"
 >;
 

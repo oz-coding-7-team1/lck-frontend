@@ -39,6 +39,7 @@ export interface RegisterUserData {
 }
 
 export interface APIResponse<T> {
+  find(arg0: (p: Player) => boolean): unknown;
   data: T;
   status: number;
   message?: string;
