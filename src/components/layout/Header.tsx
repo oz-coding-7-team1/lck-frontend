@@ -138,7 +138,7 @@ export default function Header() {
         </Link>
         <form
           onSubmit={handleSearch}
-          className="relative flex-1 max-w-xl px-4 mx-auto"
+          className="relative flex-1 max-w-xl px-2 mx-auto"
         >
           <input
             type="text"
