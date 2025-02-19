@@ -3,7 +3,7 @@ export interface Player {
   nickname: string;
   realname: string;
   profileImageUrl: string;
-  team_id: number | null;
+  team_id: number;
   position: string;
   nationality: string;
   date_of_birth: string;
@@ -24,6 +24,11 @@ export interface Team {
   logo_url: string;
   created_at: string;
   updated_at: string;
+  social: {
+    twitter?: string;
+    instagram?: string;
+    twitch?: string;
+  };
 }
 
 export interface TermAgreement {
@@ -39,7 +44,6 @@ export interface RegisterUserData {
 }
 
 export interface APIResponse<T> {
-  find(arg0: (p: Player) => boolean): unknown;
   data: T;
   status: number;
   message?: string;

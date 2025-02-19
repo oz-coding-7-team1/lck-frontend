@@ -1,20 +1,21 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { communityApi } from "@/src/services/communityApi"; // communityApi 가져오기
-import { useAuth } from "@/src/context/AuthContext";
 
 interface CommunityWriteProps {
   type: "team" | "player"; // 커뮤니티 타입
   entityId: number; // 팀 ID 또는 선수 ID
 }
 
-export default function CommunityWrite({ type, entityId }: CommunityWriteProps) {
+export default function CommunityWrite({
+  type,
+  entityId,
+}: CommunityWriteProps) {
   const router = useRouter();
-  const { user } = useAuth(); // 로그인된 사용자 정보 확인
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  
+
   // 게시글 작성 처리
   const handleSubmit = async () => {
     if (!title || !content) {

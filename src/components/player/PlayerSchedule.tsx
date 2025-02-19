@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { playerApi } from '@/src/services/playerApi'; // playerApi 사용
-import { teamApi } from '@/src/services/teamApi'; // teamApi 사용
-import ScheduleCalendar from '@/src/components/schedule/ScheduleCalendar';
-import { ScheduleEvent } from '@/src/types/schedule';
+import { useEffect, useState } from "react";
+import { playerApi } from "@/src/services/playerApi"; // playerApi 사용
+import { teamApi } from "@/src/services/teamApi"; // teamApi 사용
+import ScheduleCalendar from "@/src/components/schedule/ScheduleCalendar";
+import { ScheduleEvent } from "@/src/types/schedule";
 
 interface PlayerScheduleProps {
   playerId: number;
@@ -21,9 +20,9 @@ const transformEvent = (eventData: any): ScheduleEvent => {
     id: eventData.id,
     category: eventData.category,
     title: eventData.title,
-    start: startDate,  // start_date를 Date로 변환
-    end: endDate,      // end_date를 Date로 변환
-    location: eventData.place,              // 장소
+    start: startDate, // start_date를 Date로 변환
+    end: endDate, // end_date를 Date로 변환
+    location: eventData.place, // 장소
     player_id: eventData.player || undefined,
     team_id: eventData.team || undefined, // team_id를 Number로 변환
     allDay: startDate.toDateString() !== endDate.toDateString(), // 날짜만 비교
@@ -31,7 +30,10 @@ const transformEvent = (eventData: any): ScheduleEvent => {
   };
 };
 
-export default function PlayerSchedule({ playerId, teamId }: PlayerScheduleProps) {
+export default function PlayerSchedule({
+  playerId,
+  teamId,
+}: PlayerScheduleProps) {
   const [events, setEvents] = useState<ScheduleEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -40,7 +42,9 @@ export default function PlayerSchedule({ playerId, teamId }: PlayerScheduleProps
     const fetchSchedule = async () => {
       try {
         // 선수 스케줄 받아오기
-        const playerScheduleResponse = await playerApi.getPlayerSchedule(playerId);
+        const playerScheduleResponse = await playerApi.getPlayerSchedule(
+          playerId
+        );
         const playerSchedule = playerScheduleResponse.data.map(transformEvent); // 변환 함수 적용
 
         // teamId가 존재할 때만 팀 스케줄을 받아오기

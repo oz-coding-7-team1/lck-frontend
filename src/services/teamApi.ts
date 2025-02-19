@@ -1,16 +1,18 @@
 import api from "./api";
 import { Team, APIResponse, Schedule } from "@/src/types/api";
 
+// todo remove apiresponse
+
 export const teamApi = {
-  getTeams: () => api.get<APIResponse<Team[]>>("/teams/"),
-  getTeamById: (id: number) => api.get<APIResponse<Team>>(`/teams/${id}/`),
+  getTeams: () => api.get<Team[]>("/teams/"),
+  getTeamById: (id: number) => api.get<Team>(`/teams/${id}/`),
   createTeam: (teamData: Team) =>
     api.post<APIResponse<Team>>("/teams/", teamData),
   updateTeam: (id: number, teamData: Team) =>
     api.put<APIResponse<Team>>(`/teams/${id}/`, teamData),
   deleteTeam: (id: number) => api.delete<APIResponse<void>>(`/teams/${id}/`),
   getTeamSchedule: (teamId: number) =>
-    api.get<APIResponse<Schedule[]>>(`/teams/${teamId}/schedule/`),
+    api.get<Schedule[]>(`/teams/${teamId}/schedule/`),
   createTeamSchedule: (teamId: number, scheduleData: Schedule) =>
     api.post<APIResponse<Schedule>>(`/teams/${teamId}/schedule/`, scheduleData),
   getTeamScheduleById: (teamId: number, scheduleId: number) =>
@@ -30,7 +32,7 @@ export const teamApi = {
   getFavoriteTeam: async () => {
     const token = localStorage.getItem("accessToken");
     try {
-      const response = await api.get<APIResponse<Team>>(
+      const response = await api.get<Team>(
         "/subscriptions/team/choeae/",
         {
           headers: {
