@@ -6,9 +6,9 @@ import { useAuth } from "@/src/context/AuthContext"; // 로그인 여부 확인
 
 export default function CommunityWritePage() {
   const searchParams = useSearchParams(); // 쿼리 파라미터 가져오기
-  const type = searchParams.get("type"); 
+  const type = searchParams.get("type");
   const entityId = searchParams.get("entityId");
-  
+
   const { user } = useAuth(); // 로그인 여부 확인
 
   if (!user) {
@@ -25,7 +25,6 @@ export default function CommunityWritePage() {
     <CommunityWrite
       type={type as "team" | "player"}
       entityId={Number(entityId)}
-      userId={user.id} 
     />
   );
 }

@@ -3,14 +3,10 @@ import Image from "next/image";
 // import SocialLinks from "../common/SocialLinks";
 
 interface PlayerCardProps {
-  player: {
-    position: string;
-    social: Record<string, string> | undefined;
-    nickname: string;
-    realname: string;
-    profile_image_url?: string;
-  };
+  player: any;
 }
+
+//todo type으로 에러나는 부분 모두 any로 수정
 
 export default function PlayerCard({ player }: PlayerCardProps) {
   return (
@@ -32,7 +28,7 @@ export default function PlayerCard({ player }: PlayerCardProps) {
           Object.entries(player.social).map(([platform, url]) => (
             <a
               key={platform}
-              href={url}
+              href={url as string}
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-blue-500 hover:underline"

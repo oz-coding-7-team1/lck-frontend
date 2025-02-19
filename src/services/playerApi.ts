@@ -1,9 +1,12 @@
 import api from "./api";
 import { Player, APIResponse, Schedule } from "@/src/types/api";
 
+
+//todo APIResponse 다 뺴기 - 가져오는 데이터만 넣기
+
 export const playerApi = {
-  getPlayers: () => api.get<APIResponse<Player[]>>("/players/"),
-  getPlayerById: (id: number) => api.get<APIResponse<Player>>(`/players/${id}`),
+  getPlayers: () => api.get<Player[]>("/players/"),
+  getPlayerById: (id: number) => api.get<Player>(`/players/${id}`),
   createPlayer: (playerData: Player) =>
     api.post<APIResponse<Player>>("/players/", playerData),
   updatePlayer: (id: number, playerData: Player) =>
@@ -13,7 +16,7 @@ export const playerApi = {
   deletePlayer: (id: number) =>
     api.delete<APIResponse<void>>(`/players/${id}/`),
   getPlayerSchedule: (playerId: number) =>
-    api.get<APIResponse<Schedule[]>>(`/players/${playerId}/schedule/`),
+    api.get<Schedule[]>(`/players/${playerId}/schedule/`),
   createPlayerSchedule: (playerId: number, scheduleData: Schedule) =>
     api.post<APIResponse<Schedule>>(
       `/players/${playerId}/schedule/`,
@@ -42,7 +45,7 @@ export const playerApi = {
   getFavoritePlayer: async () => {
     const token = localStorage.getItem("accessToken");
     try {
-      const response = await api.get<APIResponse<Player>>(
+      const response = await api.get<Player>(
         "/subscriptions/player/choeae/",
         {
           headers: {

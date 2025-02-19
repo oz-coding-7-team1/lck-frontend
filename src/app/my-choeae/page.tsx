@@ -4,42 +4,17 @@ import { useEffect, useState } from "react";
 import { playerApi } from "@/src/services/playerApi";
 import { teamApi } from "@/src/services/teamApi";
 import Image from "next/image";
+import { Team } from "@/src/types/api";
+import { Player } from "@/src/types/api";
 
 const DEFAULT_PROFILE_IMAGE = "/images/default-avatar.svg";
 const DEFAULT_TEAM_LOGO = "/images/default-team.svg";
 
 // todo 타입 file player.ts 에 몰아서 관리
 
-type teamProps = {
-  id: number;
-  name: string;
-  social?: {
-    X?: string;
-    insta?: string;
-    youtube?: string;
-    facebook?: string;
-    soop?: string;
-  };
-};
-
-type playerProps = {
-  id: number;
-  realname: string;
-  position: string;
-  nickname: string;
-  profile_image_url?: string;
-  social?: {
-    X?: string;
-    insta?: string;
-    youtube?: string;
-    facebook?: string;
-    soop?: string;
-  };
-};
-
 export default function MyChoeae() {
-  const [favoriteTeam, setFavoriteTeam] = useState<teamProps>();
-  const [favoritePlayer, setFavoritePlayer] = useState<playerProps>();
+  const [favoriteTeam, setFavoriteTeam] = useState<Team>();
+  const [favoritePlayer, setFavoritePlayer] = useState<Player>();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -53,9 +28,8 @@ export default function MyChoeae() {
           teamApi.getFavoriteTeam(),
         ]);
         console.log(playerResponse);
-        // Extract the data from the APIResponse
-        setFavoritePlayer(playerResponse); // Assuming playerResponse is of type APIResponse<Player>
-        setFavoriteTeam(teamResponse); // Assuming teamResponse is of type APIResponse<Team>
+        setFavoritePlayer(playerResponse);
+        setFavoriteTeam(teamResponse);
       } catch (err) {
         console.error("Failed to fetch favorite data:", err);
         setError("최애 선수 또는 팀을 불러오는 데 실패했습니다.");
@@ -112,14 +86,14 @@ export default function MyChoeae() {
             </div>
           </div>
           {/* Player Card */}
-          {favoritePlayer && favoritePlayer.profile_image_url && (
+          {favoritePlayer && favoritePlayer.profileImageUrl && (
             <div>
               <h3 className="mb-4 text-lg font-medium">Player</h3>
               <div className="flex items-center gap-4 p-4 bg-white border rounded-lg">
                 <div className="relative w-16 h-16 overflow-hidden bg-gray-100 rounded-full">
                   <Image
                     src={
-                      favoritePlayer?.profile_image_url || DEFAULT_PROFILE_IMAGE
+                      favoritePlayer?.profileImageUrl || DEFAULT_PROFILE_IMAGE
                     }
                     alt={favoritePlayer?.nickname || "Player photo"}
                     fill

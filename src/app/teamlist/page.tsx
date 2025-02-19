@@ -21,8 +21,8 @@ export default function TeamListPage() {
       setIsLoading(true);
       setError(null);
       try {
-        const data = await teamApi.getTeams();
-        setTeams(data);
+        const response = await teamApi.getTeams();
+        setTeams(response.data);
       } catch {
         setError("Failed to load teams");
       } finally {

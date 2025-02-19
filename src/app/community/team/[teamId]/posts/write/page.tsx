@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import CommunityWrite from "@/src/components/community/CommunityWrite"; // CommunityWrite 컴포넌트
 import { useAuth } from "@/src/context/AuthContext"; // 로그인 여부 확인
@@ -35,7 +35,6 @@ export default function CommunityWritePage() {
     <CommunityWrite
       type={"team"}
       entityId={entityId} // 유효한 entityId 전달
-      userId={user?.id} // user가 존재할 경우 user.id 사용
     />
   );
 }

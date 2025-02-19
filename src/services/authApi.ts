@@ -9,12 +9,12 @@ import {
 
 export const authApi = {
   login: (email: string, password: string) =>
-    api.post<APIResponse<{ token: string }>>("/users/login/", {
+    api.post<{ token: string }>("/users/login/", {
       email,
       password,
     }),
   logout: () => api.post<APIResponse<void>>("/users/logout/"),
-  getUserInfo: () => api.get<APIResponse<User>>("/users/mypage/"),
+  getUserInfo: () => api.get<User>("/users/mypage/"),
   updateUserInfo: (userData: User) =>
     api.put<APIResponse<User>>("/users/mypage/", userData),
   changePassword: (passwordData: {
