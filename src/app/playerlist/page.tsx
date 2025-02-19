@@ -10,29 +10,30 @@ async function getPlayers() {
 
 export default async function PlayerListPage() {
   const players = await getPlayers();
-  
+
+  // Check if players is defined and is an array
+  if (!Array.isArray(players)) {
+    console.error("Expected players to be an array, but got:", players);
+    return (
+      <div className="min-h-screen bg-gray-100">
+        <div className="container px-4 py-8 mx-auto">
+          <h1 className="mb-4 text-2xl font-bold">Player List</h1>
+          <p className="text-red-500">Failed to load players.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="container px-4 py-8 mx-auto">
-        <h1 className="mb-4 text-2xl font-bold">Player List</h1>
+        <h1 className="mb-4 text-2xl font-bold">선수 목록</h1>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {players.map((player, index) => (
-            <div key={index} className="block">
+          {players.map((player) => (
+            <div key={player.id} className="block">
               <Link href={`/player/${encodePlayerName(player.nickname)}`}>
                 <PlayerCard player={player} />
               </Link>
-              <div className="flex flex-col">
-                <p>Player Info</p>
-                <span>
-                  <a
-                    href="https://chzzk.com/example"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    External Link
-                  </a>
-                </span>
-              </div>
             </div>
           ))}
         </div>

@@ -1,10 +1,11 @@
-import { PlayerCardData } from "@/src/types/player";
 import { positionIcons } from "@/src/utils/positionIcons";
 import Image from "next/image";
 import SocialLinks from "../common/SocialLinks";
 
 interface PlayerCardProps {
   player: {
+    position: string;
+    social: Record<string, string> | undefined;
     nickname: string;
     realname: string;
     profileImageUrl?: string;
@@ -13,8 +14,8 @@ interface PlayerCardProps {
 
 export default function PlayerCard({ player }: PlayerCardProps) {
   return (
-    <div className="flex flex-col items-center p-4 space-x-4 bg-white rounded-lg shadow-md hover:shadow-lg transition">
-      <div className="w-full h-full aspect-w-1 aspect-h-1 rounded-full overflow-hidden">
+    <div className="flex flex-col items-center p-4 space-x-4 transition bg-white rounded-lg shadow-md hover:shadow-lg">
+      <div className="w-full h-full overflow-hidden rounded-full aspect-w-1 aspect-h-1">
         <Image
           src={player.profileImageUrl || "/profile-sample.svg"}
           alt={player.nickname}
@@ -25,10 +26,10 @@ export default function PlayerCard({ player }: PlayerCardProps) {
         />
       </div>
       <div>
-        <h3 className="text-lg font-bold flex items-center justify-center">
-          {positionIcons[player.position] && (
+        <h3 className="flex items-center justify-center text-lg font-bold">
+          {positionIcons[player.position as keyof typeof positionIcons] && (
             <Image
-              src={positionIcons[player.position]}
+              src={positionIcons[player.position as keyof typeof positionIcons]}
               alt={player.position}
               width={20}
               height={20}

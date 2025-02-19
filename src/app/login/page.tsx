@@ -6,12 +6,12 @@ import axios from "axios";
 import { useAuth } from "@/src/context/AuthContext";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState(""); 
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(""); 
+  const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
-  const { login } = useAuth();
+  useAuth();
 
   // 개발 환경에서만 `console.error` 오버라이드 (로그 출력 방지)
   if (process.env.NODE_ENV === "development") {
@@ -21,7 +21,7 @@ export default function LoginPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setErrorMessage(""); 
+    setErrorMessage("");
 
     try {
       console.log("🔍 요청 데이터:", { email, password });
@@ -31,7 +31,7 @@ export default function LoginPage() {
         { email, password },
         {
           headers: {
-            "Accept": "application/json",
+            Accept: "application/json",
             "Content-Type": "application/json",
           },
         }
@@ -54,8 +54,8 @@ export default function LoginPage() {
 
       alert("로그인 성공! 메인 페이지로 이동합니다.");
       router.push("/");
-    } catch (error: any) {
-      if (error.response) {
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response) {
         // 서버 응답이 있을 경우, 상세 메시지 출력
         const errorDetail = error.response.data.detail;
 
@@ -79,7 +79,10 @@ export default function LoginPage() {
     <div className="flex flex-col items-center justify-center h-screen gap-6 p-8">
       <h1 className="text-3xl font-bold">LOGIN</h1>
 
-      <form onSubmit={handleLogin} className="flex flex-col items-center gap-4 w-96">
+      <form
+        onSubmit={handleLogin}
+        className="flex flex-col items-center gap-4 w-96"
+      >
         <div className="flex flex-col w-full gap-2">
           <input
             type="email"
@@ -104,7 +107,9 @@ export default function LoginPage() {
 
         <button
           type="submit"
-          className={`w-full p-3 text-white rounded-md ${loading ? "bg-gray-400" : "bg-blue-500 hover:bg-blue-700"}`}
+          className={`w-full p-3 text-white rounded-md ${
+            loading ? "bg-gray-400" : "bg-blue-500 hover:bg-blue-700"
+          }`}
           disabled={loading}
         >
           {loading ? "처리 중..." : "LOGIN"}
