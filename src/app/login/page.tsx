@@ -84,7 +84,7 @@ export default function LoginPage() {
         <div className="flex flex-col w-full gap-2">
           <input
             type="email"
-            placeholder="ID"
+            placeholder="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
