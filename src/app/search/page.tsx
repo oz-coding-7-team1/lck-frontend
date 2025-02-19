@@ -13,6 +13,7 @@ interface SearchResult {
   realname: string;
   gamename: string;
   position: string;
+  profile_image_url: string;
   social: Record<string, string>; // Adjust based on your API response
 }
 
@@ -56,7 +57,7 @@ export default function SearchPage() {
           setResults([]);
           setRelatedTags([]);
         } else {
-          setResults(response.data.results || []);
+          setResults(response.data.players || []);
           setRelatedTags(response.data.related_tags || []);
         }
       } catch (error) {
@@ -152,7 +153,7 @@ export default function SearchPage() {
                   className="flex-shrink-0 w-16 h-16 overflow-hidden rounded-full"
                 >
                   <Image
-                    src={result.profileImageUrl || DEFAULT_PROFILE_IMAGE}
+                    src={result.profile_image_url || DEFAULT_PROFILE_IMAGE}
                     alt={result.nickname}
                     width={64}
                     height={64}
