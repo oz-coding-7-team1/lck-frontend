@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import axios from 'axios';
+import { subscriptionApi } from '@/src/services/subscriptionApi'; // subscriptionApi를 임포트
 
 interface PlayerSubscribeButtonProps {
   onClick?: () => void;
@@ -15,17 +15,23 @@ const PlayerSubscribeButton: React.FC<PlayerSubscribeButtonProps> = ({ onClick, 
 
   const handleClick = async () => {
     setLoading(true);
-    setIsSubscribed(!isSubscribed);
+    setIsSubscribed(!isSubscribed); // 구독 상태를 반전시킴
 
     try {
-      // 구독 상태를 API로 전송 (Axios 사용)
-      const response = await axios.post(`/api/v1/subscribe/player/${playerId}`, {
-        subscribed: !isSubscribed, // 현재 상태와 반대 값으로 전송
-      });
+      let response;
+      if (isSubscribed) {
+        // 구독 취소
+        response = await subscriptionApi.unsubscribePlayer(playerId);
+      } else {
+        // 구독
+        response = await subscriptionApi.subscribePlayer(playerId);
+      }
 
       if (response.status === 200) {
         // 요청 성공 시 onClick 콜백 실행 (선택적)
         if (onClick) onClick();
+      } else {
+        throw new Error('서버 오류');
       }
     } catch (error) {
       console.error('구독 상태 전송 실패:', error);

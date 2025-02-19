@@ -46,7 +46,7 @@ export default function CommunitySimple({ type, entityId }: CommunityProps) {
     <>
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold">커뮤니티</h2>
-        <Link href={`/posts/write?type=${type}&entityId=${entityId}`} className="border px-4 py-2 rounded-lg">
+        <Link href={`/community/${type}/${entityId}/posts/write`} className="border px-4 py-2 rounded-lg">
           글쓰기
         </Link>
       </div>

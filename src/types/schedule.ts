@@ -7,8 +7,8 @@ export interface ScheduleEvent {
     start: Date;
     end: Date;
     location: string;
-    teamId?: number; // 팀 일정이면 존재
-    playerId?: number; // 선수 일정이면 존재
+    team_id?: number; // 팀 일정이면 존재
+    player_id?: number; // 선수 일정이면 존재
     allDay: boolean;
     detail?: string;
   }

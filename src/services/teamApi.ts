@@ -2,15 +2,7 @@ import api from "./api";
 import { Team, APIResponse, Schedule } from "@/src/types/api";
 
 export const teamApi = {
-  getTeams: async () => {
-    try {
-      const response = await api.get("/teams/");
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching teams:", error);
-      throw error;
-    }
-  },
+  getTeams: () => api.get<APIResponse<Team[]>>("/teams/"),
   getTeamById: (id: number) => api.get<APIResponse<Team>>(`/teams/${id}/`),
   createTeam: (teamData: Team) =>
     api.post<APIResponse<Team>>("/teams/", teamData),

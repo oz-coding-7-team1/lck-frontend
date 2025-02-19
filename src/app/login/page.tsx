@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { useAuth } from "@/src/context/AuthContext";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -11,7 +10,6 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
-  useAuth();
 
   // 개발 환경에서만 `console.error` 오버라이드 (로그 출력 방지)
   if (process.env.NODE_ENV === "development") {
@@ -24,7 +22,7 @@ export default function LoginPage() {
     setErrorMessage("");
 
     try {
-      console.log("🔍 요청 데이터:", { email, password });
+      //console.log("🔍 요청 데이터:", { email, password });
 
       const response = await axios.post(
         "http://43.200.180.205/api/v1/users/login/",
@@ -37,7 +35,7 @@ export default function LoginPage() {
         }
       );
 
-      console.log("🔍 로그인 응답 데이터:", response.data);
+      //console.log("🔍 로그인 응답 데이터:", response.data);
 
       const accessToken = response.data.access_token;
       const user = response.data.user;

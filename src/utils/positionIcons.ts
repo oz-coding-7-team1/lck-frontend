@@ -1,9 +1,9 @@
 import { Player } from "../types/player";
 
 export const positionIcons: Record<Player["position"], string> = {
-  top: "/icons/role-top.svg",
-  jungle: "/icons/role-jungle.svg",
-  mid: "/icons/role-mid.svg",
-  ADCarry: "/icons/role-bot.svg",
-  support: "/icons/role-support.svg",
-};
+    TOP: "/icons/role-top.svg",
+    JGL: "/icons/role-jungle.svg",
+    MID: "/icons/role-mid.svg",
+    AD: "/icons/role-bot.svg",
+    SPT: "/icons/role-support.svg",
+  };

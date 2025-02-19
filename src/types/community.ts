@@ -20,9 +20,8 @@ export interface PostComment {
   content: string;
   created_at: string;
   updated_at: string;
-  user: string;
-  post_id: number;
-  parent_id: number;
+  user_id: number;
+  parent_id?: number;
   replies?: PostComment[];
 }
 

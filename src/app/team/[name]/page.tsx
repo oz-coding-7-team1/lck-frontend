@@ -1,11 +1,11 @@
 import SocialLinks from "@/src/components/common/SocialLinks";
-import SubscribeButton from "@/src/components/common/SubscribeButton";
+import SubscribeButton from "@/src/components/common/TeamSubscribeButton";
 import CommunitySimple from "@/src/components/community/CommunitySimple";
 import PlayerCard from "@/src/components/player/PlayerCard";
 import TeamSchedule from "@/src/components/team/TeamSchedule";
 import { playerApi } from "@/src/services/playerApi";
 import { teamApi } from "@/src/services/teamApi";
-import { decodeTeamName } from "@/src/utils/urlUtils"; 
+import { encodeTeamName } from "@/src/utils/urlUtils";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Team, Player } from "@/src/types/api";
@@ -15,14 +15,29 @@ type Props = {
 };
 
 export default async function TeamPage({ params }: Props) {
-  // 🔹 URL에서 받은 `name`을 원래 팀 이름으로 변환
-  const formattedName = decodeTeamName(params.name);
 
-  // API에서 팀 데이터 가져오기
-  const teamsResponse = await teamApi.getTeams();
-  const team = teamsResponse.data.find((t: Team) => t.name.toLowerCase() === formattedName.toLowerCase());
+  // 팀 이름을 URL-friendly 형식으로 변환
+  const encodedTeamName = params.name;
 
-  if (!team) return notFound();
+  // 팀 데이터를 가져오는데 직접 getTeamById를 사용
+  let team: Team | undefined;
+  try {
+    const teamsResponse = await teamApi.getTeams();
+    const teamsData = teamsResponse?.data;
+
+    if (!teamsData) {
+      console.error("팀 데이터가 없습니다.");
+      return notFound(); // 예시: 팀 데이터를 못 찾은 경우 404 처리
+    }
+
+    // 팀 이름으로 해당 팀을 찾기
+    team = teamsData.find((t: Team) => encodeTeamName(t.name) === encodedTeamName);
+  } catch (error) {
+    console.error("Error fetching teams:", error);
+    return notFound(); // 팀을 찾을 수 없으면 404 처리
+  }
+
+  if (!team) return notFound(); // team이 없으면 404 처리
 
   // 팀에 속한 선수들 가져오기 (팀 ID로 필터링)
   const playersResponse = await playerApi.getPlayers();

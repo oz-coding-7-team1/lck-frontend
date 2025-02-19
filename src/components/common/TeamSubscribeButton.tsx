@@ -1,31 +1,37 @@
 'use client';
 
 import React, { useState } from 'react';
-import axios from 'axios';
+import { subscriptionApi } from '@/src/services/subscriptionApi';  // subscriptionApi를 임포트
 
-interface SubscribeButtonProps {
+interface TeamSubscribeButtonProps {
   onClick?: () => void;
   initialSubscribed?: boolean;
   teamId: number;  // teamId 추가
 }
 
-const SubscribeButton: React.FC<SubscribeButtonProps> = ({ onClick, initialSubscribed = false, teamId }) => {
+const TeamSubscribeButton: React.FC<TeamSubscribeButtonProps> = ({ onClick, initialSubscribed = false, teamId }) => {
   const [isSubscribed, setIsSubscribed] = useState(initialSubscribed);
   const [loading, setLoading] = useState(false);
 
   const handleClick = async () => {
     setLoading(true);
-    setIsSubscribed(!isSubscribed);
+    setIsSubscribed(!isSubscribed);  // 구독 상태를 반전시킴
 
     try {
-      // 구독 상태를 API로 전송
-      const response = await axios.post(`/api/v1/subscribe/team/${teamId}`, {
-        subscribed: !isSubscribed, // 현재 상태와 반대 값으로 전송
-      });
+      let response;
+      if (isSubscribed) {
+        // 구독 취소
+        response = await subscriptionApi.unsubscribeTeam(teamId);
+      } else {
+        // 구독
+        response = await subscriptionApi.subscribeTeam(teamId);
+      }
 
       if (response.status === 200) {
         // 요청 성공 시 onClick 콜백 실행 
         if (onClick) onClick();
+      } else {
+        throw new Error('서버 오류');
       }
     } catch (error) {
       console.error('구독 상태 전송 실패:', error);
@@ -41,7 +47,7 @@ const SubscribeButton: React.FC<SubscribeButtonProps> = ({ onClick, initialSubsc
       disabled={loading}
       style={{
         backgroundColor: isSubscribed ? 'white' : 'none',
-        color:  isSubscribed ? 'black' : 'white',
+        color: isSubscribed ? 'black' : 'white',
         outline: isSubscribed ? 'none' : '1px solid white',
         padding: '10px 20px',
         border: 'none',
@@ -54,4 +60,4 @@ const SubscribeButton: React.FC<SubscribeButtonProps> = ({ onClick, initialSubsc
   );
 };
 
-export default SubscribeButton;
+export default TeamSubscribeButton;
