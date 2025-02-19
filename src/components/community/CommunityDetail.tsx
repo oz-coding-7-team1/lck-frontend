@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -10,6 +9,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
+import CommentForm from "./CommentForm";
 
 interface CommunityDetailProps {
   type: "team" | "player"; // 'team' 또는 'player' 타입
@@ -25,31 +25,47 @@ export default function CommunityDetail({ type, entityId, postId }: CommunityDet
 
   // 게시글과 댓글 데이터 가져오기
   useEffect(() => {
-  console.log("type:", type);
-  console.log("entityId:", entityId);
-  console.log("postId:", postId);
-
-  const fetchPost = async () => {
-    try {
-      let response;
-      if (type === "player") {
-        response = await communityApi.getPlayerPostById(entityId, postId); // 선수 게시글
-      } else {
-        response = await communityApi.getTeamPostById(entityId, postId); // 팀 게시글
+    const fetchPost = async () => {
+      try {
+        let response;
+        if (type === "player") {
+          response = await communityApi.getPlayerPostById(entityId, postId); // 선수 게시글
+        } else {
+          response = await communityApi.getTeamPostById(entityId, postId); // 팀 게시글
+        }
+        setPost(response.data);
+        setComments(response.data.comments || []);
+      } catch (err) {
+        setError("게시글을 불러오는 데 오류가 발생했습니다.");
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
-      setPost(response.data);
-      setComments(response.data.comments || []);
-    } catch (err) {
-      setError("게시글을 불러오는 데 오류가 발생했습니다.");
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
+    };
+
+    fetchPost();
+  }, [type, entityId, postId]);
+
+  // 댓글 추가 후 처리 함수
+  const handleCommentAdded = () => {
+    // 댓글 목록을 다시 가져오거나, 댓글 수를 업데이트하는 로직
+    const fetchComments = async () => {
+      try {
+        let response;
+        if (type === "player") {
+          response = await communityApi.getPlayerPostById(entityId, postId);
+        } else {
+          response = await communityApi.getTeamPostById(entityId, postId);
+        }
+        setComments(response.data.comments || []);
+      } catch (err) {
+        setError("댓글을 불러오는 데 오류가 발생했습니다.");
+        console.error(err);
+      }
+    };
+
+    fetchComments();
   };
-
-  fetchPost();
-}, [type, entityId, postId]);
-
 
   if (loading) return <p>로딩 중...</p>;
   if (error) return <p>{error}</p>;
@@ -84,18 +100,17 @@ export default function CommunityDetail({ type, entityId, postId }: CommunityDet
 
       <p className="mt-4">{post?.content}</p>
 
-      <div className="mt-4 flex items-center space-x-4">
-        <button onClick={() => {}} className="text-lg">
-          ❤️ {post?.likes}
-        </button>
-        <span>💬 {comments.length}</span>
-      </div>
-
       <div className="mt-6">
-        <h3 className="text-lg font-bold">댓글</h3>
+        <h3 className="text-lg font-bold">댓글 {comments.length}</h3>
+        <CommentForm
+          type={type}
+          entityId={entityId}
+          postId={postId}
+          onCommentAdded={handleCommentAdded} // 부모에서 함수 전달
+        />
         <div className="mt-2 space-y-2">
           {comments.map((comment) => (
-            <Comment key={comment.id} {...comment} />
+            <Comment key={comment.id} {...comment} postId={postId} type={type} />
           ))}
         </div>
       </div>

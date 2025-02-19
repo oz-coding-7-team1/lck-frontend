@@ -18,21 +18,3 @@ export interface Team {
     logoImageUrl: string; //팀 로고 이미지
   }
 
-
-export const sampleTeams: Team[] = [
-    {
-        id: 101,
-        name: "T1",
-        koreanName: "티원",
-        players: [1, 2, 3],
-        social: {
-            insta: "https://instagram.com/t1",
-            X: "https://twitter.com/t1",
-            youtube: "https://youtube.com/t1",
-            soop: "https://twitch.tv/t1",
-          },
-        fanVotes: 100000,
-        backgroundImageUrl: "/images/team/T1/background.png",
-        logoImageUrl: "/logos/T1_esports_logo.svg",
-    }
-];

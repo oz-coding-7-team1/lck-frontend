@@ -60,7 +60,7 @@ export default function Comment({
 
       <div className="mt-2 flex justify-between text-gray-500 text-sm">
 
-        {isAuthor && (
+        
           <div className="flex space-x-2">
             {isEditing ? (
               <button onClick={handleSaveEdit} className="text-blue-500">
@@ -75,7 +75,6 @@ export default function Comment({
               삭제
             </button>
           </div>
-        )}
       </div>
     </div>
   );
