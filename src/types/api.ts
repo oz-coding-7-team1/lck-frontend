@@ -38,6 +38,8 @@ export interface RegisterUserData {
   agreements: TermAgreement[];
 }
 
+import { ReactNode } from "react";
+
 export interface APIResponse<T> {
   find(arg0: (p: Player) => boolean): unknown;
   name: ReactNode;

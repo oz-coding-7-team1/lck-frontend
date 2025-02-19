@@ -7,7 +7,7 @@ export default function CommunityDetailPage() {
   const pathname = usePathname(); // 현재 경로를 가져오는 훅
   const searchParams = useSearchParams(); // 쿼리 파라미터 가져오기
 
-  const type = searchParams.get("type");  // 쿼리 파라미터에서 type 값 가져오기
+  const type = searchParams.get("type"); // 쿼리 파라미터에서 type 값 가져오기
   const entityId = searchParams.get("id"); // 쿼리 파라미터에서 id 값 가져오기
   const postId = pathname.split("/").pop(); // URL에서 마지막 부분(postId)을 가져오기
 
@@ -18,9 +18,9 @@ export default function CommunityDetailPage() {
 
   return (
     <CommunityDetail
-      type={type as "team" | "player"}  // 'type'을 'team' 또는 'player'로 처리
-      entityId={Number(entityId)}  // 'entityId'는 숫자로 처리
-      postId={Number(postId)}  // 'postId'는 숫자로 처리
+      type={type as "team" | "player"} // 'type'을 'team' 또는 'player'로 처리
+      entityId={Number(entityId)} // 'entityId'는 숫자로 처리
+      postId={Number(postId)} // 'postId'는 숫자로 처리
     />
   );
 }
