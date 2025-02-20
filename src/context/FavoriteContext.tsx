@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { subscriptionApi } from "@/src/services/subscriptionApi"; // API 호출을 위한 import
@@ -18,12 +18,18 @@ interface FavoriteContextType {
 }
 
 // Context 생성
-const FavoriteContext = createContext<FavoriteContextType | undefined>(undefined);
+const FavoriteContext = createContext<FavoriteContextType | undefined>(
+  undefined
+);
 
 // FavoriteProvider 컴포넌트
-export const FavoriteProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const FavoriteProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const { accessToken } = useAuth(); // 인증된 사용자 정보
-  const [favoritePlayer, setFavoritePlayer] = useState<Subscription | null>(null);
+  const [favoritePlayer, setFavoritePlayer] = useState<Subscription | null>(
+    null
+  );
   const [favoriteTeam, setFavoriteTeam] = useState<Subscription | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -33,31 +39,32 @@ export const FavoriteProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     if (!accessToken) return;
 
     const fetchFavoriteData = async () => {
-        setLoading(true);
-        try {
-          const playerResponse = await subscriptionApi.getFavoritePlayer(accessToken);
-          const teamResponse = await subscriptionApi.getFavoriteTeam(accessToken);
-          console.log("player ID 타입:", typeof playerResponse.data.id);
-            console.log("team ID 타입:", typeof teamResponse.data.id);
-      
-          setFavoritePlayer({
-            ...playerResponse.data,
-            id: Number(playerResponse.data.id), // id를 숫자로 변환
-          });
-      
-          setFavoriteTeam({
-            ...teamResponse.data,
-            id: Number(teamResponse.data.id), // id를 숫자로 변환
-          });
-      
-        } catch (err) {
-          console.error("Error fetching favorite data:", err);
-          setError("데이터를 가져오는 데 실패했습니다.");
-        } finally {
-          setLoading(false);
-        }
-      };
-      
+      setLoading(true);
+      try {
+        const playerResponse = await subscriptionApi.getFavoritePlayer(
+          accessToken
+        );
+        const teamResponse = await subscriptionApi.getFavoriteTeam(accessToken);
+        console.log("player ID 타입:", typeof playerResponse.data.id);
+        console.log("team ID 타입:", typeof teamResponse.data.id);
+
+        setFavoritePlayer({
+          ...playerResponse.data,
+          id: Number(playerResponse.data.id), // Ensure this is a number
+        });
+
+        setFavoriteTeam({
+          ...teamResponse.data,
+          id: Number(teamResponse.data.id), // Ensure this is a number
+        });
+      } catch (err) {
+        console.error("Error fetching favorite data:", err);
+        setError("데이터를 가져오는 데 실패했습니다.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchFavoriteData();
   }, [accessToken]);
 
@@ -65,7 +72,10 @@ export const FavoriteProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     if (!accessToken) return;
     try {
       await subscriptionApi.subscribePlayer(playerId, accessToken);
-      setFavoritePlayer({ ...favoritePlayer, subscribed: true } as Subscription); // 구독 상태 갱신
+      setFavoritePlayer({
+        ...favoritePlayer,
+        subscribed: true,
+      } as Subscription); // 구독 상태 갱신
     } catch (err) {
       console.error("Error subscribing player:", err);
     }
@@ -75,7 +85,10 @@ export const FavoriteProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     if (!accessToken) return;
     try {
       await subscriptionApi.unsubscribePlayer(playerId, accessToken);
-      setFavoritePlayer({ ...favoritePlayer, subscribed: false } as Subscription); // 구독 취소 상태 갱신
+      setFavoritePlayer({
+        ...favoritePlayer,
+        subscribed: false,
+      } as Subscription); // 구독 취소 상태 갱신
     } catch (err) {
       console.error("Error unsubscribing player:", err);
     }

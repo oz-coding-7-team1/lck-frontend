@@ -8,7 +8,7 @@ interface CommentFormProps {
   postId: number;
   type: "player" | "team";
   parentId?: number; // 대댓글을 위한 부모 댓글 ID (없으면 undefined)
-  onCommentAdded: () => void;  // 댓글 작성 후 부모 컴포넌트에서 실행할 콜백 함수
+  onCommentAdded: () => void; // 댓글 작성 후 부모 컴포넌트에서 실행할 콜백 함수
 }
 
 export default function CommentForm({
@@ -42,10 +42,11 @@ export default function CommentForm({
 
     // 댓글 데이터 준비
     const commentData: PostComment = {
+      id: 0, // Default value for new comments
       content,
-      user: user?.id,  // 사용자 ID
-      // 대댓글일 경우에만 parentId를 포함시킴
-      ...(parentId && { parent: parentId }),
+      user: user.id.toString(), // Convert user.id to string
+      created_at: "", // Default value for new comments
+      ...(parentId && { parent: parentId }), // Include parentId if it exists
     };
 
     try {
@@ -55,8 +56,8 @@ export default function CommentForm({
         await communityApi.createTeamComment(entityId, postId, commentData); // 팀 댓글 작성
       }
 
-      setContent("");  // 댓글 작성 후 입력 필드 초기화
-      onCommentAdded();  // 부모 컴포넌트에서 댓글 추가 후 처리
+      setContent(""); // 댓글 작성 후 입력 필드 초기화
+      onCommentAdded(); // 부모 컴포넌트에서 댓글 추가 후 처리
     } catch (err) {
       setError("댓글 작성에 실패했습니다. 다시 시도해 주세요.");
       console.error(err);
@@ -74,17 +75,17 @@ export default function CommentForm({
       <h3 className="text-lg font-bold">댓글 작성</h3>
       <form onSubmit={handleSubmit}>
         <textarea
-          className="w-full p-2 border rounded-lg mt-2"
+          className="w-full p-2 mt-2 border rounded-lg"
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="댓글을 작성하세요..."
         />
-        {error && <p className="text-red-500 mt-2">{error}</p>}
-        <div className="mt-2 flex justify-between">
+        {error && <p className="mt-2 text-red-500">{error}</p>}
+        <div className="flex justify-between mt-2">
           <button
             type="submit"
-            disabled={loading || !user}  // 로그인되지 않으면 버튼 비활성화
-            className="bg-blue-500 text-white py-2 px-4 rounded-lg"
+            disabled={loading || !user} // 로그인되지 않으면 버튼 비활성화
+            className="px-4 py-2 text-white bg-blue-500 rounded-lg"
           >
             {loading ? "저장 중..." : "댓글 작성"}
           </button>

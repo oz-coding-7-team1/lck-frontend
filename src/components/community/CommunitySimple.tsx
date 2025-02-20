@@ -30,7 +30,7 @@ export default function CommunitySimple({ type, entityId }: CommunityProps) {
         } else {
           response = await communityApi.getTeamPosts(entityId); // 팀 커뮤니티 게시글 조회
         }
-        setPosts(response.data); 
+        setPosts(response.data);
       } catch (err) {
         setError("게시글을 불러오는 데 오류가 발생했습니다.");
         console.error(err);
@@ -44,9 +44,12 @@ export default function CommunitySimple({ type, entityId }: CommunityProps) {
 
   return (
     <>
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold">커뮤니티</h2>
-        <Link href={`/community/${type}/${entityId}/posts/write`} className="border px-4 py-2 rounded-lg">
+        <Link
+          href={`/community/${type}/${entityId}/posts/write`}
+          className="px-4 py-2 border rounded-lg"
+        >
           글쓰기
         </Link>
       </div>
@@ -65,11 +68,14 @@ export default function CommunitySimple({ type, entityId }: CommunityProps) {
               </div>
 
               {/* 링크에 type, entityId 쿼리 파라미터 추가 */}
-              <Link href={`/community/${type}/${entityId}/posts/${post.id}`} className="block mt-2">
+              <Link
+                href={`/community/${type}/${entityId}/posts/${post.id}`}
+                className="block mt-2"
+              >
                 <h3 className="font-semibold">{post.title}</h3>
                 <p className="text-gray-500">{post.content}</p>
                 {/* Swiper 적용된 이미지 슬라이드 */}
-                {post.images?.length > 0 && (
+                {post.images && post.images.length > 0 && (
                   <Swiper
                     modules={[Navigation, Pagination]}
                     navigation
@@ -82,7 +88,7 @@ export default function CommunitySimple({ type, entityId }: CommunityProps) {
                         <img
                           src={img}
                           alt={`이미지 ${index + 1}`}
-                          className="rounded-lg w-full h-auto"
+                          className="w-full h-auto rounded-lg"
                         />
                       </SwiperSlide>
                     ))}
@@ -90,11 +96,11 @@ export default function CommunitySimple({ type, entityId }: CommunityProps) {
                 )}
               </Link>
 
-              <div className="mt-2 flex justify-between text-gray-500 text-sm">
+              <div className="flex justify-between mt-2 text-sm text-gray-500">
                 <span>{post.created_at}</span>
                 <div className="flex space-x-4">
                   <span>❤️ {post.likes}</span>
-                  <span>💬 {post.comments?.length || 0}</span> 
+                  <span>💬 {post.comments?.length || 0}</span>
                 </div>
               </div>
             </div>

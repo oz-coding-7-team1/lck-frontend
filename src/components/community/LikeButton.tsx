@@ -39,12 +39,14 @@ export default function LikeButton({ postId }: LikeButtonProps) {
     setError(null);
 
     try {
+      const userId = Number(user.id); // Convert user.id to number
+
       if (liked) {
         // 이미 좋아요가 되어 있으면 좋아요 취소
-        await communityApi.unlikePost(postId, user.id);
+        await communityApi.unlikePost(postId, userId);
       } else {
         // 좋아요 안 되어 있으면 좋아요 추가
-        await communityApi.likePost(postId, user.id);
+        await communityApi.likePost(postId, userId);
       }
 
       setLiked(!liked); // 좋아요 상태 토글
@@ -61,11 +63,13 @@ export default function LikeButton({ postId }: LikeButtonProps) {
       <button
         onClick={handleLike}
         disabled={loading} // 로딩 중에는 버튼 비활성화
-        className={`p-2 ${liked ? "bg-blue-500" : "bg-gray-300"} text-white rounded-lg`}
+        className={`p-2 ${
+          liked ? "bg-blue-500" : "bg-gray-300"
+        } text-white rounded-lg`}
       >
         {loading ? "처리 중..." : liked ? "좋아요 취소" : "좋아요"}
       </button>
-      {error && <p className="text-red-500 mt-2">{error}</p>}
+      {error && <p className="mt-2 text-red-500">{error}</p>}
     </div>
   );
 }

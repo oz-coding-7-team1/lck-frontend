@@ -6,6 +6,7 @@ export interface Post {
   created_at: string;
   updated_at: string;
   user_id: string;
+  user: string;
   player_id?: number; // 선수 커뮤니티
   team_id?: number; // 팀 커뮤니티
   comments?: PostComment[];
@@ -19,7 +20,7 @@ export interface PostComment {
   id: number;
   content: string;
   created_at: string;
-  updated_at: string;
-  user_id: number;
+  updated_at?: string;
+  user: string;
   parent_id?: number;
 }

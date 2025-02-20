@@ -14,7 +14,6 @@ export default function Comment({
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(content);
 
-
   const handleEdit = () => {
     setIsEditing(!isEditing);
   };
@@ -23,10 +22,22 @@ export default function Comment({
     setIsEditing(false);
     if (type === "player") {
       // 수정된 댓글을 서버에 저장
-      await communityApi.updatePlayerComment(id, { content: editedContent });
+      await communityApi.updatePlayerComment(id, {
+        content: editedContent,
+        id: 0,
+        created_at: "",
+        updated_at: "",
+        user: "",
+      });
     } else {
       // 수정된 댓글을 서버에 저장
-      await communityApi.updateTeamComment(id, { content: editedContent });
+      await communityApi.updateTeamComment(id, {
+        content: editedContent,
+        id: 0,
+        created_at: "",
+        updated_at: "",
+        user: "",
+      });
     }
   };
 
@@ -38,19 +49,18 @@ export default function Comment({
       // 팀 댓글 삭제
       await communityApi.deleteTeamComment(id);
     }
-    onDelete(id);
   };
 
   return (
-    <div className="p-4 border rounded-lg flex flex-col">
-      <div className="flex justify-between items-center">
+    <div className="flex flex-col p-4 border rounded-lg">
+      <div className="flex items-center justify-between">
         <p className="font-bold">{user}</p>
-        <span className="text-gray-500 text-sm">{created_at}</span>
+        <span className="text-sm text-gray-500">{created_at}</span>
       </div>
 
       {isEditing ? (
         <textarea
-          className="w-full border p-2 rounded-lg mt-2"
+          className="w-full p-2 mt-2 border rounded-lg"
           value={editedContent}
           onChange={(e) => setEditedContent(e.target.value)}
         />
@@ -58,23 +68,21 @@ export default function Comment({
         <p className="mt-2">{content}</p>
       )}
 
-      <div className="mt-2 flex justify-between text-gray-500 text-sm">
-
-        
-          <div className="flex space-x-2">
-            {isEditing ? (
-              <button onClick={handleSaveEdit} className="text-blue-500">
-                저장
-              </button>
-            ) : (
-              <button onClick={handleEdit} className="text-gray-500">
-                수정
-              </button>
-            )}
-            <button onClick={handleDelete} className="text-red-500">
-              삭제
+      <div className="flex justify-between mt-2 text-sm text-gray-500">
+        <div className="flex space-x-2">
+          {isEditing ? (
+            <button onClick={handleSaveEdit} className="text-blue-500">
+              저장
             </button>
-          </div>
+          ) : (
+            <button onClick={handleEdit} className="text-gray-500">
+              수정
+            </button>
+          )}
+          <button onClick={handleDelete} className="text-red-500">
+            삭제
+          </button>
+        </div>
       </div>
     </div>
   );

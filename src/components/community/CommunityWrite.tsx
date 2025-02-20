@@ -23,11 +23,10 @@ export default function CommunityWrite({
       return;
     }
 
-    // 게시글 데이터
-    const postData = {
-      title,
-      content,
-    };
+    // Create a FormData object
+    const postData = new FormData();
+    postData.append("title", title);
+    postData.append("content", content);
 
     // API 요청 전에 postData 출력
     console.log("🔍 요청 데이터:", postData);
