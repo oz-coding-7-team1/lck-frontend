@@ -4,40 +4,40 @@ import Link from "next/link";
 import PlayerCard from "../../components/player/PlayerCard";
 import { encodePlayerName } from "@/src/utils/urlUtils";
 import { useEffect, useState } from "react";
-import { subscriptionApi } from "@/src/services/subscriptionApi";
-import { useAuth } from "@/src/context/AuthContext";
+import axios from "axios";
 
 const PlayerListPage = () => {
-  const { accessToken } = useAuth();
   const [players, setPlayers] = useState<any[]>([]); // Adjust type as necessary
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPlayers = async () => {
-      if (!accessToken) {
-        setError("Access token is not available.");
-        setLoading(false);
-        return;
-      }
-
       try {
-        const response = await subscriptionApi.getFavoritePlayer(accessToken);
-        if (response.data && Array.isArray(response.data.players)) {
-          setPlayers(response.data.players);
+        const response = await axios.get(
+          "https://api.umdoong.shop/api/v1/players/"
+        );
+
+        if (response.data) {
+          setPlayers(response.data); // Assuming the response data is an array of players
         } else {
           console.error("Unexpected response structure:", response.data);
         }
       } catch (err) {
-        console.error("Error fetching players:", err);
-        setError("Failed to load players.");
+        if (axios.isAxiosError(err)) {
+          console.error("Axios error:", err.message);
+          setError("Failed to load players: " + err.message);
+        } else {
+          console.error("Unexpected error:", err);
+          setError("Failed to load players.");
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchPlayers();
-  }, [accessToken]);
+  }, []);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;

@@ -1,26 +1,31 @@
 import axios, { AxiosError } from "axios";
 
-// 기본 API URL 설정
-const API_BASE_URL = "http://43.200.180.205/api/v1/";
+// Update the base URL
+const API_BASE_URL = "https://api.umdoong.shop/api/v1/";
 
 const apiClient = axios.create({
-  baseURL: API_BASE_URL, // 기본 URL을 지정
+  baseURL: API_BASE_URL, // Set the new base URL
   headers: {
-    "Content-Type": "application/json", // 요청 헤더 설정
+    "Content-Type": "application/json", // Set the request headers
   },
-  withCredentials: true, // 인증 관련 쿠키 등을 자동으로 포함
+  withCredentials: true, // Include credentials in requests
 });
+
+// Export the apiClient
+export { apiClient };
 
 // 선수 정보 가져오기
 export async function fetchPlayerById(playerId: number) {
   try {
     const response = await apiClient.get(`/player/${playerId}`);
-    return response.data; // axios는 자동으로 응답 본문을 data로 반환합니다.
+    return response.data; // Return the response data
   } catch (error) {
     if (error instanceof AxiosError) {
-      throw new Error(error.response?.data?.message || "선수 데이터를 불러올 수 없습니다.");
+      throw new Error(
+        error.response?.data?.message || "Failed to fetch player data."
+      );
     } else {
-      throw new Error("선수 데이터를 불러올 수 없습니다.");
+      throw new Error("Failed to fetch player data.");
     }
   }
 }
@@ -32,7 +37,9 @@ export async function fetchTeamById(teamId: number) {
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      throw new Error(error.response?.data?.message || "팀 데이터를 불러올 수 없습니다.");
+      throw new Error(
+        error.response?.data?.message || "팀 데이터를 불러올 수 없습니다."
+      );
     } else {
       throw new Error("팀 데이터를 불러올 수 없습니다.");
     }

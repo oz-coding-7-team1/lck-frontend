@@ -50,7 +50,7 @@ export default function MyPage() {
 
       try {
         const response = await axios.get(
-          "http://43.200.180.205/api/v1/users/mypage/",
+          "https://api.umdoong.shop/api/v1/users/mypage/",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -87,7 +87,7 @@ export default function MyPage() {
     ) {
       try {
         const token = localStorage.getItem("accessToken");
-        await axios.delete("http://43.200.180.205/api/v1/users/delete/", {
+        await axios.delete("https://api.umdoong.shop/api/v1/users/delete/", {
           headers: { Authorization: `Bearer ${token}` },
         });
         handleLogout();
@@ -104,7 +104,7 @@ export default function MyPage() {
 
       // Log the request data
       console.log("Sending update request with:", {
-        url: "http://43.200.180.205/api/v1/users/mypage/",
+        url: "https://api.umdoong.shop/api/v1/users/mypage/",
         data: editForm,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -120,7 +120,7 @@ export default function MyPage() {
       };
 
       const updateResponse = await axios.put(
-        "http://43.200.180.205/api/v1/users/mypage/",
+        "https://api.umdoong.shop/api/v1/users/mypage/",
         updateData,
         {
           headers: {
@@ -134,7 +134,7 @@ export default function MyPage() {
 
       // Refresh user data
       const profileResponse = await axios.get(
-        "http://43.200.180.205/api/v1/users/mypage/",
+        "https://api.umdoong.shop/api/v1/users/mypage/",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -167,7 +167,7 @@ export default function MyPage() {
     try {
       const token = localStorage.getItem("accessToken");
       await axios.put(
-        "http://43.200.180.205/api/v1/users/change-password/",
+        "https://api.umdoong.shop/api/v1/users/change-password/",
         {
           current_password: passwordForm.currentPassword,
           new_password: passwordForm.newPassword,

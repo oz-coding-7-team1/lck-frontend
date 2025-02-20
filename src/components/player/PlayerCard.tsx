@@ -2,6 +2,7 @@
 import Image from "next/image";
 import SocialLinks from "../common/SocialLinks";
 import { positionIcons } from "@/src/utils/positionIcons";
+import Link from "next/link";
 // import SocialLinks from "../common/SocialLinks";
 
 interface PlayerCardProps {
@@ -11,7 +12,7 @@ interface PlayerCardProps {
 //todo type으로 에러나는 부분 모두 any로 수정
 
 export default function PlayerCard({ player }: PlayerCardProps) {
-  const position = player.position as keyof typeof positionIcons; // 타입을 명시적으로 지정
+  const position = player.position as keyof typeof positionIcons; // Type assertion for position
   return (
     <div className="flex flex-col items-center p-2 space-y-2 bg-white rounded-lg shadow-md hover:shadow-lg">
       <div className="w-24 h-24 overflow-hidden rounded-full">
@@ -24,9 +25,9 @@ export default function PlayerCard({ player }: PlayerCardProps) {
         />
       </div>
       <h3 className="text-lg font-bold flex">
-      {player.position && positionIcons[position] && (
+        {player.position && positionIcons[position] && (
           <Image
-            src={positionIcons[position]} // position에 맞는 아이콘 가져오기
+            src={positionIcons[position]} // Get the icon for the position
             alt={player.position}
             width={24}
             height={24}
@@ -37,10 +38,11 @@ export default function PlayerCard({ player }: PlayerCardProps) {
       </h3>
       <p className="text-gray-500">{player.realname}</p>
       <div className="flex space-x-1">
-        <SocialLinks
-            links={player.social}
-            iconClassName="w-6 h-6"
-          />
+        {player.social && typeof player.social === 'object' ? (
+          <SocialLinks links={player.social} iconClassName="w-6 h-6" />
+        ) : (
+          <p>No social links available</p> // Fallback if no social links
+        )}
       </div>
     </div>
   );

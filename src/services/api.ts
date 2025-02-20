@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://43.200.180.205/api/v1";
+const BASE_URL = "https://api.umdoong.shop/api/v1";
 
 export const api = axios.create({
   baseURL: BASE_URL,
@@ -10,4 +10,3 @@ export const api = axios.create({
 });
 
 export default api;
-
