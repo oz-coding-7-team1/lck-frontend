@@ -36,73 +36,95 @@ export default async function PlayerPage({ params }: Props) {
     ? (await teamApi.getTeamById(playerDetails.data.team_id)).data
     : null;
 
-  return (
-    <div className="container p-6 mx-auto">
-      <div className="flex flex-col items-center">
-        <Image
-          src={playerDetails.data.profile_image_url || "/default-profile.png"} // 기본 프로필 이미지 추가
-          alt={playerDetails.data.nickname}
-          width={150}
-          height={150}
-        />
-        <div>
-          <h1 className="text-3xl font-bold">
-            {playerDetails.data.nickname}
-            <PlayerSubscribeButton playerId={playerDetails.data.id} initialSubscribed={playerDetails.data.is_subscribed} />
-          </h1>
-          <p className="text-gray-500">{playerDetails.data.realname}</p>
-          <p className="text-blue-500">♥{playerSubscribeCount.data.count}</p>
+    return (
+      <>
+        <div
+          className="bg-cover bg-center h-[360px] absolute w-full -z-1"
+          style={{
+            backgroundImage: playerDetails.data.background_image_url
+              ? `url(${playerDetails.data.background_image_url})`
+              : "none", // 배경 이미지가 없을 경우 none
+            backgroundColor: playerDetails.data.background_image_url
+              ? "none"
+              : "#CDCAE9", // 배경 이미지가 없을 경우 배경색 설정
+          }} 
+        ></div>
+        <div className="container p-6 mx-auto pt-[300px] relative">
+          <div className="flex items-center">
+            <Image
+              src={playerDetails.data.profile_image_url || "/default-profile.png"} // 기본 프로필 이미지 추가
+              alt={playerDetails.data.nickname}
+              width={200}
+              height={200}
+              className="border-[5px] border-white"
+            />
+            <div>
+              <h1 className="text-3xl font-bold">
+                {playerDetails.data.nickname}
+                <PlayerSubscribeButton playerId={playerDetails.data.id} />
+              </h1>
+              <p className="text-gray-500">{playerDetails.data.realname}</p>
+              <p className="text-blue-500">♥{playerSubscribeCount.data.count}</p>
+            </div>
+            <SocialLinks
+              links={playerDetails.data.social}
+              iconClassName="w-6 h-6"
+            />
+          </div>
+  
+          <div className="grid grid-cols-10 gap-4 mt-6">
+            <div className="col-span-3 p-4 border rounded-lg shadow">
+              <h2 className="text-xl font-bold">PLAYER INFO.</h2>
+              <p className="py-2">
+                이름 
+                <strong className="block text-xl">{playerDetails.data.realname}</strong>
+              </p>
+              <p className="py-2">
+                생년월일 
+                <strong className="block text-xl">{playerDetails.data.date_of_birth}</strong>
+              </p>
+              <p className="py-2">
+                국적 
+                <strong className="block text-xl">{playerDetails.data.nationality}</strong>
+              </p>
+              <p className="py-2">
+                데뷔 
+                <strong className="block text-xl">{playerDetails.data.debut_date}</strong>
+              </p>
+              <p className="py-2">
+                포지션 
+                <strong className="block text-xl">{playerDetails.data.position}</strong>
+              </p>
+              <p className="py-2">
+               소속 팀
+               <strong className="block text-xl">{team ? team.name : "소속팀 없음"}</strong>
+              </p>
+              <p className="py-2">
+                소속사
+                <strong className="block text-xl">{playerDetails.data.agency}</strong>
+              </p>
+              <p className="py-2">
+                game ID
+                <strong className="block text-xl">{playerDetails.data.gamename}</strong>
+              </p>
+            </div>
+            <div className="col-span-7">
+              <PlayerSchedule
+                playerId={playerDetails.data.id}
+                teamId={playerDetails.data.team_id}
+              />
+            </div>
+          </div>
+  
+          <div className="grid grid-cols-10 gap-4 mt-6">
+            <div className="col-span-6">
+              <CommunitySimple type="player" entityId={playerDetails.data.id} />
+            </div>
+            <div className="col-span-4">
+              <PlayerGallery playerId={playerDetails.data.id} />
+            </div>
+          </div>
         </div>
-        <SocialLinks
-          links={playerDetails.data.social}
-          iconClassName="w-6 h-6"
-        />
-      </div>
-
-      <div className="grid grid-cols-10 gap-4 mt-6">
-        <div className="col-span-3 p-4 border rounded-lg shadow">
-          <h2 className="text-xl font-bold">PLAYER INFO.</h2>
-          <p>
-            <strong>이름</strong> {playerDetails.data.realname}
-          </p>
-          <p>
-            <strong>생년월일</strong> {playerDetails.data.date_of_birth}
-          </p>
-          <p>
-            <strong>국적</strong> {playerDetails.data.nationality}
-          </p>
-          <p>
-            <strong>데뷔</strong> {playerDetails.data.debut_date}
-          </p>
-          <p>
-            <strong>포지션</strong> {playerDetails.data.position}
-          </p>
-          <p>
-            <strong>소속 팀</strong> {team ? team.name : "소속팀 없음"}
-          </p>
-          <p>
-            <strong>소속사</strong> {playerDetails.data.agency}
-          </p>
-          <p>
-            <strong>ID</strong> {playerDetails.data.gamename}
-          </p>
-        </div>
-        <div className="col-span-7">
-          <PlayerSchedule
-            playerId={playerDetails.data.id}
-            teamId={playerDetails.data.team_id}
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-10 gap-4 mt-6">
-        <div className="col-span-6">
-          <CommunitySimple type="player" entityId={playerDetails.data.id} />
-        </div>
-        <div className="col-span-4">
-          <PlayerGallery playerId={playerDetails.data.id} />
-        </div>
-      </div>
-    </div>
-  );
+      </>
+    );
 }

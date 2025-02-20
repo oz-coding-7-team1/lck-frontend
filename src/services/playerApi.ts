@@ -5,8 +5,7 @@ import api from "./api";
 export const playerApi = {
   getPlayers: () => api.get<Player[]>("/players/"),
   getPlayerById: (id: number) => api.get<Player>(`/players/${id}`),
-  createPlayer: (playerData: Player) =>
-    api.post<Player>("/players/", playerData),
+  createPlayer: (playerData: Player) => api.post<Player>("/players/", playerData),
   updatePlayer: (id: number, playerData: Player) =>
     api.put<Player>(`/players/${id}/`, playerData),
   deactivatePlayer: (id: number) => api.patch<Player>(`/players/${id}/`),
@@ -31,7 +30,6 @@ export const playerApi = {
   getTopPlayersByPosition: () => api.get<Player[]>("/players/position_top/"),
   getTopPlayers: () => api.get<Player[]>("/players/top/"),
   getFavoritePlayer: async () => {
-    const token = localStorage.getItem("accessToken");
     try {
       const response = await api.get<Player>("/subscriptions/player/choeae/", {
         headers: {

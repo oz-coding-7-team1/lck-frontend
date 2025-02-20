@@ -21,7 +21,6 @@ export interface Player {
   }; // SNS 링크
   profile_image_url: string | "/images/default-avatar.svg"; //선수 프로필 이미지
   background_image_url: string //선수 배경 이미지
-  is_subscribed?: boolean;
 }
 
 export type PlayerCardData = Pick<

@@ -16,11 +16,11 @@ export default function RootLayout({
     <html lang="ko" suppressHydrationWarning>
       <body className={inter.className}>
         <AuthProvider> {/* ✅ AuthProvider로 감싸줌 */}
-          <Header />
-          <Suspense>
-            <main>{children}</main>
-          </Suspense>
-          <Footer />
+            <Header />
+            <Suspense>
+              <main>{children}</main>
+            </Suspense>
+            <Footer />
         </AuthProvider>
       </body>
     </html>
