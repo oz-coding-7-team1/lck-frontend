@@ -40,12 +40,10 @@ const PlayerSubscribeButton: React.FC<PlayerSubscribeButtonProps> = ({ onClick, 
       let response;
       if (isSubscribed) {
         // 구독 취소
-        response = await subscriptionApi.unsubscribePlayer(playerId, accessToken);
-        console.log(response);
+        response = await subscriptionApi.unsubscribePlayer(playerId);
       } else {
         // 구독
-        response = await subscriptionApi.subscribePlayer(playerId, accessToken);
-        console.log(response);
+        response = await subscriptionApi.subscribePlayer(playerId);
       }
   
       if (response.status === 200) {

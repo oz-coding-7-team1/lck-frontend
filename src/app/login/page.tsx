@@ -25,7 +25,7 @@ export default function LoginPage() {
       //console.log("🔍 요청 데이터:", { email, password });
 
       const response = await axios.post(
-        "http://43.200.180.205/api/v1/users/login/",
+        "https://api.umdoong.shop/api/v1/users/login/",
         { email, password },
         {
           headers: {

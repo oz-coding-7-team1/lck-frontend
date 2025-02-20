@@ -20,6 +20,7 @@ export default function PlayerGallery({ playerId }: { playerId: number }) {
       setLoading(true);
       try {
         const response = await cloudImageApi.getPlayerGalleryImages(playerId);
+        
         const sortedImages = response.data.sort((a, b) => {
           // 최신 순으로 정렬: uploaded_at 값을 비교
           return new Date(b.uploaded_at).getTime() - new Date(a.uploaded_at).getTime();

@@ -91,7 +91,7 @@ export default function Home() {
   const fetchTopPlayers = async () => {
     try {
       const response = await axios.get(
-        "http://43.200.180.205/api/v1/players/top/"
+        "https://api.umdoong.shop/api/v1/players/top/"
       );
       setTopPlayers(response.data);
     } catch (error) {
@@ -104,7 +104,7 @@ export default function Home() {
   const fetchTopTeams = async () => {
     try {
       const response = await axios.get(
-        "http://43.200.180.205/api/v1/teams/rank/"
+        "https://api.umdoong.shop/api/v1/teams/rank/"
       );
       setTopTeams(response.data);
     } catch (error) {
@@ -117,7 +117,7 @@ export default function Home() {
   const fetchPositionPlayers = async (position: string) => {
     try {
       const response = await axios.get(
-        "http://43.200.180.205/api/v1/players/position_top/"
+        "https://api.umdoong.shop/api/v1/players/position_top/"
       );
 
       // Get the players for the current position from the response

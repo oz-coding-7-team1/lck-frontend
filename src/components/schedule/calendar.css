@@ -1,0 +1,17 @@
+/* react big calendar ui */
+.rbc-today {
+    background-color: #F2F1FF;
+}
+
+.rbc-btn-group button {
+    color: #ADB8CC;
+}
+
+.rbc-btn-group button.rbc-active {
+    color: #6B7A99;
+    font-weight: bold;
+}
+
+.rbc-off-range-bg {
+    background-color: #ffffff;
+}

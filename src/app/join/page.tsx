@@ -65,7 +65,7 @@ export default function SignupPage() {
 
     try {
       const response = await axios.post(
-        "http://43.200.180.205/api/v1/users/signup/",
+        "https://api.umdoong.shop/api/v1/users/signup/",
         signupData,
         { withCredentials: true }
       );
