@@ -1,28 +1,46 @@
+"use client";
+
 import Link from "next/link";
 import PlayerCard from "../../components/player/PlayerCard";
 import { encodePlayerName } from "@/src/utils/urlUtils";
-import { playerApi } from "@/src/services/playerApi";
+import { useEffect, useState } from "react";
+import { subscriptionApi } from "@/src/services/subscriptionApi";
+import { useAuth } from "@/src/context/AuthContext";
 
-async function getPlayers() {
-  const response = await playerApi.getPlayers();
-  return response.data;
-}
+const PlayerListPage = () => {
+  const { accessToken } = useAuth();
+  const [players, setPlayers] = useState<any[]>([]); // Adjust type as necessary
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-export default async function PlayerListPage() {
-  const players = await getPlayers();
+  useEffect(() => {
+    const fetchPlayers = async () => {
+      if (!accessToken) {
+        setError("Access token is not available.");
+        setLoading(false);
+        return;
+      }
 
-  // Check if players is defined and is an array
-  if (!Array.isArray(players)) {
-    console.error("Expected players to be an array, but got:", players);
-    return (
-      <div className="min-h-screen bg-gray-100">
-        <div className="container px-4 py-8 mx-auto">
-          <h1 className="mb-4 text-2xl font-bold">Player List</h1>
-          <p className="text-red-500">Failed to load players.</p>
-        </div>
-      </div>
-    );
-  }
+      try {
+        const response = await subscriptionApi.getFavoritePlayer(accessToken);
+        if (response.data && Array.isArray(response.data.players)) {
+          setPlayers(response.data.players);
+        } else {
+          console.error("Unexpected response structure:", response.data);
+        }
+      } catch (err) {
+        console.error("Error fetching players:", err);
+        setError("Failed to load players.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPlayers();
+  }, [accessToken]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -40,4 +58,6 @@ export default async function PlayerListPage() {
       </div>
     </div>
   );
-}
+};
+
+export default PlayerListPage;

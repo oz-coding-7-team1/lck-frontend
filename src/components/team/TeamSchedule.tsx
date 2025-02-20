@@ -82,9 +82,9 @@ export default async function TeamSchedule({ teamId }: TeamScheduleProps) {
                 className="flex items-center p-4 space-x-4 border rounded-lg shadow"
               >
                 {/* 상대 팀 로고 표시 */}
-                {opponentTeam && opponentTeam.logo_url && (
+                {opponentTeam && opponentTeam.background_image_url && (
                   <Image
-                    src={opponentTeam.logo_url}
+                    src={opponentTeam.background_image_url}
                     alt={opponentTeam.name}
                     width={50}
                     height={50}

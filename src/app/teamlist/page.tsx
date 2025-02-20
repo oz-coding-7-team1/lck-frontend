@@ -8,7 +8,7 @@ import Image from "next/image";
 interface Team {
   id: number;
   name: string;
-  social: Record<string, string>; // Adjust based on your API response
+  social?: Record<string, string>; // Adjust based on your API response
 }
 
 export default function TeamListPage() {

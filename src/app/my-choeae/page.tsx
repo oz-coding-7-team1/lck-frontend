@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { playerApi } from "@/src/services/playerApi";
 import { teamApi } from "@/src/services/teamApi";
 import Image from "next/image";
-import { Team } from "@/src/types/api";
-import { Player } from "@/src/types/api";
+import { Player } from "@/src/types/player";
+import { Team } from "@/src/types/team";
 
 const DEFAULT_PROFILE_IMAGE = "/images/default-avatar.svg";
 const DEFAULT_TEAM_LOGO = "/images/default-team.svg";
@@ -86,14 +86,14 @@ export default function MyChoeae() {
             </div>
           </div>
           {/* Player Card */}
-          {favoritePlayer && favoritePlayer.profileImageUrl && (
+          {favoritePlayer && favoritePlayer.profile_image_url && (
             <div>
               <h3 className="mb-4 text-lg font-medium">Player</h3>
               <div className="flex items-center gap-4 p-4 bg-white border rounded-lg">
                 <div className="relative w-16 h-16 overflow-hidden bg-gray-100 rounded-full">
                   <Image
                     src={
-                      favoritePlayer?.profileImageUrl || DEFAULT_PROFILE_IMAGE
+                      favoritePlayer?.profile_image_url || DEFAULT_PROFILE_IMAGE
                     }
                     alt={favoritePlayer?.nickname || "Player photo"}
                     fill

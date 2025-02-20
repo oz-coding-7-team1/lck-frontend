@@ -10,14 +10,19 @@ import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import CommentForm from "./CommentForm";
+import Image from "next/image";
 
 interface CommunityDetailProps {
   type: "team" | "player"; // 'team' 또는 'player' 타입
   entityId: number; // 팀 ID 또는 선수 ID
-  postId: number;   // 게시글 ID
+  postId: number; // 게시글 ID
 }
 
-export default function CommunityDetail({ type, entityId, postId }: CommunityDetailProps) {
+export default function CommunityDetail({
+  type,
+  entityId,
+  postId,
+}: CommunityDetailProps) {
   const [post, setPost] = useState<Post | null>(null);
   const [comments, setComments] = useState<PostComment[]>([]);
   const [loading, setLoading] = useState(true);
@@ -72,17 +77,20 @@ export default function CommunityDetail({ type, entityId, postId }: CommunityDet
 
   return (
     <div className="container max-w-[695px] mx-auto p-6">
-      <button className="mb-4 text-blue-500" onClick={() => window.history.back()}>
+      <button
+        className="mb-4 text-blue-500"
+        onClick={() => window.history.back()}
+      >
         ← 뒤로가기
       </button>
 
-      <h1 className="text-2xl font-bold">{post?.title}</h1>
+      <h1 className="text-2xl font-bold">{post?.title || '제목 없음'}</h1>
       <p className="text-gray-500">
-        {post?.user} · {post?.created_at}
+        {post?.user || '알 수 없음'} · {post?.created_at || '날짜 없음'}
       </p>
 
       {/* 이미지 슬라이드 */}
-      {post?.images?.length > 0 && (
+      {post?.images && post.images.length > 0 && (
         <Swiper
           modules={[Navigation, Pagination]}
           navigation
@@ -92,7 +100,11 @@ export default function CommunityDetail({ type, entityId, postId }: CommunityDet
         >
           {post.images.map((img, index) => (
             <SwiperSlide key={index}>
-              <img src={img} alt={`게시글 이미지 ${index + 1}`} className="rounded-lg w-full h-auto" />
+              <Image
+                src={img}
+                alt={`게시글 이미지 ${index + 1}`}
+                className="w-full h-auto rounded-lg"
+              />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -110,7 +122,12 @@ export default function CommunityDetail({ type, entityId, postId }: CommunityDet
         />
         <div className="mt-2 space-y-2">
           {comments.map((comment) => (
-            <Comment key={comment.id} {...comment} postId={postId} type={type} />
+            <Comment
+              key={comment.id}
+              {...comment}
+              postId={postId}
+              type={type}
+            />
           ))}
         </div>
       </div>
