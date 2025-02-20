@@ -1,7 +1,6 @@
 import api from "./api";
 import {
   RegisterUserData,
-  APIResponse,
   User,
   Terms,
   TermAgreement,
@@ -13,37 +12,37 @@ export const authApi = {
       email,
       password,
     }),
-  logout: () => api.post<APIResponse<void>>("/users/logout/"),
+  logout: () => api.post<void>("/users/logout/"),
   getUserInfo: () => api.get<User>("/users/mypage/"),
   updateUserInfo: (userData: User) =>
-    api.put<APIResponse<User>>("/users/mypage/", userData),
+    api.put<User>("/users/mypage/", userData),
   changePassword: (passwordData: {
     currentPassword: string;
     newPassword: string;
-  }) => api.post<APIResponse<void>>("/users/password/", passwordData),
+  }) => api.post<void>("/users/password/", passwordData),
   register: (userData: RegisterUserData) =>
-    api.post<APIResponse<User>>("/users/signup/", userData),
-  getTerms: () => api.get<APIResponse<Terms[]>>("/users/terms/"),
+    api.post<User>("/users/signup/", userData),
+  getTerms: () => api.get<Terms[]>("/users/terms/"),
   createTerms: (termsData: Terms) =>
-    api.post<APIResponse<Terms>>("/users/terms/", termsData),
+    api.post<Terms>("/users/terms/", termsData),
   getUserTermsAgreement: () =>
-    api.get<APIResponse<TermAgreement[]>>("/users/terms/agree/"),
+    api.get<TermAgreement[]>("/users/terms/agree/"),
   updateUserTermsAgreement: (id: number, agreementData: TermAgreement) =>
-    api.patch<APIResponse<TermAgreement>>(
+    api.patch<TermAgreement>(
       `/users/terms/agree/${id}/`,
       agreementData
     ),
   obtainToken: (tokenData: { email: string; password: string }) =>
-    api.post<APIResponse<{ access: string; refresh: string }>>(
+    api.post<{ access: string; refresh: string }>(
       "/users/token/obtain/",
       tokenData
     ),
   refreshToken: (tokenData: { refresh: string }) =>
-    api.post<APIResponse<{ access: string }>>(
+    api.post<{ access: string }>(
       "/users/token/refresh/",
       tokenData
     ),
   verifyToken: (tokenData: { token: string }) =>
-    api.post<APIResponse<void>>("/users/token/verify/", tokenData),
-  withdraw: () => api.post<APIResponse<void>>("/users/withdraw/"),
+    api.post<void>("/users/token/verify/", tokenData),
+  withdraw: () => api.post<void>("/users/withdraw/"),
 };

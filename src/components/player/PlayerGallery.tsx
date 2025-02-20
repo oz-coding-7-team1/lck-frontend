@@ -1,44 +1,66 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { cloudImageApi } from "@/src/services/cloudImageApi"; // API 호출을 위한 import
+import { CloudImage } from "@/src/types/api"; // CloudImage 타입을 사용
 
-const sampleImages = [
-  "/images/sample1.jpg",
-  "/images/sample2.jpg",
-  "/images/sample3.jpg",
-  "/images/sample4.jpg",
-  "/images/sample5.jpg",
-  "/images/sample6.jpg",
-  "/images/sample7.jpg",
-  "/images/sample8.jpg",
-];
+interface PlayerGalleryProps {
+  playerId: number;
+}
 
-export default function PlayerGallery() {
+export default function PlayerGallery({ playerId }: { playerId: number }) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [images, setImages] = useState<CloudImage[]>([]); // 이미지 목록 상태
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      setLoading(true);
+      try {
+        const response = await cloudImageApi.getPlayerGalleryImages(playerId);
+        const sortedImages = response.data.sort((a, b) => {
+          // 최신 순으로 정렬: uploaded_at 값을 비교
+          return new Date(b.uploaded_at).getTime() - new Date(a.uploaded_at).getTime();
+        });
+        setImages(sortedImages);
+      } catch (error) {
+        console.error("이미지 가져오기 실패:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchImages();
+  }, [playerId]);
 
   return (
     <div className="mt-6">
       <h2 className="text-xl font-bold mb-4">갤러리</h2>
-      <div className="grid grid-cols-4 gap-2">
-        {sampleImages.map((image, index) => (
-          <div
-            key={index}
-            className={`cursor-pointer ${
-              index === 0 ? "col-span-2 row-span-2" : index === 7 ? "col-span-2" : "col-span-1"
-            }`}
-            onClick={() => setSelectedImage(image)}
-          >
-            <Image
-              src={image}
-              alt={`Gallery Image ${index + 1}`}
-              width={200}
-              height={200}
-              className="w-full h-full object-cover rounded-md"
-            />
-          </div>
-        ))}
-      </div>
+      {loading ? (
+        <p>로딩 중...</p>
+      ) : (
+        <div className="grid grid-cols-4 gap-2">
+          {images.map((image, index) => (
+            <div
+              key={index}
+              className={`cursor-pointer ${
+                index === 0 ? "col-span-2 row-span-2" : index === 7 ? "col-span-2" : "col-span-1"
+              }`}
+              onClick={() => setSelectedImage(image.image_url)} // 이미지 URL을 상태에 저장
+            >
+              <Image
+                src={image.image_url}
+                alt={`image.id`}
+                width={200}
+                height={200}
+                className="w-full h-full object-cover rounded-md"
+              />
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* 레이어 팝업 (모달) */}
       {selectedImage && (

@@ -1,34 +1,33 @@
-import api from "./api";
-import { Team, APIResponse, Schedule } from "@/src/types/api";
-
-// todo remove apiresponse
+import { Schedule } from "../types/schedule";
+import { Team } from "../types/team";
+import api from "./api"
 
 export const teamApi = {
   getTeams: () => api.get<Team[]>("/teams/"),
   getTeamById: (id: number) => api.get<Team>(`/teams/${id}/`),
   createTeam: (teamData: Team) =>
-    api.post<APIResponse<Team>>("/teams/", teamData),
+    api.post<Team>("/teams/", teamData),
   updateTeam: (id: number, teamData: Team) =>
-    api.put<APIResponse<Team>>(`/teams/${id}/`, teamData),
-  deleteTeam: (id: number) => api.delete<APIResponse<void>>(`/teams/${id}/`),
+    api.put<Team>(`/teams/${id}/`, teamData),
+  deleteTeam: (id: number) => api.delete<void>(`/teams/${id}/`),
   getTeamSchedule: (teamId: number) =>
     api.get<Schedule[]>(`/teams/${teamId}/schedule/`),
   createTeamSchedule: (teamId: number, scheduleData: Schedule) =>
-    api.post<APIResponse<Schedule>>(`/teams/${teamId}/schedule/`, scheduleData),
+    api.post<Schedule>(`/teams/${teamId}/schedule/`, scheduleData),
   getTeamScheduleById: (teamId: number, scheduleId: number) =>
-    api.get<APIResponse<Schedule>>(`/teams/${teamId}/schedule/${scheduleId}/`),
+    api.get<Schedule>(`/teams/${teamId}/schedule/${scheduleId}/`),
   updateTeamSchedule: (
     teamId: number,
     scheduleId: number,
     scheduleData: Schedule
   ) =>
-    api.patch<APIResponse<Schedule>>(
+    api.patch<Schedule>(
       `/teams/${teamId}/schedule/${scheduleId}/`,
       scheduleData
     ),
   deleteTeamSchedule: (teamId: number, scheduleId: number) =>
-    api.delete<APIResponse<void>>(`/teams/${teamId}/schedule/${scheduleId}/`),
-  getTopTeams: () => api.get<APIResponse<Team[]>>("/teams/rank/"),
+    api.delete<void>(`/teams/${teamId}/schedule/${scheduleId}/`),
+  getTopTeams: () => api.get<Team[]>("/teams/rank/"),
   getFavoriteTeam: async () => {
     const token = localStorage.getItem("accessToken");
     try {

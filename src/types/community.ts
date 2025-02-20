@@ -5,7 +5,7 @@ export interface Post {
   content: string;
   created_at: string;
   updated_at: string;
-  user: string;
+  user_id: string;
   player_id?: number; // 선수 커뮤니티
   team_id?: number; // 팀 커뮤니티
   comments?: PostComment[];
@@ -22,16 +22,4 @@ export interface PostComment {
   updated_at: string;
   user_id: number;
   parent_id?: number;
-  replies?: PostComment[];
-}
-
-
-// Community 타입 정의 (커뮤니티)
-export interface Community {
-  id: number;
-  name: string;
-  description?: string;
-  created_at: string;
-  updated_at: string;
-  owner_id: number;  // 커뮤니티 소유자의 ID
 }
