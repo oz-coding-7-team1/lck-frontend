@@ -24,14 +24,14 @@
 
 ### FE
 
-| <a href=https://github.com/chanyangdev/><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@chanyangdev</b></sub></a><br/> | <a href=https://github.com/jiyea0904/><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@jiyea0904</b></sub></a><br/> | <a href=https://github.com/dlaudgk/><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@dlaudgk</b></sub></a><br/> |  
+| <a href=https://github.com/chanyangdev/><img src="https://github.com/user-attachments/assets/83058a0e-4c28-4fb7-8585-ed324d1f37bd" width=100px/><br/><sub><b>@chanyangdev</b></sub></a><br/> | <a href=https://github.com/jiyea0904/><img src="https://github.com/user-attachments/assets/81765f46-a16c-42d3-8d0a-7d3f62376a47" width=100px/><br/><sub><b>@jiyea0904</b></sub></a><br/> | <a href=https://github.com/dlaudgk/><img src="https://github.com/user-attachments/assets/8cfd428a-c4c0-4215-9b7f-d3658886c132" width=100px/><br/><sub><b>@dlaudgk</b></sub></a><br/> |  
 |:----------------------------------:|:----------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------:|
 |                최찬양                 |    박지예     |                                                                            이명하                                                                            |  
 
 
 ### BE
 
-| <a href=https://github.com/Umdoong/><img src="https://avatars.githubusercontent.com/u/85716720?v=4" width=100px/><br/><sub><b>@Umdoong</b></sub></a><br/> | <a href=https://github.com/Autumn-eul><img src="https://avatars.githubusercontent.com/u/90237119?v=4" width=100px/><br/><sub><b>@Autumn-eul</b></sub></a><br/> | <a href=https://github.com/Jung-Je/><img src="https://avatars.githubusercontent.com/u/77969043?v=4" width=100px/><br/><sub><b>@Jung-Je</b></sub></a><br/> |
+| <a href=https://github.com/Umdoong/><img src="https://github.com/user-attachments/assets/ca4ffc8d-5d05-43bc-a4e8-467aaf7f342c" width=100px/><br/><sub><b>@Umdoong</b></sub></a><br/> | <a href=https://github.com/Autumn-eul><img src="https://github.com/user-attachments/assets/6764e646-6cfc-4c6b-bc88-1a224a1f644b" width=100px/><br/><sub><b>@Autumn-eul</b></sub></a><br/> | <a href=https://github.com/Jung-Je/><img src="https://github.com/user-attachments/assets/da86a74a-5e30-4c2f-b035-78d2f2007ccd" width=100px/><br/><sub><b>@Jung-Je</b></sub></a><br/> |
 |:----------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------:|
 |                                                                            유효종                                                                             |                                                                            이가을                                                                             |                                          이정제                                           |
 ---
