@@ -25,7 +25,7 @@ export default function LoginPage() {
       //console.log("🔍 요청 데이터:", { email, password });
 
       const response = await axios.post(
-        "http://43.200.180.205/api/v1/users/login/",
+        "https://api.umdoong.shop/api/v1/users/login/",
         { email, password },
         {
           headers: {
@@ -43,7 +43,6 @@ export default function LoginPage() {
       if (accessToken && user) {
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("user", JSON.stringify(user));
-
         window.dispatchEvent(new Event("auth-change"));
       } else {
         console.error("❌ Access Token 또는 사용자 정보가 없습니다.");
