@@ -40,7 +40,7 @@ export default function SearchPage() {
       setError(null);
 
       try {
-        let endpoint = "http://43.200.180.205/api/v1/tag-search/";
+        let endpoint = "https://api.umdoong.shop/api/v1/tag-search/";
         const searchParam = tag ? tag : query;
 
         if (searchParam) {

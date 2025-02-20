@@ -1,5 +1,5 @@
 import { Post, PostComment } from "../types/community";
-import api from "./api";
+import { apiClient } from "@/src/utils/api";
 
 const getAuthToken = () => {
   const token = localStorage.getItem("accessToken");
@@ -13,19 +13,19 @@ const getAuthToken = () => {
 export const communityApi = {
   // 선수 커뮤니티 게시글 조회
   getPlayerPosts: (playerId: number) =>
-    api.get<Post[]>(`/communities/player/${playerId}/posts/`),
+    apiClient.get<Post[]>(`/communities/player/${playerId}/posts/`),
 
   // 선수 커뮤니티 게시글 생성
   createPlayerPost: (entityId: number, postData: FormData) =>
-    api.post<Post>(`/players/${entityId}/posts/`, postData),
+    apiClient.post<Post>(`/players/${entityId}/posts/`, postData),
 
   // 선수 커뮤니티 게시글 상세 조회
   getPlayerPostById: (playerId: number, postId: number) =>
-    api.get<Post>(`/communities/player/${playerId}/posts/${postId}/`),
+    apiClient.get<Post>(`/communities/player/${playerId}/posts/${postId}/`),
 
   // 선수 커뮤니티 게시글 수정
   updatePlayerPost: (playerId: number, postId: number, postData: Post) =>
-    api.put<Post>(
+    apiClient.put<Post>(
       `/communities/player/${playerId}/posts/${postId}/`,
       postData,
       {
@@ -37,7 +37,7 @@ export const communityApi = {
 
   // 선수 커뮤니티 게시글 삭제
   deletePlayerPost: (playerId: number, postId: number) =>
-    api.delete<void>(`/communities/player/${playerId}/posts/${postId}/`, {
+    apiClient.delete<void>(`/communities/player/${playerId}/posts/${postId}/`, {
       headers: {
         Authorization: `Bearer ${getAuthToken()}`, // Authorization 헤더에 토큰 추가
       },
@@ -49,7 +49,7 @@ export const communityApi = {
     postId: number,
     commentData: PostComment
   ) =>
-    api.post<Comment>(
+    apiClient.post<Comment>(
       `/communities/player/${playerId}/posts/${postId}/comments/`,
       commentData,
       {
@@ -61,11 +61,11 @@ export const communityApi = {
 
   // 선수 커뮤니티 댓글 상세 조회
   getPlayerCommentById: (commentId: number) =>
-    api.get<Comment>(`/communities/player/comments/${commentId}/`),
+    apiClient.get<Comment>(`/communities/player/comments/${commentId}/`),
 
   // 선수 커뮤니티 댓글 수정
   updatePlayerComment: (commentId: number, commentData: PostComment) =>
-    api.put<Comment>(
+    apiClient.put<Comment>(
       `/communities/player/comments/${commentId}/`,
       commentData,
       {
@@ -77,7 +77,7 @@ export const communityApi = {
 
   // 선수 커뮤니티 댓글 삭제
   deletePlayerComment: (commentId: number) =>
-    api.delete<void>(`/communities/player/comments/${commentId}/`, {
+    apiClient.delete<void>(`/communities/player/comments/${commentId}/`, {
       headers: {
         Authorization: `Bearer ${getAuthToken()}`, // Authorization 헤더에 토큰 추가
       },
@@ -85,27 +85,31 @@ export const communityApi = {
 
   // 팀 커뮤니티 게시글 조회
   getTeamPosts: (teamId: number) =>
-    api.get<Post[]>(`/communities/team/${teamId}/posts/`),
+    apiClient.get<Post[]>(`/communities/team/${teamId}/posts/`),
 
   // 팀 커뮤니티 게시글 생성
   createTeamPost: (entityId: number, postData: FormData) =>
-    api.post<Post>(`/teams/${entityId}/posts/`, postData),
+    apiClient.post<Post>(`/teams/${entityId}/posts/`, postData),
 
   // 팀 커뮤니티 게시글 상세 조회
   getTeamPostById: (teamId: number, postId: number) =>
-    api.get<Post>(`/communities/team/${teamId}/posts/${postId}/`),
+    apiClient.get<Post>(`/communities/team/${teamId}/posts/${postId}/`),
 
   // 팀 커뮤니티 게시글 수정
   updateTeamPost: (teamId: number, postId: number, postData: Post) =>
-    api.put<Post>(`/communities/team/${teamId}/posts/${postId}/`, postData, {
-      headers: {
-        Authorization: `Bearer ${getAuthToken()}`, // Authorization 헤더에 토큰 추가
-      },
-    }),
+    apiClient.put<Post>(
+      `/communities/team/${teamId}/posts/${postId}/`,
+      postData,
+      {
+        headers: {
+          Authorization: `Bearer ${getAuthToken()}`, // Authorization 헤더에 토큰 추가
+        },
+      }
+    ),
 
   // 팀 커뮤니티 게시글 삭제
   deleteTeamPost: (teamId: number, postId: number) =>
-    api.delete<void>(`/communities/team/${teamId}/posts/${postId}/`, {
+    apiClient.delete<void>(`/communities/team/${teamId}/posts/${postId}/`, {
       headers: {
         Authorization: `Bearer ${getAuthToken()}`, // Authorization 헤더에 토큰 추가
       },
@@ -117,7 +121,7 @@ export const communityApi = {
     postId: number,
     commentData: PostComment
   ) =>
-    api.post<Comment>(
+    apiClient.post<Comment>(
       `/communities/team/${teamId}/posts/${postId}/comments/`,
       commentData,
       {
@@ -129,19 +133,23 @@ export const communityApi = {
 
   // 팀 커뮤니티 댓글 상세 조회
   getTeamCommentById: (commentId: number) =>
-    api.get<Comment>(`/communities/team/comments/${commentId}/`),
+    apiClient.get<Comment>(`/communities/team/comments/${commentId}/`),
 
   // 팀 커뮤니티 댓글 수정
   updateTeamComment: (commentId: number, commentData: PostComment) =>
-    api.put<Comment>(`/communities/team/comments/${commentId}/`, commentData, {
-      headers: {
-        Authorization: `Bearer ${getAuthToken()}`, // Authorization 헤더에 토큰 추가
-      },
-    }),
+    apiClient.put<Comment>(
+      `/communities/team/comments/${commentId}/`,
+      commentData,
+      {
+        headers: {
+          Authorization: `Bearer ${getAuthToken()}`, // Authorization 헤더에 토큰 추가
+        },
+      }
+    ),
 
   // 팀 커뮤니티 댓글 삭제
   deleteTeamComment: (commentId: number) =>
-    api.delete<void>(`/communities/team/comments/${commentId}/`, {
+    apiClient.delete<void>(`/communities/team/comments/${commentId}/`, {
       headers: {
         Authorization: `Bearer ${getAuthToken()}`, // Authorization 헤더에 토큰 추가
       },
@@ -149,7 +157,7 @@ export const communityApi = {
 
   // Get the like status of a post
   getPostLikeStatus: async (postId: number, userId: number) => {
-    return api.get<{ liked: boolean }>(`/posts/${postId}/like-status`, {
+    return apiClient.get<{ liked: boolean }>(`/posts/${postId}/like-status`, {
       headers: {
         Authorization: `Bearer ${getAuthToken()}`, // Authorization header
       },
@@ -161,7 +169,7 @@ export const communityApi = {
 
   // Unlike a post
   unlikePost: async (postId: number, userId: number) => {
-    return api.delete<void>(`/posts/${postId}/likes`, {
+    return apiClient.delete<void>(`/posts/${postId}/likes`, {
       headers: {
         Authorization: `Bearer ${getAuthToken()}`, // Authorization header
       },
@@ -173,7 +181,7 @@ export const communityApi = {
 
   // Like a post
   likePost: async (postId: number, userId: number) => {
-    return api.post<void>(
+    return apiClient.post<void>(
       `/posts/${postId}/likes`,
       {
         userId, // Pass the userId if needed

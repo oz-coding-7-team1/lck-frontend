@@ -13,14 +13,9 @@ export const playerApi = {
   getPlayerSchedule: (playerId: number) =>
     api.get<Schedule[]>(`/players/${playerId}/schedule/`),
   createPlayerSchedule: (playerId: number, scheduleData: Schedule) =>
-    api.post<Schedule>(
-      `/players/${playerId}/schedule/`,
-      scheduleData
-    ),
+    api.post<Schedule>(`/players/${playerId}/schedule/`, scheduleData),
   getPlayerScheduleById: (playerId: number, scheduleId: number) =>
-    api.get<Schedule>(
-      `/players/${playerId}/schedule/${scheduleId}/`
-    ),
+    api.get<Schedule>(`/players/${playerId}/schedule/${scheduleId}/`),
   updatePlayerSchedule: (
     playerId: number,
     scheduleId: number,
@@ -31,15 +26,16 @@ export const playerApi = {
       scheduleData
     ),
   deletePlayerSchedule: (playerId: number, scheduleId: number) =>
-    api.delete<void>(
-      `/players/${playerId}/schedule/${scheduleId}/`
-    ),
-  getTopPlayersByPosition: () =>
-    api.get<Player[]>("/players/position_top/"),
+    api.delete<void>(`/players/${playerId}/schedule/${scheduleId}/`),
+  getTopPlayersByPosition: () => api.get<Player[]>("/players/position_top/"),
   getTopPlayers: () => api.get<Player[]>("/players/top/"),
   getFavoritePlayer: async () => {
     try {
-      const response = await api.get<Player>("/subscriptions/player/choeae/");
+      const response = await api.get<Player>("/subscriptions/player/choeae/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("Error fetching favorite player:", error);

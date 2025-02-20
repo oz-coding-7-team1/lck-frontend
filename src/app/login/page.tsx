@@ -43,7 +43,6 @@ export default function LoginPage() {
       if (accessToken && user) {
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("user", JSON.stringify(user));
-
         window.dispatchEvent(new Event("auth-change"));
       } else {
         console.error("❌ Access Token 또는 사용자 정보가 없습니다.");
