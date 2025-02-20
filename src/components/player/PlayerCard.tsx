@@ -2,8 +2,6 @@
 import Image from "next/image";
 import SocialLinks from "../common/SocialLinks";
 import { positionIcons } from "@/src/utils/positionIcons";
-import Link from "next/link";
-// import SocialLinks from "../common/SocialLinks";
 
 interface PlayerCardProps {
   player: any;
@@ -24,7 +22,7 @@ export default function PlayerCard({ player }: PlayerCardProps) {
           className="object-cover"
         />
       </div>
-      <h3 className="text-lg font-bold flex">
+      <h3 className="flex text-lg font-bold">
         {player.position && positionIcons[position] && (
           <Image
             src={positionIcons[position]} // Get the icon for the position
@@ -38,7 +36,7 @@ export default function PlayerCard({ player }: PlayerCardProps) {
       </h3>
       <p className="text-gray-500">{player.realname}</p>
       <div className="flex space-x-1">
-        {player.social && typeof player.social === 'object' ? (
+        {player.social && typeof player.social === "object" ? (
           <SocialLinks links={player.social} iconClassName="w-6 h-6" />
         ) : (
           <p>No social links available</p> // Fallback if no social links
