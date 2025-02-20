@@ -1,29 +1,27 @@
+import { Player } from "../types/player";
+import { Schedule } from "../types/schedule";
 import api from "./api";
-import { Player, APIResponse, Schedule } from "@/src/types/api";
-
-
-//todo APIResponse 다 뺴기 - 가져오는 데이터만 넣기
 
 export const playerApi = {
   getPlayers: () => api.get<Player[]>("/players/"),
   getPlayerById: (id: number) => api.get<Player>(`/players/${id}`),
   createPlayer: (playerData: Player) =>
-    api.post<APIResponse<Player>>("/players/", playerData),
+    api.post<Player>("/players/", playerData),
   updatePlayer: (id: number, playerData: Player) =>
-    api.put<APIResponse<Player>>(`/players/${id}/`, playerData),
+    api.put<Player>(`/players/${id}/`, playerData),
   deactivatePlayer: (id: number) =>
-    api.patch<APIResponse<Player>>(`/players/${id}/`),
+    api.patch<Player>(`/players/${id}/`),
   deletePlayer: (id: number) =>
-    api.delete<APIResponse<void>>(`/players/${id}/`),
+    api.delete<void>(`/players/${id}/`),
   getPlayerSchedule: (playerId: number) =>
     api.get<Schedule[]>(`/players/${playerId}/schedule/`),
   createPlayerSchedule: (playerId: number, scheduleData: Schedule) =>
-    api.post<APIResponse<Schedule>>(
+    api.post<Schedule>(
       `/players/${playerId}/schedule/`,
       scheduleData
     ),
   getPlayerScheduleById: (playerId: number, scheduleId: number) =>
-    api.get<APIResponse<Schedule>>(
+    api.get<Schedule>(
       `/players/${playerId}/schedule/${scheduleId}/`
     ),
   updatePlayerSchedule: (
@@ -31,17 +29,17 @@ export const playerApi = {
     scheduleId: number,
     scheduleData: Schedule
   ) =>
-    api.patch<APIResponse<Schedule>>(
+    api.patch<Schedule>(
       `/players/${playerId}/schedule/${scheduleId}/`,
       scheduleData
     ),
   deletePlayerSchedule: (playerId: number, scheduleId: number) =>
-    api.delete<APIResponse<void>>(
+    api.delete<void>(
       `/players/${playerId}/schedule/${scheduleId}/`
     ),
   getTopPlayersByPosition: () =>
-    api.get<APIResponse<Player[]>>("/players/position_top/"),
-  getTopPlayers: () => api.get<APIResponse<Player[]>>("/players/top/"),
+    api.get<Player[]>("/players/position_top/"),
+  getTopPlayers: () => api.get<Player[]>("/players/top/"),
   getFavoritePlayer: async () => {
     const token = localStorage.getItem("accessToken");
     try {

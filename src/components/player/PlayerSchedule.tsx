@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { playerApi } from "@/src/services/playerApi"; // playerApi 사용
 import { teamApi } from "@/src/services/teamApi"; // teamApi 사용
 import ScheduleCalendar from "@/src/components/schedule/ScheduleCalendar";
-import { ScheduleEvent } from "@/src/types/schedule";
+import { Schedule, ScheduleEvent } from "@/src/types/schedule";
 
 interface PlayerScheduleProps {
   playerId: number;
@@ -12,19 +12,19 @@ interface PlayerScheduleProps {
 }
 
 // 서버에서 받은 데이터를 ScheduleEvent 타입으로 변환하는 함수
-const transformEvent = (eventData: any): ScheduleEvent => {
+const transformEvent = (eventData: Schedule): ScheduleEvent => {
   const startDate = new Date(eventData.start_date);
   const endDate = new Date(eventData.end_date);
 
   return {
     id: eventData.id,
-    category: eventData.category,
+    category: eventData.category, // category를 ScheduleEventCategory로 변환 (enum)
     title: eventData.title,
     start: startDate, // start_date를 Date로 변환
     end: endDate, // end_date를 Date로 변환
     location: eventData.place, // 장소
-    player_id: eventData.player || undefined,
-    team_id: eventData.team || undefined, // team_id를 Number로 변환
+    player_id: eventData.player_id || undefined,
+    team_id: eventData.team_id || undefined, // team_id를 Number로 변환
     allDay: startDate.toDateString() !== endDate.toDateString(), // 날짜만 비교
     detail: eventData.detail || "",
   };
@@ -48,7 +48,7 @@ export default function PlayerSchedule({
         const playerSchedule = playerScheduleResponse.data.map(transformEvent); // 변환 함수 적용
 
         // teamId가 존재할 때만 팀 스케줄을 받아오기
-        let teamSchedule = [];
+        let teamSchedule: ScheduleEvent[] = [];
         if (teamId) {
           const teamScheduleResponse = await teamApi.getTeamSchedule(teamId);
           teamSchedule = teamScheduleResponse.data.map(transformEvent); // 변환 함수 적용

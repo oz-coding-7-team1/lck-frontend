@@ -1,21 +1,54 @@
 import api from "./api";
-import { APIResponse, Subscription } from "@/src/types/api";
+import { Subscription, SubscriptionCount } from "@/src/types/api";
+
 
 export const subscriptionApi = {
-  subscribePlayer: (playerId: number) =>
-    api.post<APIResponse<void>>(`/subscriptions/player/${playerId}/`),
-  unsubscribePlayer: (playerId: number) =>
-    api.delete<APIResponse<void>>(`/subscriptions/player/${playerId}/`),
+  subscribePlayer: (playerId: number, accessToken: string) =>
+    api.post<void>(`/subscriptions/player/${playerId}/`,
+      {
+      headers: {
+        "Authorization": `Bearer ${accessToken}`, // Authorization 헤더에 토큰 추가
+      },
+    }),
+    
+  unsubscribePlayer: (playerId: number, accessToken: string) =>
+    api.delete<void>(`/subscriptions/player/${playerId}/`,
+      {
+      headers: {
+        "Authorization": `Bearer ${accessToken}`, // Authorization 헤더에 토큰 추가
+      },
+    }),
+
   getPlayerSubscriptionCount: (playerId: number) =>
-    api.get<APIResponse<number>>(`/subscriptions/player/${playerId}/count/`),
-  getFavoritePlayer: () =>
-    api.get<APIResponse<Subscription>>("/subscriptions/player/choeae/"),
-  subscribeTeam: (teamId: number) =>
-    api.post<APIResponse<void>>(`/subscriptions/team/${teamId}/`),
-  unsubscribeTeam: (teamId: number) =>
-    api.delete<APIResponse<void>>(`/subscriptions/team/${teamId}/`),
+    api.get<SubscriptionCount>(`/subscriptions/player/${playerId}/count/`,),
+
+  getFavoritePlayer: (accessToken: number) =>
+    api.get<Subscription>("/subscriptions/player/choeae/", {
+      headers: {
+        "Authorization": `Bearer ${accessToken}`, // Authorization 헤더에 토큰 추가
+      },
+    }),
+  subscribeTeam: (teamId: number, accessToken: string) =>
+    api.post<void>(`/subscriptions/team/${teamId}/`, {
+      headers: {
+        "Authorization": `Bearer ${accessToken}`, // Authorization 헤더에 토큰 추가
+      },
+    }),
+
+  unsubscribeTeam: (teamId: number, accessToken: string) =>
+    api.delete<void>(`/subscriptions/team/${teamId}/`, {
+      headers: {
+        "Authorization": `Bearer ${accessToken}`, // Authorization 헤더에 토큰 추가
+      },
+    }),
+
   getTeamSubscriptionCount: (teamId: number) =>
-    api.get<APIResponse<number>>(`/subscriptions/team/${teamId}/count/`),
-  getFavoriteTeam: () =>
-    api.get<APIResponse<Subscription>>("/subscriptions/team/choeae/"),
+    api.get<SubscriptionCount>(`/subscriptions/team/${teamId}/count/`),
+
+  getFavoriteTeam: (accessToken: string) =>
+    api.get<Subscription>("/subscriptions/team/choeae/", {
+      headers: {
+        "Authorization": `Bearer ${accessToken}`, // Authorization 헤더에 토큰 추가
+      },
+    }),
 };

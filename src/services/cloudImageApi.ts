@@ -1,11 +1,21 @@
+import { CloudImage } from "../types/api";
 import api from "./api";
-import { APIResponse, CloudImage } from "@/src/types/api";
 
 export const cloudImageApi = {
   getPlayerImages: (playerId: number) =>
-    api.get<APIResponse<CloudImage[]>>(
-      `/cloud-images/player-images/${playerId}/`
+    api.get<CloudImage[]>(
+      `/cloud-images/players/${playerId}/`
+    ),
+  getPlayerGalleryImages: (playerId: number) =>
+    api.get<CloudImage[]>(
+      `/cloud-images/players/${playerId}/gallery`
     ),
   getTeamImages: (teamId: number) =>
-    api.get<APIResponse<CloudImage[]>>(`/cloud-images/team-images/${teamId}/`),
+    api.get<CloudImage[]>(
+      `/cloud-images/teams/${teamId}/`
+    ),
+  getTeamGalleryImages: (teamId: number) =>
+  api.get<CloudImage[]>(
+      `/cloud-images/teams/${teamId}/gallery`
+    ),
 };

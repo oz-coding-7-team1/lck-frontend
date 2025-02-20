@@ -7,8 +7,9 @@ import { playerApi } from "@/src/services/playerApi";
 import { teamApi } from "@/src/services/teamApi";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { Player } from "@/src/types/api";
 import { encodePlayerName } from "@/src/utils/urlUtils";
+import { Player } from "@/src/types/player";
+import { subscriptionApi } from "@/src/services/subscriptionApi";
 
 type Props = {
   params: Promise<{ nickname: string }>;
@@ -28,6 +29,7 @@ export default async function PlayerPage({ params }: Props) {
 
   // 선수의 ID로 정확한 선수 정보 조회
   const playerDetails = await playerApi.getPlayerById(player.id);
+  const playerSubscribeCount = await subscriptionApi.getPlayerSubscriptionCount(player.id);
 
   // 팀 정보 조회 (선수의 team_id가 있다면)
   const team = playerDetails.data.team_id
@@ -38,7 +40,7 @@ export default async function PlayerPage({ params }: Props) {
     <div className="container p-6 mx-auto">
       <div className="flex flex-col items-center">
         <Image
-          src={playerDetails.data.profileImageUrl || "/default-profile.png"} // 기본 프로필 이미지 추가
+          src={playerDetails.data.profile_image_url || "/default-profile.png"} // 기본 프로필 이미지 추가
           alt={playerDetails.data.nickname}
           width={150}
           height={150}
@@ -46,14 +48,14 @@ export default async function PlayerPage({ params }: Props) {
         <div>
           <h1 className="text-3xl font-bold">
             {playerDetails.data.nickname}
-            <PlayerSubscribeButton playerId={playerDetails.data.id} />
+            <PlayerSubscribeButton playerId={playerDetails.data.id} initialSubscribed={playerDetails.data.is_subscribed} />
           </h1>
           <p className="text-gray-500">{playerDetails.data.realname}</p>
-          <p className="text-blue-500">♥ {playerDetails.data.fanVotes}</p>
+          <p className="text-blue-500">♥{playerSubscribeCount.data.count}</p>
         </div>
         <SocialLinks
           links={playerDetails.data.social}
-          iconClassName="w-6 h-6 hover:opacity-75"
+          iconClassName="w-6 h-6"
         />
       </div>
 
@@ -98,7 +100,7 @@ export default async function PlayerPage({ params }: Props) {
           <CommunitySimple type="player" entityId={playerDetails.data.id} />
         </div>
         <div className="col-span-4">
-          <PlayerGallery />
+          <PlayerGallery playerId={playerDetails.data.id} />
         </div>
       </div>
     </div>
