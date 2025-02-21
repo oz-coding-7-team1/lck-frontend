@@ -41,7 +41,7 @@ export default async function PlayerPage({ params }: Props) {
   return (
     <>
       <div
-        className="bg-cover bg-center h-[360px] absolute w-full -z-1"
+        className="bg-cover bg-[center_-150px] h-[500px] absolute w-full"
         style={{
           backgroundImage: playerDetails.data.background_image_url
             ? `url(${playerDetails.data.background_image_url})`
