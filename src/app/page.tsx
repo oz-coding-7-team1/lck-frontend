@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, Heart } from "lucide-react";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { encodePlayerName, encodeTeamName } from "../utils/urlUtils";
 
@@ -13,11 +13,13 @@ interface TopPlayer {
   nickname: string;
   realname: string;
   subscription_count?: number;
+  profile_image_url?: string;
 }
 
 interface TeamRank {
   id: number;
   name: string;
+  profile_image_url?: string;
 }
 
 interface PositionPlayer {
@@ -25,16 +27,50 @@ interface PositionPlayer {
   nickname: string;
   realname: string;
   subscription_count: number;
+  profile_image_url?: string;
 }
 
 // Update the constants at the top of the file
 const DEFAULT_PLAYER_IMAGE = "/images/default-avatar.svg"; // Changed to .svg
 const DEFAULT_TEAM_LOGO = "/images/default-team.svg"; // Changed to .svg
 
-// Update the getPlayerImageSrc function to always return the default image for now
-const getPlayerImageSrc = () => {
-  return DEFAULT_PLAYER_IMAGE;
-};
+const lanes = [
+  {
+    name: "TOP",
+    icon: "/icons/role-top.svg",
+    key: "top",
+    width: 24,
+    height: 24,
+  },
+  {
+    name: "JUNGLE",
+    icon: "/icons/role-jungle.svg",
+    key: "jungle",
+    width: 24,
+    height: 24,
+  },
+  {
+    name: "MID",
+    icon: "/icons/role-mid.svg",
+    key: "mid",
+    width: 24,
+    height: 24,
+  },
+  {
+    name: "BOT",
+    icon: "/icons/role-bot.svg",
+    key: "bot",
+    width: 24,
+    height: 24,
+  },
+  {
+    name: "SUPPORT",
+    icon: "/icons/role-support.svg",
+    key: "support",
+    width: 24,
+    height: 24,
+  },
+];
 
 export default function Home() {
   const [topPlayers, setTopPlayers] = useState<TopPlayer[]>([]);
@@ -42,49 +78,6 @@ export default function Home() {
   const [positionPlayers, setPositionPlayers] = useState<PositionPlayer[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  // Update the lanes array with proper icon dimensions
-  const lanes = useMemo(
-    () => [
-      {
-        name: "TOP",
-        icon: "/icons/top.svg",
-        key: "top",
-        width: 24,
-        height: 24,
-      },
-      {
-        name: "JUNGLE",
-        icon: "/icons/jungle.svg",
-        key: "jungle",
-        width: 24,
-        height: 24,
-      },
-      {
-        name: "MID",
-        icon: "/icons/mid.svg",
-        key: "mid",
-        width: 24,
-        height: 24,
-      },
-      {
-        name: "BOT",
-        icon: "/icons/bottom.svg",
-        key: "AD Carry",
-        width: 24,
-        height: 24,
-      },
-      {
-        name: "SUPPORT",
-        icon: "/icons/support.svg",
-        key: "support",
-        width: 24,
-        height: 24,
-      },
-    ],
-    []
-  );
-
   const [currentLane, setCurrentLane] = useState(0);
 
   // Fetch top 10 players
@@ -149,13 +142,14 @@ export default function Home() {
     };
 
     fetchAllData();
-  }, [currentLane, lanes]);
+  }, [currentLane]);
 
   const handleNextLane = () => {
     setCurrentLane((prev) => (prev + 1) % lanes.length);
   };
 
   const handlePrevLane = () => {
+    console.log(currentLane);
     setCurrentLane((prev) => (prev - 1 + lanes.length) % lanes.length);
   };
 
@@ -201,7 +195,10 @@ export default function Home() {
                     <div className="aspect-[2/1] relative bg-white shadow-lg rounded-xl overflow-hidden">
                       <div className="absolute inset-0">
                         <Image
-                          src={getPlayerImageSrc()}
+                          src={
+                            topPlayers[0].profile_image_url ||
+                            DEFAULT_PLAYER_IMAGE
+                          }
                           alt={topPlayers[0].nickname}
                           layout="fill"
                           objectFit="cover"
@@ -219,7 +216,10 @@ export default function Home() {
                         <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                           {topPlayers[0].nickname}
                           <Image
-                            src={getPlayerImageSrc()}
+                            src={
+                              topPlayers[0].profile_image_url ||
+                              DEFAULT_PLAYER_IMAGE
+                            }
                             alt={topPlayers[0].nickname}
                             width={24}
                             height={24}
@@ -241,13 +241,15 @@ export default function Home() {
                   <div className="block" key={player.id}>
                     <Link href={`/player/${encodePlayerName(player.nickname)}`}>
                       <div className="relative overflow-hidden bg-white shadow-lg aspect-[3/2] rounded-xl">
-                        <div className="absolute inset-y-0 left-0 w-1/2">
+                        <div className="inset-y-0 left-0 w-1/2">
                           <Image
-                            src={getPlayerImageSrc()}
+                            src={
+                              player.profile_image_url || DEFAULT_PLAYER_IMAGE
+                            }
                             alt={player.nickname}
                             layout="fill"
                             objectFit="cover"
-                            className="opacity-20"
+                            className="w-full"
                             onError={(e) => {
                               const target = e.target as HTMLImageElement;
                               target.src = DEFAULT_PLAYER_IMAGE;
@@ -279,7 +281,7 @@ export default function Home() {
                 >
                   <div className="flex-shrink-0 w-12 h-12 bg-gray-300 rounded-full">
                     <Image
-                      src={getPlayerImageSrc()}
+                      src={player.profile_image_url || DEFAULT_PLAYER_IMAGE}
                       alt={player.nickname}
                       width={48}
                       height={48}
@@ -321,7 +323,7 @@ export default function Home() {
                       </div>
                       <div className="w-12 h-12 overflow-hidden bg-gray-300 rounded-full">
                         <Image
-                          src={DEFAULT_TEAM_LOGO}
+                          src={team.profile_image_url || DEFAULT_TEAM_LOGO}
                           alt={team.name}
                           width={48}
                           height={48}
@@ -370,7 +372,7 @@ export default function Home() {
                       </div>
                       <div className="w-12 h-12 overflow-hidden bg-gray-300 rounded-full">
                         <Image
-                          src={getPlayerImageSrc()}
+                          src={player.profile_image_url || DEFAULT_PLAYER_IMAGE}
                           alt={player.nickname || "Player"}
                           width={48}
                           height={48}

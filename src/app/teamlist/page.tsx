@@ -8,7 +8,8 @@ import Image from "next/image";
 interface Team {
   id: number;
   name: string;
-  social?: Record<string, string>; // Adjust based on your API response
+  social?: Record<string, string>;
+  profile_image_url?: string; // Adjust based on your API response
 }
 
 export default function TeamListPage() {
@@ -59,7 +60,7 @@ export default function TeamListPage() {
               <div className="overflow-hidden transition-shadow bg-white rounded-lg shadow-md hover:shadow-lg">
                 <div className="relative aspect-video">
                   <Image
-                    src={"/images/default-team.svg"}
+                    src={team.profile_image_url || "/images/default-team.svg"}
                     alt={team.name}
                     layout="fill"
                     objectFit="cover"
