@@ -215,16 +215,6 @@ export default function Home() {
                         </div>
                         <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                           {topPlayers[0].nickname}
-                          <Image
-                            src={
-                              topPlayers[0].profile_image_url ||
-                              DEFAULT_PLAYER_IMAGE
-                            }
-                            alt={topPlayers[0].nickname}
-                            width={24}
-                            height={24}
-                            className="w-6 h-6"
-                          />
                         </div>
                         <div className="text-lg text-gray-600">
                           {topPlayers[0].realname}
