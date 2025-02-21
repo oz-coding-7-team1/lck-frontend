@@ -18,7 +18,7 @@ const TeamSubscribeButton: React.FC<TeamSubscribeButtonProps> = ({
 }) => {
   const [isSubscribed, setIsSubscribed] = useState<boolean>(initialSubscribed); // 기본값을 false로 설정
   const [loading, setLoading] = useState(false);
-  const { user, accessToken } = useAuth(); // 로그인 상태와 accessToken 가져오기
+  const { accessToken } = useAuth(); // 로그인 상태와 accessToken 가져오기
   const router = useRouter(); // useRouter 훅 사용
 
   const handleClick = async () => {
